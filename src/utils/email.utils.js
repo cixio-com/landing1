@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 const fs = require('fs').promises;
 const path = require('path');
 
-// Create nodemailer transporter
+// Create nodemailer transporter with timeout
 const createTransporter = () => {
     return nodemailer.createTransport({
         host: process.env.EMAIL_HOST,
@@ -12,6 +12,8 @@ const createTransporter = () => {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS
         },
+        connectionTimeout: 5000,  // 5 second connection timeout
+        socketTimeout: 5000,      // 5 second socket timeout
         tls: {
             rejectUnauthorized: false
         }
@@ -51,7 +53,7 @@ const isEmailConfigured = () => {
 };
 
 /**
- * Send email
+ * Send email - with timeout and error handling
  * @param {Object} options - Email options
  * @param {String} options.to - Recipient email address
  * @param {String} options.subject - Email subject
@@ -70,26 +72,40 @@ const sendEmail = async ({ to, subject, html, text }) => {
 
         const transporter = createTransporter();
         
-        // For text version, just don't include HTML content rather than trying to sanitize
-        // This is safer than attempting regex-based HTML stripping
-        const mailOptions = {
-            from: `${process.env.EMAIL_FROM_NAME || 'CIXIO'} <${process.env.EMAIL_FROM}>`,
-            to,
-            subject,
-            html
-        };
-        
-        // Only add text version if explicitly provided
-        if (text) {
-            mailOptions.text = text;
-        }
-        
-        const info = await transporter.sendMail(mailOptions);
-        console.log('Email sent successfully:', info.messageId);
+        // Set a hard timeout for email sending (10 seconds max)
+        const emailPromise = new Promise((resolve, reject) => {
+            const timeout = setTimeout(() => {
+                reject(new Error('Email send timeout - SMTP server not responding'));
+            }, 10000);
+
+            const mailOptions = {
+                from: `${process.env.EMAIL_FROM_NAME || 'CIXIO'} <${process.env.EMAIL_FROM}>`,
+                to,
+                subject,
+                html
+            };
+            
+            if (text) {
+                mailOptions.text = text;
+            }
+            
+            transporter.sendMail(mailOptions, (error, info) => {
+                clearTimeout(timeout);
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(info);
+                }
+            });
+        });
+
+        const info = await emailPromise;
+        console.log('✅ Email sent successfully:', info.messageId);
         return info;
     } catch (error) {
-        console.error('Error sending email:', error);
-        throw new Error('Failed to send email');
+        console.error('❌ Error sending email:', error.message);
+        // Don't throw - just log and return. Email is non-critical for API flow.
+        return { success: false, message: `Email error: ${error.message}`, error };
     }
 };
 
