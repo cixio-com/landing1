@@ -26,7 +26,10 @@ services:
 
   # Node.js Application Service
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cixio-app:latest
     container_name: cixio-app
     restart: unless-stopped
     env_file:
