@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Confirmed - CIXIO</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 0;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .content h2 {
+            color: #667eea;
+            margin-top: 0;
+            font-size: 24px;
+        }
+        .content p {
+            margin: 15px 0;
+            color: #555555;
+        }
+        .subscription-details {
+            background-color: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        .subscription-details h3 {
+            margin-top: 0;
+            color: #333333;
+            font-size: 18px;
+        }
+        .subscription-details p {
+            margin: 8px 0;
+        }
+        .subscription-details strong {
+            color: #667eea;
+        }
+        .features {
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 5px;
+        }
+        .features h3 {
+            margin-top: 0;
+            color: #333333;
+            font-size: 18px;
+        }
+        .features ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .features li {
+            margin: 8px 0;
+            color: #555555;
+        }
+        .button {
+            display: inline-block;
+            padding: 14px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+        .button:hover {
+            opacity: 0.9;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            color: #888888;
+            font-size: 14px;
+        }
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎉 Welcome to CIXIO!</h1>
+        </div>
+        
+        <div class="content">
+            <h2>Hi {{firstName}},</h2>
+            
+            <p>Thank you for subscribing to CIXIO! Your subscription has been confirmed and is now active.</p>
+            
+            <div class="subscription-details">
+                <h3>Subscription Details</h3>
+                <p><strong>Plan:</strong> {{planName}}</p>
+                <p><strong>Billing Cycle:</strong> {{billingCycle}}</p>
+                <p><strong>Price:</strong> {{price}}</p>
+                <p><strong>Start Date:</strong> {{startDate}}</p>
+                <p><strong>Next Billing Date:</strong> {{endDate}}</p>
+            </div>
+            
+            <div class="features">
+                <h3>What's Included</h3>
+                <p>Your subscription includes access to these amazing features:</p>
+                <ul>
+                    <li>Full access to all platform features</li>
+                    <li>Priority customer support</li>
+                    <li>Advanced analytics and reporting</li>
+                    <li>Custom integrations</li>
+                    <li>Regular updates and improvements</li>
+                </ul>
+            </div>
+            
+            <p>You can start using your subscription immediately by logging into your dashboard.</p>
+            
+            <center>
+                <a href="{{dashboardUrl}}" class="button">Go to Dashboard</a>
+            </center>
+            
+            <p>If you have any questions or need assistance, our support team is here to help!</p>
+            
+            <p>Best regards,<br>The CIXIO Team</p>
+        </div>
+        
+        <div class="footer">
+            <p>© {{year}} CIXIO. All rights reserved.</p>
+            <p>
+                <a href="{{dashboardUrl}}">Dashboard</a> | 
+                <a href="mailto:support@cixio.com">Support</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

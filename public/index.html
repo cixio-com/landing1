@@ -9,6 +9,19 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Updated styles for unselected buttons to ensure visibility -->
+    <style>
+        .btn-outline {
+            color: #007bff; /* Blue text */
+            border: 1px solid #007bff; /* Blue border */
+            background-color: transparent; /* Transparent background */
+        }
+
+        .btn-outline:hover {
+            background-color: #007bff; /* Blue background on hover */
+            color: #fff; /* White text on hover */
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -76,6 +89,30 @@
                         <h3>256-bit</h3>
                         <p>Encryption</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">About CIXIO</h2>
+                <p class="section-subtitle">Innovating Tomorrow's Enterprise, Driven by AI</p>
+            </div>
+            <div class="about-content">
+                <div class="about-item">
+                    <h3><i class="fas fa-bullseye"></i> Our Mission</h3>
+                    <p>To empower businesses with cutting-edge AI and ML solutions, delivering secure, scalable software that drives innovation and growth in the digital era.</p>
+                </div>
+                <div class="about-item">
+                    <h3><i class="fas fa-star"></i> Our Vision</h3>
+                    <p>To be the global leader in enterprise AI software, recognized for our commitment to excellence, innovation, sustainability, and transforming how businesses operate.</p>
+                </div>
+                <div class="about-item">
+                    <h3><i class="fas fa-heart"></i> Our Values</h3>
+                    <p>Excellence in delivery, Innovation at heart, Security by design, Transparency in communication, and Client success as our priority.</p>
                 </div>
             </div>
         </div>
@@ -287,10 +324,14 @@
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Resource Pricing Plans</h2>
-                <p class="section-subtitle">Competitive tiered pricing with 10% discount on 1-Year contracts</p>
+                <p class="section-subtitle">Competitive tiered pricing with 10% discount on 1-Year contracts. Monthly pricing has no discount.</p>
+            </div>
+            <div class="contract-toggle">
+                <button id="yearlyContract" class="btn btn-primary active">Yearly Contract</button>
+                <button id="monthlyContract" class="btn btn-outline">Monthly Contract</button>
             </div>
             <div class="pricing-grid">
-                <div class="pricing-card">
+                <!-- <div class="pricing-card">
                     <div class="pricing-header">
                         <h3>Non-Technical Support</h3>
                         <div class="price">
@@ -309,7 +350,7 @@
                         <li><i class="fas fa-check"></i> PT: $720/mo (40 hrs)</li>
                     </ul>
                     <a href="#" class="btn btn-outline" data-modal="registerModal">Get Started</a>
-                </div>
+                </div> -->
                 <div class="pricing-card">
                     <div class="pricing-header">
                         <h3>Mid-Level Engineer</h3>
@@ -318,7 +359,7 @@
                             <span class="amount">27</span>
                             <span class="period">/hour</span>
                         </div>
-                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">1-4 Years Experience</p>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">upto 4 Years Experience</p>
                     </div>
                     <ul class="pricing-features">
                         <li><i class="fas fa-check"></i> Feature Implementation</li>
@@ -422,10 +463,13 @@
                         <p>Chennai, Tamil Nadu - 600089</p>
                     </div>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.naukri.com" target="_blank"><i class="fas fa-briefcase"></i></a>
+                        <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
                 <div class="contact-form-wrapper">
@@ -455,8 +499,8 @@
                             <input type="text" id="contactSubject" name="subject" required>
                         </div>
                         <div class="form-group">
-                            <label for="contactMessage">Message *</label>
-                            <textarea id="contactMessage" name="message" rows="5" required></textarea>
+                            <label for="contactMessage">Message</label>
+                            <textarea id="contactMessage" name="message" rows="5" style="font-size: inherit;"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg">
                             <i class="fas fa-paper-plane"></i> Send Message
@@ -475,10 +519,13 @@
                     <img src="assets/08 White transparent logo.svg" alt="CIXIO Logo" class="footer-logo">
                     <p>Innovating Tomorrow's Enterprise, Driven by AI - DPIIT Recognized Startup in AI/ML and Enterprise Software</p>
                     <div class="footer-social">
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.naukri.com" target="_blank"><i class="fas fa-briefcase"></i></a>
+                        <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
                 <div class="footer-section">
@@ -520,17 +567,21 @@
                 <div class="footer-section">
                     <h4>Legal</h4>
                     <ul>
-                        <li><a href="mailto:privacy@cixio.com">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="mailto:legal@cixio.com">Legal Team</a></li>
-                        <li><a href="mailto:security@cixio.com">Security Center</a></li>
+                        <li><a href="terms-of-service.html">Terms of Service</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="copyright.html">Copyright</a></li>
+                        <li><a href="code-of-conduct.html">Code of Conduct</a></li>
+                        <li><a href="dmca.html">DMCA</a></li>
+                        <li><a href="eula.html">EULA</a></li>
+                        <li><a href="patents.html">Patents</a></li>
+                        <li><a href="terms-of-use.html">Terms of Use</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2025 CIXIO TECHNOLOGIES PRIVATE LIMITED. All rights reserved.</p>
                 <p>CIN: U62099TN2025PTC183439 | GST: 33AANCC0127C1ZA | DPIIT Recognized Startup</p>
-                <p>Secured with 256-bit encryption | GDPR & HIPAA Compliant</p>
+                <p>Secured with 256-bit encryption</p>
             </div>
         </div>
     </footer>
@@ -644,6 +695,57 @@
         <span id="successText"></span>
     </div>
 
+    <!-- Load API configuration first -->
+    <script src="js/api.js"></script>
+    <!-- Load form handlers -->
+    <script src="js/forms.js"></script>
+    <!-- Load main application script -->
     <script src="js/main.js"></script>
+    <!-- Enhanced JavaScript to toggle button colors dynamically -->
+    <script>
+        const pricingData = {
+            yearly: {
+                "Mid-Level Engineer": "$27/hour",
+                "Senior Engineer": "$36/hour",
+                "Architect/Expert": "$45/hour"
+            },
+            monthly: {
+                "Mid-Level Engineer": "$30/hour",
+                "Senior Engineer": "$40/hour",
+                "Architect/Expert": "$50/hour"
+            }
+        };
+
+        function updatePricing(contractType) {
+            const pricingCards = document.querySelectorAll('.pricing-card');
+            pricingCards.forEach(card => {
+                const title = card.querySelector('h3').innerText;
+                const priceElement = card.querySelector('.price .amount');
+                if (pricingData[contractType][title]) {
+                    priceElement.innerText = pricingData[contractType][title].split('/')[0].replace('$', '');
+                }
+            });
+        }
+
+        function toggleButtonColors(activeButton, inactiveButton) {
+            activeButton.classList.add('btn-primary');
+            activeButton.classList.remove('btn-outline');
+            inactiveButton.classList.add('btn-outline');
+            inactiveButton.classList.remove('btn-primary');
+        }
+
+        document.getElementById('yearlyContract').addEventListener('click', function() {
+            toggleButtonColors(this, document.getElementById('monthlyContract'));
+            updatePricing('yearly');
+        });
+
+        document.getElementById('monthlyContract').addEventListener('click', function() {
+            toggleButtonColors(this, document.getElementById('yearlyContract'));
+            updatePricing('monthly');
+        });
+
+        // Initialize with yearly pricing
+        updatePricing('yearly');
+    </script>
 </body>
 </html>
