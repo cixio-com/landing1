@@ -909,6 +909,13 @@ ul {
     max-width: 400px;
 }
 
+.footer-social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    align-items: center;
+}
+
 .footer-header .footer-social {
     display: flex;
     gap: var(--spacing-xs);
