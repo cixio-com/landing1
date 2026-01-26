@@ -144,7 +144,7 @@ process.on('SIGINT', async () => {
 });
 
 // Start server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 80;
 const server = app.listen(PORT, () => {
     console.log('');
     console.log('='.repeat(60));
