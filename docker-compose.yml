@@ -35,7 +35,7 @@ services:
       NODE_ENV: production
       MONGODB_URI: mongodb://admin:changeme123@mongo:27017/cixio?authSource=admin
     ports:
-      - "3000:3000"
+      - "80:80"
     volumes:
       - ./uploads:/app/uploads
     depends_on:
@@ -44,7 +44,7 @@ services:
     networks:
       - cixio-network
     healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:80/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
       interval: 30s
       timeout: 10s
       retries: 3
