@@ -63,20 +63,28 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Rate limiting
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
+    max: 300, // limit each IP to 300 requests per 15 minutes (20 per minute)
     message: 'Too many requests from this IP, please try again later.',
     standardHeaders: true,
     legacyHeaders: false,
+    skip: (req, res) => {
+        // Skip rate limiting for health checks
+        return req.path === '/api/health';
+    }
 });
 app.use('/api/', limiter);
 
 // Strict rate limiting for authentication endpoints
 const authLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 5,
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 30, // Allow 30 auth attempts per 15 minutes (2 per minute on average)
     message: 'Too many authentication attempts, please try again later.',
     standardHeaders: true,
     legacyHeaders: false,
+    skip: (req, res) => {
+        // Skip rate limiting for health checks
+        return req.path === '/health';
+    }
 });
 
 // Rate limiting for static files (generous limit)
