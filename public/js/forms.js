@@ -313,7 +313,8 @@ function calculatePasswordStrength(password) {
 
 // ===== Real-time form validation =====
 function validateEmail(email) {
-    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
+    // Simple, safe email validation regex
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 function validateMobile(mobile) {

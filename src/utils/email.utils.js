@@ -55,13 +55,19 @@ const sendEmail = async ({ to, subject, html, text }) => {
     try {
         const transporter = createTransporter();
         
+        // For text version, just don't include HTML content rather than trying to sanitize
+        // This is safer than attempting regex-based HTML stripping
         const mailOptions = {
             from: `${process.env.EMAIL_FROM_NAME || 'CIXIO'} <${process.env.EMAIL_FROM}>`,
             to,
             subject,
-            html,
-            text: text || html.replace(/<[^>]*>/g, '') // Strip HTML for text version
+            html
         };
+        
+        // Only add text version if explicitly provided
+        if (text) {
+            mailOptions.text = text;
+        }
         
         const info = await transporter.sendMail(mailOptions);
         console.log('Email sent successfully:', info.messageId);
