@@ -362,6 +362,20 @@ registerForm.addEventListener('submit', async (e) => {
     }
 });
 
+// ===== Commented out FT and PT pricing in the UI =====
+const pricingCards = document.querySelectorAll('.pricing-card');
+pricingCards.forEach(card => {
+    const pricingFeatures = card.querySelector('.pricing-features');
+    if (pricingFeatures) {
+        const ftPtPricing = pricingFeatures.querySelectorAll('li');
+        ftPtPricing.forEach(feature => {
+            if (feature.textContent.includes('FT:') || feature.textContent.includes('PT:')) {
+                feature.style.display = 'none'; // Hide FT and PT pricing
+            }
+        });
+    }
+});
+
 // ===== Utility Functions =====
 function simulateApiCall(delay) {
     return new Promise((resolve) => setTimeout(resolve, delay));

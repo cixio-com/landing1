@@ -380,6 +380,50 @@ ul {
     background: var(--light);
 }
 
+/* ===== About Section ===== */
+.about-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-xl);
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.about-item {
+    background: var(--white);
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-base);
+    border-left: 4px solid var(--primary-color);
+}
+
+.about-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.about-item h3 {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--spacing-md);
+    color: var(--dark);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.about-item h3 i {
+    color: var(--primary-color);
+    font-size: 1.75rem;
+}
+
+.about-item p {
+    color: var(--gray);
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
 /* ===== Services Section ===== */
 .services-grid {
     display: grid;
@@ -1215,3 +1259,98 @@ ul {
 .mb-3 { margin-bottom: var(--spacing-md); }
 .mb-4 { margin-bottom: var(--spacing-lg); }
 .mb-5 { margin-bottom: var(--spacing-xl); }
+
+/* ===== Notification Styles ===== */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 10000;
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+    min-width: 300px;
+    max-width: 500px;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.notification-content i {
+    font-size: 1.5rem;
+}
+
+.notification-success {
+    border-left: 4px solid var(--success-color, #10b981);
+}
+
+.notification-success i {
+    color: var(--success-color, #10b981);
+}
+
+.notification-error {
+    border-left: 4px solid var(--error-color, #ef4444);
+}
+
+.notification-error i {
+    color: var(--error-color, #ef4444);
+}
+
+.notification-info {
+    border-left: 4px solid var(--primary-color);
+}
+
+.notification-info i {
+    color: var(--primary-color);
+}
+
+/* ===== Loading States ===== */
+.fa-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===== Enhanced Button States ===== */
+button:disabled,
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ===== User Menu (for logged-in users) ===== */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.5rem 1rem;
+    background: rgba(0, 102, 255, 0.1);
+    border-radius: 25px;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.user-profile i {
+    font-size: 1.25rem;
+}
+
+.user-profile:hover {
+    background: rgba(0, 102, 255, 0.2);
+}
