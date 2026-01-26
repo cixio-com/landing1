@@ -29,7 +29,6 @@ navMenu.querySelectorAll('a').forEach(link => {
 });
 
 // Navbar scroll effect
-let lastScroll = 0;
 window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
     
@@ -38,8 +37,6 @@ window.addEventListener('scroll', () => {
     } else {
         navbar.classList.remove('scrolled');
     }
-    
-    lastScroll = currentScroll;
 });
 
 // Smooth scroll for anchor links
@@ -405,9 +402,9 @@ document.querySelectorAll('.btn-social').forEach(btn => {
 
 // ===== Update Current Year in Footer =====
 const currentYear = new Date().getFullYear();
-const footerText = document.querySelector('.footer-bottom p');
-if (footerText) {
-    footerText.innerHTML = `&copy; ${currentYear} CIXIO. All rights reserved.`;
+const footerYearText = document.querySelector('.footer-bottom p:first-child');
+if (footerYearText) {
+    footerYearText.textContent = `© ${currentYear} CIXIO. All rights reserved.`;
 }
 
 // ===== Console Welcome Message =====
@@ -440,12 +437,6 @@ function getFormData(formId) {
         return null;
     }
 }
-
-// ===== Handle External Links =====
-document.querySelectorAll('a[href^="http"]').forEach(link => {
-    link.setAttribute('target', '_blank');
-    link.setAttribute('rel', 'noopener noreferrer');
-});
 
 // ===== Initialize =====
 console.log('CIXIO Landing Page initialized successfully');
