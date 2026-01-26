@@ -38,7 +38,19 @@ app.use(helmet({
 
 // CORS configuration
 const corsOptions = {
-    origin: process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : ['http://localhost:8000', 'http://localhost:3000', 'https://www.cixio.com', 'https://cixio.com'],
+    origin: process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [
+        'http://localhost:8000',
+        'http://localhost:3000',
+        'http://localhost',
+        'https://www.cixio.com',
+        'https://cixio.com',
+        'https://www.cixio.ai',
+        'https://cixio.ai',
+        'https://www.cixio.io',
+        'https://cixio.io',
+        'https://www.cixio.in',
+        'https://cixio.in'
+    ],
     credentials: true,
     optionsSuccessStatus: 200
 };
