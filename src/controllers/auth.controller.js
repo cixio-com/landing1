@@ -134,7 +134,13 @@ const login = async (req, res) => {
         }
         
         // Verify password
-        const isPasswordValid = await user.comparePassword(password);
+        let isPasswordValid = false;
+        try {
+            isPasswordValid = await user.comparePassword(password);
+        } catch (error) {
+            console.error('Password comparison error:', error);
+            isPasswordValid = false;
+        }
         
         if (!isPasswordValid) {
             // Increment login attempts
