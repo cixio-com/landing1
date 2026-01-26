@@ -880,35 +880,43 @@ ul {
 .footer {
     background: var(--dark);
     color: var(--gray-light);
-    padding: var(--spacing-xxl) 0 var(--spacing-lg);
+    padding: var(--spacing-xl) 0 var(--spacing-md);
 }
 
-.footer-content {
-    display: grid;
-    grid-template-columns: 2fr repeat(4, 1fr);
-    gap: var(--spacing-xl);
-    margin-bottom: var(--spacing-xl);
+.footer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-branding {
+    flex: 1;
 }
 
 .footer-logo {
     height: 40px;
     width: auto;
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
 }
 
-.footer-section p {
-    margin-bottom: var(--spacing-md);
-    font-size: 0.95rem;
+.footer-branding p {
+    margin-bottom: var(--spacing-sm);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    max-width: 400px;
 }
 
-.footer-social {
+.footer-header .footer-social {
     display: flex;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-xs);
 }
 
 .footer-social a {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
     display: flex;
@@ -916,17 +924,26 @@ ul {
     justify-content: center;
     color: var(--white);
     transition: var(--transition-base);
+    font-size: 0.9rem;
 }
 
 .footer-social a:hover {
     background: var(--primary-color);
-    transform: translateY(-3px);
+    transform: translateY(-2px);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
 }
 
 .footer-section h4 {
     color: var(--white);
     font-weight: var(--font-weight-semibold);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+    font-size: 0.95rem;
 }
 
 .footer-section ul {
@@ -937,24 +954,25 @@ ul {
 
 .footer-section ul a {
     color: var(--gray-light);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     transition: var(--transition-base);
 }
 
 .footer-section ul a:hover {
     color: var(--primary-color);
-    padding-left: 5px;
+    padding-left: 4px;
 }
 
 .footer-bottom {
-    padding-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     text-align: center;
 }
 
 .footer-bottom p {
     margin-bottom: var(--spacing-xs);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    color: var(--gray);
 }
 
 /* ===== Modals ===== */
