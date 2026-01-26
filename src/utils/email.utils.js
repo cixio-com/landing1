@@ -43,6 +43,14 @@ const loadTemplate = async (templateName, variables = {}) => {
 };
 
 /**
+ * Check if email is properly configured
+ * @returns {Boolean} True if email configuration exists
+ */
+const isEmailConfigured = () => {
+    return !!(process.env.EMAIL_HOST && process.env.EMAIL_PORT && process.env.EMAIL_USER && process.env.EMAIL_PASS);
+};
+
+/**
  * Send email
  * @param {Object} options - Email options
  * @param {String} options.to - Recipient email address
@@ -53,6 +61,13 @@ const loadTemplate = async (templateName, variables = {}) => {
  */
 const sendEmail = async ({ to, subject, html, text }) => {
     try {
+        // If email is not configured, log warning but don't fail
+        if (!isEmailConfigured()) {
+            console.warn(`📧 Email not configured. Would send to: ${to}`);
+            console.warn(`   Subject: ${subject}`);
+            return { success: true, message: 'Email logging mode (not sent - no SMTP config)' };
+        }
+
         const transporter = createTransporter();
         
         // For text version, just don't include HTML content rather than trying to sanitize
@@ -85,17 +100,20 @@ const sendEmail = async ({ to, subject, html, text }) => {
  * @param {String} verificationToken - Email verification token
  */
 const sendVerificationEmail = async (email, firstName, verificationToken) => {
-    const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
+    const verificationUrl = `${process.env.FRONTEND_URL || 'http://localhost'}/verify-email?token=${verificationToken}`;
+    const supportUrl = `${process.env.FRONTEND_URL || 'http://localhost'}/support`;
     
     const html = await loadTemplate('email-verification', {
-        name: firstName,
+        firstName: firstName,
         verificationLink: verificationUrl,
+        verificationToken: verificationToken,
+        supportLink: supportUrl,
         year: new Date().getFullYear()
     });
     
-    await sendEmail({
+    return await sendEmail({
         to: email,
-        subject: 'Verify Your CIXIO Account',
+        subject: 'Verify Your Email Address - Cixio',
         html
     });
 };

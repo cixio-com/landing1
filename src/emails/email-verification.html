@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Email</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .content h2 {
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .content p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .verification-link {
+            display: inline-block;
+            background-color: #667eea;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .verification-link:hover {
+            background-color: #5568d3;
+        }
+        .code-section {
+            background-color: #f9f9f9;
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .code-section p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .code-label {
+            color: #888;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        .code {
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            font-weight: bold;
+            color: #667eea;
+            word-break: break-all;
+            margin: 10px 0;
+        }
+        .footer {
+            background-color: #f5f5f5;
+            border-top: 1px solid #e0e0e0;
+            padding: 20px 30px;
+            text-align: center;
+            color: #888;
+            font-size: 12px;
+        }
+        .footer p {
+            margin: 5px 0;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            color: #856404;
+            font-size: 14px;
+        }
+        .button-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to Cixio!</h1>
+            <p>Verify Your Email Address</p>
+        </div>
+        
+        <div class="content">
+            <h2>Hi {{firstName}},</h2>
+            
+            <p>Thank you for signing up for Cixio. To complete your registration and start using our platform, please verify your email address.</p>
+            
+            <div class="button-container">
+                <a href="{{verificationLink}}" class="verification-link">Verify Email Address</a>
+            </div>
+            
+            <p>Or, copy and paste this verification link in your browser:</p>
+            <div class="code-section">
+                <p class="code-label">Verification Link:</p>
+                <p class="code">{{verificationLink}}</p>
+            </div>
+            
+            <p>Your verification token:</p>
+            <div class="code-section">
+                <p class="code-label">Verification Token:</p>
+                <p class="code">{{verificationToken}}</p>
+            </div>
+            
+            <div class="warning">
+                <strong>⏱️ Important:</strong> This verification link expires in 24 hours. If you didn't create this account, please ignore this email.
+            </div>
+            
+            <p>If you have any questions or need assistance, please contact our support team.</p>
+            
+            <p>Best regards,<br><strong>The Cixio Team</strong></p>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; 2026 Cixio. All rights reserved.</p>
+            <p>This is an automated message. Please do not reply to this email.</p>
+            <p>If you did not create this account, please <a href="{{supportLink}}" style="color: #667eea; text-decoration: none;">contact us</a>.</p>
+        </div>
+    </div>
+</body>
+</html>
