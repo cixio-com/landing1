@@ -51,13 +51,10 @@ const register = async (req, res) => {
             emailVerificationExpires: Date.now() + 24 * 60 * 60 * 1000 // 24 hours
         });
         
-        // Send verification email
-        try {
-            await sendVerificationEmail(user.email, user.firstName, verificationToken);
-        } catch (emailError) {
-            console.error('Error sending verification email:', emailError);
-            // Don't fail registration if email fails
-        }
+        // Send verification email - background (non-blocking)
+        // This ensures the API response is sent quickly, email is sent asynchronously
+        sendVerificationEmail(user.email, user.firstName, verificationToken)
+            .catch(err => console.error('Background email error (non-blocking):', err.message));
         
         // Log activity
         await user.logActivity('registration', req.ip, req.get('user-agent'));
