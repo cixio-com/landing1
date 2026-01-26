@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Confirmation - CIXIO</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f4f7fa; line-height: 1.6;">
+    <table role="presentation" style="width: 100%; border-collapse: collapse; background-color: #f4f7fa;">
+        <tr>
+            <td style="padding: 40px 20px;">
+                <table role="presentation" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background: linear-gradient(135deg, #0066FF 0%, #00D9FF 100%); padding: 40px 30px; text-align: center; border-radius: 8px 8px 0 0;">
+                            <div style="width: 120px; height: 40px; background-color: rgba(255, 255, 255, 0.2); border-radius: 4px; margin: 0 auto; display: inline-block; line-height: 40px; font-size: 24px; font-weight: bold; color: #ffffff; letter-spacing: 2px;">
+                                CIXIO
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Body -->
+                    <tr>
+                        <td style="padding: 50px 40px;">
+                            <h1 style="margin: 0 0 20px; font-size: 28px; font-weight: 700; color: #0A0E27; text-align: center;">
+                                ✅ Subscription Confirmed
+                            </h1>
+                            
+                            <p style="margin: 0 0 20px; font-size: 16px; color: #4a5568; text-align: center;">
+                                Hello <strong>{{name}}</strong>,
+                            </p>
+                            
+                            <p style="margin: 0 0 30px; font-size: 16px; color: #4a5568; text-align: center;">
+                                Thank you for subscribing to CIXIO! Your subscription has been successfully activated.
+                            </p>
+                            
+                            <!-- Subscription Details -->
+                            <div style="background: linear-gradient(135deg, rgba(0, 102, 255, 0.1) 0%, rgba(0, 217, 255, 0.1) 100%); padding: 30px; border-radius: 8px; margin: 30px 0; border-left: 4px solid #0066FF;">
+                                <h2 style="margin: 0 0 20px; font-size: 20px; font-weight: 600; color: #0A0E27; text-align: center;">
+                                    Subscription Details
+                                </h2>
+                                
+                                <table role="presentation" style="width: 100%;">
+                                    <tr>
+                                        <td style="padding: 10px 0; border-bottom: 1px solid rgba(0, 0, 0, 0.1);">
+                                            <table role="presentation" style="width: 100%;">
+                                                <tr>
+                                                    <td style="font-size: 14px; color: #718096; width: 40%;">
+                                                        Plan:
+                                                    </td>
+                                                    <td style="font-size: 14px; color: #0A0E27; font-weight: 600; text-align: right;">
+                                                        {{planName}}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px 0; border-bottom: 1px solid rgba(0, 0, 0, 0.1);">
+                                            <table role="presentation" style="width: 100%;">
+                                                <tr>
+                                                    <td style="font-size: 14px; color: #718096; width: 40%;">
+                                                        Price:
+                                                    </td>
+                                                    <td style="font-size: 14px; color: #0A0E27; font-weight: 600; text-align: right;">
+                                                        {{price}}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px 0; border-bottom: 1px solid rgba(0, 0, 0, 0.1);">
+                                            <table role="presentation" style="width: 100%;">
+                                                <tr>
+                                                    <td style="font-size: 14px; color: #718096; width: 40%;">
+                                                        Billing Cycle:
+                                                    </td>
+                                                    <td style="font-size: 14px; color: #0A0E27; font-weight: 600; text-align: right;">
+                                                        {{billingCycle}}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px 0; border-bottom: 1px solid rgba(0, 0, 0, 0.1);">
+                                            <table role="presentation" style="width: 100%;">
+                                                <tr>
+                                                    <td style="font-size: 14px; color: #718096; width: 40%;">
+                                                        Start Date:
+                                                    </td>
+                                                    <td style="font-size: 14px; color: #0A0E27; font-weight: 600; text-align: right;">
+                                                        {{startDate}}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px 0;">
+                                            <table role="presentation" style="width: 100%;">
+                                                <tr>
+                                                    <td style="font-size: 14px; color: #718096; width: 40%;">
+                                                        Next Billing Date:
+                                                    </td>
+                                                    <td style="font-size: 14px; color: #0A0E27; font-weight: 600; text-align: right;">
+                                                        {{endDate}}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            <div style="background-color: #f0fdf4; border-left: 4px solid #4ade80; padding: 20px; border-radius: 6px; margin: 30px 0;">
+                                <p style="margin: 0 0 10px; font-size: 14px; color: #166534; font-weight: 600;">
+                                    💳 Payment Information
+                                </p>
+                                <p style="margin: 0; font-size: 14px; color: #166534;">
+                                    Your payment method will be automatically charged on each billing cycle. You can update your payment details anytime in your account settings.
+                                </p>
+                            </div>
+                            
+                            <!-- CTA Buttons -->
+                            <table role="presentation" style="width: 100%; margin: 30px 0;">
+                                <tr>
+                                    <td style="text-align: center; padding: 10px;">
+                                        <a href="https://www.cixio.com/dashboard" style="display: inline-block; padding: 14px 36px; background: linear-gradient(135deg, #0066FF 0%, #00D9FF 100%); color: #ffffff; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600; box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);">
+                                            Go to Dashboard
+                                        </a>
+                                    </td>
+                                    <td style="text-align: center; padding: 10px;">
+                                        <a href="https://www.cixio.com/account/billing" style="display: inline-block; padding: 14px 36px; background-color: #f7fafc; color: #0066FF; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600; border: 2px solid #0066FF;">
+                                            Manage Billing
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <p style="margin: 30px 0 0; font-size: 14px; color: #718096; text-align: center;">
+                                Questions about your subscription? Contact us at <a href="mailto:info@cixio.com" style="color: #0066FF; text-decoration: none;">info@cixio.com</a>
+                            </p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #0A0E27; padding: 40px 30px; border-radius: 0 0 8px 8px;">
+                            <!-- Social Links -->
+                            <table role="presentation" style="margin: 0 auto 20px; text-align: center;">
+                                <tr>
+                                    <td style="padding: 0 10px;">
+                                        <a href="#" style="display: inline-block; width: 32px; height: 32px; background-color: rgba(255, 255, 255, 0.1); border-radius: 50%; line-height: 32px; text-align: center; color: #ffffff; text-decoration: none; font-size: 14px;">
+                                            f
+                                        </a>
+                                    </td>
+                                    <td style="padding: 0 10px;">
+                                        <a href="#" style="display: inline-block; width: 32px; height: 32px; background-color: rgba(255, 255, 255, 0.1); border-radius: 50%; line-height: 32px; text-align: center; color: #ffffff; text-decoration: none; font-size: 14px;">
+                                            t
+                                        </a>
+                                    </td>
+                                    <td style="padding: 0 10px;">
+                                        <a href="#" style="display: inline-block; width: 32px; height: 32px; background-color: rgba(255, 255, 255, 0.1); border-radius: 50%; line-height: 32px; text-align: center; color: #ffffff; text-decoration: none; font-size: 14px;">
+                                            in
+                                        </a>
+                                    </td>
+                                    <td style="padding: 0 10px;">
+                                        <a href="#" style="display: inline-block; width: 32px; height: 32px; background-color: rgba(255, 255, 255, 0.1); border-radius: 50%; line-height: 32px; text-align: center; color: #ffffff; text-decoration: none; font-size: 14px;">
+                                            ig
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <!-- Contact Info -->
+                            <p style="margin: 0 0 10px; font-size: 14px; color: #a0aec0; text-align: center;">
+                                <a href="mailto:info@cixio.com" style="color: #00D9FF; text-decoration: none;">info@cixio.com</a> | 
+                                <a href="https://www.cixio.com" style="color: #00D9FF; text-decoration: none;">www.cixio.com</a>
+                            </p>
+                            
+                            <p style="margin: 0 0 15px; font-size: 12px; color: #718096; text-align: center;">
+                                © 2024 CIXIO. All rights reserved.
+                            </p>
+                            
+                            <p style="margin: 0; font-size: 12px; color: #718096; text-align: center;">
+                                <a href="#" style="color: #718096; text-decoration: underline;">Unsubscribe</a> | 
+                                <a href="#" style="color: #718096; text-decoration: underline;">Privacy Policy</a>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
