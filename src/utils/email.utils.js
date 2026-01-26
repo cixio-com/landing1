@@ -81,9 +81,9 @@ const sendEmail = async ({ to, subject, html, text }) => {
 const sendVerificationEmail = async (email, firstName, verificationToken) => {
     const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
     
-    const html = await loadTemplate('verification', {
-        firstName,
-        verificationUrl,
+    const html = await loadTemplate('email-verification', {
+        name: firstName,
+        verificationLink: verificationUrl,
         year: new Date().getFullYear()
     });
     
@@ -104,8 +104,8 @@ const sendPasswordResetEmail = async (email, firstName, resetToken) => {
     const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
     
     const html = await loadTemplate('password-reset', {
-        firstName,
-        resetUrl,
+        name: firstName,
+        resetLink: resetUrl,
         year: new Date().getFullYear()
     });
     
@@ -123,8 +123,8 @@ const sendPasswordResetEmail = async (email, firstName, resetToken) => {
  */
 const sendWelcomeEmail = async (email, firstName) => {
     const html = await loadTemplate('welcome', {
-        firstName,
-        loginUrl: `${process.env.FRONTEND_URL}/login`,
+        name: firstName,
+        email: email,
         year: new Date().getFullYear()
     });
     

@@ -28,8 +28,11 @@ document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
         showNotification('Login successful! Welcome back.', 'success');
         
         // Close modal
-        document.getElementById('loginModal').classList.remove('active');
-        document.body.style.overflow = '';
+        const loginModal = document.getElementById('loginModal');
+        if (loginModal) {
+            loginModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
         
         // Reset form
         e.target.reset();
@@ -83,8 +86,11 @@ document.getElementById('registerForm')?.addEventListener('submit', async (e) =>
         showNotification('Registration successful! Please check your email to verify your account.', 'success');
         
         // Close modal
-        document.getElementById('registerModal').classList.remove('active');
-        document.body.style.overflow = '';
+        const registerModal = document.getElementById('registerModal');
+        if (registerModal) {
+            registerModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
         
         // Reset form
         e.target.reset();
@@ -183,8 +189,11 @@ document.querySelectorAll('.plan-cta').forEach(button => {
         const token = getAuthToken();
         if (!token) {
             showNotification('Please login or register to subscribe', 'info');
-            document.getElementById('registerModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
+            const registerModal = document.getElementById('registerModal');
+            if (registerModal) {
+                registerModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
             return;
         }
         
