@@ -1,0 +1,29 @@
+{
+  "name": "cixio-landing-page",
+  "version": "1.0.0",
+  "description": "Advanced AI Software Solutions - CIXIO Landing Page",
+  "main": "public/index.html",
+  "scripts": {
+    "start": "npx serve public -p 8000",
+    "dev": "npx live-server public --port=8000",
+    "build": "echo 'Static site - no build required'",
+    "test": "echo 'No tests configured yet'"
+  },
+  "keywords": [
+    "landing-page",
+    "ai",
+    "machine-learning",
+    "encryption",
+    "data-privacy",
+    "healthcare",
+    "ecommerce"
+  ],
+  "author": "CIXIO",
+  "license": "PROPRIETARY",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/admin-cixio/landing1.git"
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}
