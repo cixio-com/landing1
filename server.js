@@ -67,8 +67,26 @@ const authLimiter = rateLimit({
     legacyHeaders: false,
 });
 
+// Rate limiting for static files (generous limit)
+const staticLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 500, // More generous for static assets
+    message: 'Too many requests for static files.',
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
 // Serve static files from public directory
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), {
+    etag: true,
+    lastModified: true,
+    setHeaders: (res, path) => {
+        // Add cache headers for static assets
+        if (path.endsWith('.css') || path.endsWith('.js') || path.endsWith('.svg')) {
+            res.setHeader('Cache-Control', 'public, max-age=86400'); // 1 day
+        }
+    }
+}));
 
 // API Routes
 app.use('/api/auth', authLimiter, authRoutes);
@@ -87,8 +105,8 @@ app.get('/api/health', (req, res) => {
     });
 });
 
-// Serve index.html for all other routes (SPA support)
-app.get('*', (req, res) => {
+// Serve index.html for all other routes (SPA support) - with rate limiting
+app.get('*', staticLimiter, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
