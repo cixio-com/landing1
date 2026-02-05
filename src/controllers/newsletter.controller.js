@@ -130,7 +130,7 @@ const subscribe = async (req, res) => {
         // Send notification to support team
         try {
             await sendEmail({
-                to: process.env.SUPPORT_EMAIL || 'support@cixio.com',
+                to: process.env.SUPPORT_EMAIL,
                 subject: 'New Newsletter Subscription',
                 html: `
                     <!DOCTYPE html>

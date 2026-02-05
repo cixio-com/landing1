@@ -99,8 +99,8 @@ Updated the email notification system to ensure that `support@cixio.com` receive
 - All emails include professional HTML formatting
 - Support notifications include all relevant details for quick response
 - Timestamps are included in all notifications for tracking
-- **Support email address is configurable** via `SUPPORT_EMAIL` environment variable
-- Falls back to `support@cixio.com` if environment variable is not set
+- **Support email address is read from `SUPPORT_EMAIL` environment variable**
+- No hardcoded email addresses - fully configurable via environment
 
 ---
 
@@ -130,7 +130,7 @@ SUPPORT_EMAIL=support@cixio.com
 FRONTEND_URL=https://yourdomain.com
 ```
 
-**Note**: If `SUPPORT_EMAIL` is not set in the environment, it will fallback to `support@cixio.com` by default.
+**Important**: Make sure `SUPPORT_EMAIL` is properly configured in your `.env` file, as it is required for support notifications to work.
 
 ---
 

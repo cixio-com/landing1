@@ -93,7 +93,7 @@ const submitContact = async (req, res) => {
         // Send notification to support team
         try {
             await sendEmail({
-                to: process.env.SUPPORT_EMAIL || 'support@cixio.com',
+                to: process.env.SUPPORT_EMAIL,
                 subject: `New Contact Form Submission - ${subject}`,
                 html: `
                     <!DOCTYPE html>
