@@ -105,7 +105,7 @@ const sendEmail = async ({ to, subject, html, text }) => {
             }, 10000);
 
             const mailOptions = {
-                from: `${process.env.EMAIL_FROM_NAME || 'CIXIO'} <${process.env.EMAIL_FROM}>`,
+                from: process.env.EMAIL_FROM || `${process.env.EMAIL_FROM_NAME || 'CIXIO'} <${process.env.EMAIL_FROM_ADDRESS || 'noreply@cixio.com'}>`,
                 to,
                 subject,
                 html
