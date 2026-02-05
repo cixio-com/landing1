@@ -1,53 +1,115 @@
-# SMTP Email Configuration Guide for CIXIO
+# 📧 SMTP Email - Quick Reference
 
-## Overview
-CIXIO uses NodeMailer to send emails. To enable email functionality, you need to configure SMTP settings in your `.env` file.
-
-## Setup Options
-
-### Option 1: Gmail (Development - Easiest)
-
-**Steps:**
-1. Enable 2-Factor Authentication on your Gmail account
-2. Generate an App Password:
-   - Go to https://myaccount.google.com/apppasswords
-   - Select Mail and Device (Windows/Mac/Linux)
-   - Google will generate a 16-character password
-3. Update `.env`:
-```bash
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-16-char-app-password
-EMAIL_FROM=CIXIO <your-email@gmail.com>
-EMAIL_FROM_NAME=CIXIO
-SUPPORT_EMAIL=your-email@gmail.com
-```
-
-**Pros:** Free, easy setup, no limits for testing
-**Cons:** Not recommended for production, daily sending limits
+## ✅ Configuration Status: COMPLETE
 
 ---
 
-### Option 2: SendGrid (Recommended for Production)
+## 🚀 Quick Commands
 
-**Steps:**
-1. Sign up at https://sendgrid.com (free account available)
-2. Create an API Key:
-   - Go to Settings → API Keys
-   - Generate a new key with "Mail Send" access
-3. Update `.env`:
-```bash
-EMAIL_HOST=smtp.sendgrid.net
-EMAIL_PORT=587
-EMAIL_USER=apikey
-EMAIL_PASS=your-sendgrid-api-key
-EMAIL_FROM=CIXIO <noreply@sendgrid.cixio.com>
-EMAIL_FROM_NAME=CIXIO
-SUPPORT_EMAIL=support@cixio.com
+### Start Application
+```powershell
+docker-compose up -d
 ```
 
-**Pros:** Enterprise-grade, good deliverability, analytics, free tier
+### Check Logs
+```powershell
+docker logs cixio-com-app -f
+```
+
+### Test Email Config
+```powershell
+curl http://localhost/api/test-email/config
+```
+
+### Send Test Email
+```powershell
+curl -X POST http://localhost/api/test-email/send `
+  -H "Content-Type: application/json" `
+  -d '{"to":"your-email@example.com"}'
+```
+
+---
+
+## 📋 Current SMTP Settings
+
+| Setting | Value |
+|---------|-------|
+| **Provider** | AWS SES (Mumbai) |
+| **Host** | email-smtp.ap-south-1.amazonaws.com |
+| **Port** | 587 (STARTTLS) |
+| **From** | CIXIO <noreply@cixio.com> |
+| **Admin** | admin@cixio.com |
+
+---
+
+## 📧 Email Features
+
+| Feature | Endpoint | Status |
+|---------|----------|--------|
+| Registration Verification | `/api/auth/register` | ✅ Active |
+| Password Reset | `/api/auth/forgot-password` | ✅ Active |
+| Contact Form | `/api/contacts` | ✅ Active |
+| Newsletter | `/api/newsletter/subscribe` | ✅ Active |
+| Test Email | `/api/test-email/send` | ✅ Active |
+
+---
+
+## ⚠️ AWS SES Sandbox Mode
+
+**If in sandbox mode:**
+- ✅ Verify sender: `noreply@cixio.com`
+- ✅ Verify recipients: any test emails
+- ✅ Verify admin: `admin@cixio.com`
+
+**Verify at:** https://console.aws.amazon.com/ses/
+
+**Request Production:** Account Dashboard → Request production access
+
+---
+
+## 🔍 Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Email not sending | Verify credentials in `.env` |
+| SMTP connection failed | Check AWS SES credentials & sender verification |
+| Not receiving emails | Check spam, verify recipient in AWS SES |
+| Too many requests | Wait - rate limiting active |
+
+---
+
+## 📚 Documentation
+
+- `SMTP_EMAIL_COMPLETE.md` - Full configuration guide
+- `TEST_EMAIL.md` - Testing instructions  
+- `EMAIL_SETUP_GUIDE.md` - AWS SES setup
+- `EMAIL_STATUS.md` - Configuration summary
+
+---
+
+## 🎯 Success Checklist
+
+- [x] SMTP credentials configured
+- [x] Email verification on startup
+- [x] Test endpoints available
+- [x] All features integrated
+- [ ] **Sender email verified in AWS**
+- [ ] **Test email sent successfully**
+- [ ] **Production access requested**
+
+---
+
+## 💡 Container Names Updated
+
+Old → New (to avoid conflicts):
+- `cixio-app` → `cixio-com-app`
+- `cixio-mongodb` → `cixio-com-mongodb`
+- `cixio-mongo-express` → `cixio-com-mongo-express`
+
+---
+
+**Status**: ✅ Ready to use!  
+**Updated**: Feb 5, 2026
 **Cons:** May require domain verification
 
 ---

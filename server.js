@@ -9,12 +9,16 @@ const path = require('path');
 // Load environment variables
 dotenv.config();
 
+// Import utilities
+const { verifyEmailConnection } = require('./src/utils/email.utils');
+
 // Import routes
 const authRoutes = require('./src/routes/auth.routes');
 const userRoutes = require('./src/routes/user.routes');
 const subscriptionRoutes = require('./src/routes/subscription.routes');
 const contactRoutes = require('./src/routes/contact.routes');
 const newsletterRoutes = require('./src/routes/newsletter.routes');
+const testEmailRoutes = require('./src/routes/test-email.routes');
 
 // Initialize Express app
 const app = express();
@@ -114,6 +118,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/contacts', contactRoutes);
 app.use('/api/newsletter', newsletterRoutes);
+app.use('/api/test-email', testEmailRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -146,9 +151,12 @@ mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
-.then(() => {
+.then(async () => {
     console.log('✅ Connected to MongoDB successfully');
     console.log(`   Database: ${mongoose.connection.name}`);
+    
+    // Verify email configuration
+    await verifyEmailConnection();
 })
 .catch((error) => {
     console.error('❌ MongoDB connection error:', error.message);

@@ -1,10 +1,9 @@
-version: '3.8'
 
 services:
   # MongoDB Service
   mongo:
     image: mongo:7.0
-    container_name: cixio-mongodb
+    container_name: cixio-com-mongodb
     restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
@@ -16,7 +15,7 @@ services:
       - mongo-data:/data/db
       - mongo-config:/data/configdb
     networks:
-      - cixio-network
+      - cixio-com-network
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
       interval: 10s
@@ -29,8 +28,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: cixio-app:latest
-    container_name: cixio-app
+    image: cixio-com-app:latest
+    container_name: cixio-com-app
     restart: unless-stopped
     env_file:
       - .env
@@ -45,7 +44,7 @@ services:
       mongo:
         condition: service_healthy
     networks:
-      - cixio-network
+      - cixio-com-network
     healthcheck:
       test: ["CMD", "node", "-e", "require('http').get('http://localhost:80/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
       interval: 30s
@@ -56,7 +55,7 @@ services:
   # MongoDB Express (Optional - for database management UI)
   mongo-express:
     image: mongo-express:latest
-    container_name: cixio-mongo-express
+    container_name: cixio-com-mongo-express
     restart: unless-stopped
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: admin
@@ -69,13 +68,13 @@ services:
     depends_on:
       - mongo
     networks:
-      - cixio-network
+      - cixio-com-network
     profiles:
       - dev # Only start with: docker-compose --profile dev up
 
 # Networks
 networks:
-  cixio-network:
+  cixio-com-network:
     driver: bridge
 
 # Volumes
