@@ -220,9 +220,11 @@ subscribeForm.addEventListener('submit', async (e) => {
         console.log('API Response:', data); // Debug log
         
         if (response.ok && data.success) {
+            // Show success message (handles both new subscription and already subscribed)
             showSuccessMessage(data.message || 'Successfully subscribed to our newsletter!');
             subscribeForm.reset();
         } else {
+            // Handle actual errors
             const errorMessage = data.message || 'Error subscribing to newsletter. Please try again.';
             console.error('Subscription error:', errorMessage, data);
             alert(errorMessage);

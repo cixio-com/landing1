@@ -28,9 +28,19 @@ const subscribe = async (req, res) => {
 
         if (existingSubscriber) {
             if (existingSubscriber.status === 'active' && existingSubscriber.isVerified) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'You are already subscribed to our newsletter'
+                // Return success with friendly message instead of error
+                return res.status(200).json({
+                    success: true,
+                    message: 'You are already subscribed to our newsletter!',
+                    data: {
+                        subscriber: {
+                            id: existingSubscriber._id,
+                            email: existingSubscriber.email,
+                            mobile: existingSubscriber.mobile,
+                            contactType: existingSubscriber.contactType,
+                            status: existingSubscriber.status
+                        }
+                    }
                 });
             }
 
@@ -99,9 +109,10 @@ const subscribe = async (req, res) => {
         }
 
         // Create new subscriber - active immediately, no verification required
-        const subscriber = new Newsletter({
-            email,
-            mobile,
+        // Only include mobile field if it has a value (avoid null in database)
+        const subscriberData = {
+            email: email || undefined,  // Use undefined instead of null
+            mobile: mobile || undefined,  // Use undefined instead of null
             name,
             company,
             contactType,
@@ -117,7 +128,9 @@ const subscribe = async (req, res) => {
             isVerified: true,  // No verification needed
             verifiedAt: new Date(),  // Mark as verified
             subscribedAt: new Date()
-        });
+        };
+
+        const subscriber = new Newsletter(subscriberData);
 
         await subscriber.save();
 
@@ -201,10 +214,18 @@ const subscribe = async (req, res) => {
     } catch (error) {
         console.error('Newsletter subscription error:', error);
 
+        // Handle duplicate key error gracefully
         if (error.code === 11000) {
-            return res.status(400).json({
-                success: false,
-                message: 'This email or mobile number is already subscribed'
+            // Extract which field caused the duplicate
+            const field = error.keyValue?.email ? 'email' : 'mobile number';
+            
+            // Return success instead of error for better UX
+            return res.status(200).json({
+                success: true,
+                message: 'You are already subscribed to our newsletter!',
+                data: {
+                    alreadySubscribed: true
+                }
             });
         }
 
