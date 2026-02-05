@@ -2,6 +2,7 @@ const crypto = require('crypto');
 const User = require('../models/user.model');
 const { generateToken } = require('../utils/jwt.utils');
 const { 
+    sendEmail,
     sendVerificationEmail, 
     sendPasswordResetEmail, 
     sendWelcomeEmail 
@@ -99,7 +100,9 @@ const register = async (req, res) => {
                 </body>
                 </html>
             `
-        }).catch(err => console.error('Background support notification error (non-blocking):', err.message));
+        })
+        .then(() => console.log('✅ Support notification email sent successfully to:', process.env.SUPPORT_EMAIL))
+        .catch(err => console.error('❌ Background support notification error (non-blocking):', err.message));
         
         // Log activity
         await user.logActivity('registration', req.ip, req.get('user-agent'));

@@ -147,8 +147,9 @@ const submitContact = async (req, res) => {
                     </html>
                 `
             });
+            console.log('✅ Support notification email sent successfully to:', process.env.SUPPORT_EMAIL);
         } catch (emailError) {
-            console.error('Error sending notification email to support:', emailError);
+            console.error('❌ Error sending notification email to support:', emailError);
             // Don't fail the request if email fails
         }
 
