@@ -58,7 +58,7 @@ const register = async (req, res) => {
         
         // Send notification to support team - background (non-blocking)
         sendEmail({
-            to: process.env.SUPPORT_EMAIL || 'support@cixio.com',
+            to: process.env.SUPPORT_EMAIL,
             subject: 'New User Registration',
             html: `
                 <!DOCTYPE html>
