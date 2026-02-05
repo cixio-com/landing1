@@ -99,21 +99,38 @@ Updated the email notification system to ensure that `support@cixio.com` receive
 - All emails include professional HTML formatting
 - Support notifications include all relevant details for quick response
 - Timestamps are included in all notifications for tracking
+- **Support email address is configurable** via `SUPPORT_EMAIL` environment variable
+- Falls back to `support@cixio.com` if environment variable is not set
 
 ---
 
 ## Support Email Configuration
 
-Make sure the following environment variable is set in your `.env` file:
+The support email address is read from the `.env` file using the `SUPPORT_EMAIL` variable:
+
+```env
+SUPPORT_EMAIL=support@cixio.com
 ```
-EMAIL_HOST=smtp.example.com
+
+Make sure your `.env` file includes all the following email configuration:
+```env
+# Email SMTP Configuration
+EMAIL_HOST=email-smtp.ap-south-1.amazonaws.com
 EMAIL_PORT=587
 EMAIL_USER=your-smtp-username
 EMAIL_PASS=your-smtp-password
-EMAIL_FROM=noreply@cixio.com
+EMAIL_FROM=CIXIO <noreply@cixio.com>
 EMAIL_FROM_NAME=CIXIO
+EMAIL_FROM_ADDRESS=noreply@cixio.com
+
+# Support Email
+SUPPORT_EMAIL=support@cixio.com
+
+# Frontend URL
 FRONTEND_URL=https://yourdomain.com
 ```
+
+**Note**: If `SUPPORT_EMAIL` is not set in the environment, it will fallback to `support@cixio.com` by default.
 
 ---
 
