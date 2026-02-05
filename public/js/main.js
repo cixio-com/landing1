@@ -196,29 +196,40 @@ subscribeForm.addEventListener('submit', async (e) => {
         return;
     }
     
+    // Determine if input is email or mobile
+    const isEmail = validateEmail(input);
+    
     const subscriptionData = {
-        contact: input,
-        type: validateEmail(input) ? 'email' : 'phone',
-        timestamp: new Date().toISOString()
+        email: isEmail ? input : null,
+        mobile: isEmail ? null : input,
+        source: 'website',
+        sourceUrl: window.location.href
     };
     
     console.log('Newsletter Subscription:', subscriptionData);
     
     try {
-        // In production, replace with actual API call:
-        // await fetch('/api/subscribe', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(subscriptionData)
-        // });
+        const response = await fetch('/api/newsletter/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(subscriptionData)
+        });
         
-        await simulateApiCall(800);
+        const data = await response.json();
         
-        showSuccessMessage('Successfully subscribed to our newsletter!');
-        subscribeForm.reset();
+        console.log('API Response:', data); // Debug log
+        
+        if (response.ok && data.success) {
+            showSuccessMessage(data.message || 'Successfully subscribed to our newsletter!');
+            subscribeForm.reset();
+        } else {
+            const errorMessage = data.message || 'Error subscribing to newsletter. Please try again.';
+            console.error('Subscription error:', errorMessage, data);
+            alert(errorMessage);
+        }
     } catch (error) {
-        console.error('Error:', error);
-        alert('Sorry, there was an error processing your subscription. Please try again.');
+        console.error('Network/Fetch Error:', error);
+        alert('Sorry, there was an error processing your subscription. Please check your internet connection and try again.');
     }
 });
 

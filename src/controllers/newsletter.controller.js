@@ -35,14 +35,10 @@ const subscribe = async (req, res) => {
             }
 
             if (existingSubscriber.status === 'unsubscribed') {
-                // Re-subscribe - generate new verification token
-                const verificationToken = crypto.randomBytes(32).toString('hex');
-                const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
-
-                existingSubscriber.status = 'pending';
-                existingSubscriber.isVerified = false;
-                existingSubscriber.verificationToken = verificationToken;
-                existingSubscriber.verificationExpires = verificationExpires;
+                // Re-subscribe - make active immediately
+                existingSubscriber.status = 'active';
+                existingSubscriber.isVerified = true;
+                existingSubscriber.verifiedAt = new Date();
                 existingSubscriber.subscribedAt = new Date();
                 existingSubscriber.unsubscribedAt = undefined;
                 existingSubscriber.unsubscribeReason = undefined;
@@ -55,14 +51,14 @@ const subscribe = async (req, res) => {
 
                 await existingSubscriber.save();
 
-                // Send verification email
+                // Send welcome email
                 if (email) {
-                    await sendNewsletterVerificationEmail(email, name, verificationToken);
+                    await sendNewsletterWelcomeEmail(email, name || existingSubscriber.name);
                 }
 
                 return res.status(200).json({
                     success: true,
-                    message: 'Welcome back! Please check your email to verify your subscription',
+                    message: 'Welcome back! You are now subscribed to our newsletter.',
                     data: {
                         subscriber: {
                             id: existingSubscriber._id,
@@ -75,14 +71,10 @@ const subscribe = async (req, res) => {
                 });
             }
 
-            // Pending subscription - resend verification
-            if (!existingSubscriber.isVerified && email) {
-                await sendNewsletterVerificationEmail(email, name || existingSubscriber.name, existingSubscriber.verificationToken);
-            }
-
+            // If subscriber exists and is not unsubscribed, they're already subscribed
             return res.status(200).json({
                 success: true,
-                message: 'A verification email has been sent. Please check your inbox',
+                message: 'You are already subscribed to our newsletter!',
                 data: {
                     subscriber: {
                         id: existingSubscriber._id,
@@ -95,36 +87,43 @@ const subscribe = async (req, res) => {
             });
         }
 
-        // Generate verification and unsubscribe tokens
-        const verificationToken = crypto.randomBytes(32).toString('hex');
+        // Generate unsubscribe token only (no verification needed)
         const unsubscribeToken = crypto.randomBytes(32).toString('hex');
-        const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
 
-        // Create new subscriber
+        // Determine contact type
+        let contactType = 'email';
+        if (email && mobile) {
+            contactType = 'both';
+        } else if (mobile && !email) {
+            contactType = 'mobile';
+        }
+
+        // Create new subscriber - active immediately, no verification required
         const subscriber = new Newsletter({
             email,
             mobile,
             name,
             company,
+            contactType,
             interests,
             preferences: preferences || {},
-            verificationToken,
-            verificationExpires,
             unsubscribeToken,
             source: source || 'website',
             sourceUrl,
             referrer,
             ipAddress: req.ip || req.connection.remoteAddress,
             userAgent: req.headers['user-agent'],
-            status: 'pending',
-            isVerified: false
+            status: 'active',  // Active immediately
+            isVerified: true,  // No verification needed
+            verifiedAt: new Date(),  // Mark as verified
+            subscribedAt: new Date()
         });
 
         await subscriber.save();
 
-        // Send verification email
+        // Send welcome/confirmation email (not verification)
         if (email) {
-            await sendNewsletterVerificationEmail(email, name, verificationToken);
+            await sendNewsletterWelcomeEmail(email, name);
         }
 
         // Send notification to support team
@@ -164,19 +163,20 @@ const subscribe = async (req, res) => {
                                     <div class="info-row"><span class="label">Source:</span> ${source || 'website'}</div>
                                     ${interests && interests.length > 0 ? `<div class="info-row"><span class="label">Interests:</span> ${interests.join(', ')}</div>` : ''}
                                     <div class="info-row"><span class="label">Subscriber ID:</span> ${subscriber._id}</div>
-                                    <div class="info-row"><span class="label">Status:</span> Pending Verification</div>
+                                    <div class="info-row"><span class="label">Status:</span> Active</div>
                                     <div class="info-row"><span class="label">Subscribed At:</span> ${new Date().toLocaleString()}</div>
                                 </div>
                                 
-                                <p><strong>Note:</strong> This subscription is pending email verification.</p>
+                                <p><strong>Note:</strong> This subscriber is now active and will receive newsletters.</p>
                             </div>
                         </div>
                     </body>
                     </html>
                 `
             });
+            console.log('✅ Support notification email sent successfully to:', process.env.SUPPORT_EMAIL);
         } catch (emailError) {
-            console.error('Error sending notification email to support:', emailError);
+            console.error('❌ Error sending notification email to support:', emailError);
             // Don't fail the request if email fails
         }
 
@@ -186,8 +186,8 @@ const subscribe = async (req, res) => {
         return res.status(201).json({
             success: true,
             message: email 
-                ? 'Subscription successful! Please check your email to verify your subscription'
-                : 'Subscription successful! A verification message will be sent shortly',
+                ? 'Successfully subscribed! You will now receive our newsletter updates.'
+                : 'Subscription successful! You will receive updates shortly.',
             data: {
                 subscriber: {
                     id: subscriber._id,
