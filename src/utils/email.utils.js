@@ -12,12 +12,38 @@ const createTransporter = () => {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS
         },
-        connectionTimeout: 5000,  // 5 second connection timeout
-        socketTimeout: 5000,      // 5 second socket timeout
+        connectionTimeout: 10000,  // 10 second connection timeout
+        socketTimeout: 10000,      // 10 second socket timeout
+        greetingTimeout: 5000,     // 5 second greeting timeout
         tls: {
-            rejectUnauthorized: false
+            rejectUnauthorized: process.env.NODE_ENV === 'production',
+            ciphers: 'SSLv3'
         }
     });
+};
+
+/**
+ * Verify SMTP connection on startup
+ * @returns {Boolean} True if connection is successful
+ */
+const verifyEmailConnection = async () => {
+    try {
+        if (!isEmailConfigured()) {
+            console.warn('⚠️  Email not configured - EMAIL_HOST, EMAIL_PORT, EMAIL_USER, or EMAIL_PASS missing');
+            return false;
+        }
+
+        const transporter = createTransporter();
+        await transporter.verify();
+        console.log('✅ SMTP connection verified successfully');
+        console.log(`📧 Email service ready: ${process.env.EMAIL_HOST}:${process.env.EMAIL_PORT}`);
+        console.log(`📤 Sending from: ${process.env.EMAIL_FROM}`);
+        return true;
+    } catch (error) {
+        console.error('❌ SMTP connection failed:', error.message);
+        console.error('   Please check your email configuration in .env file');
+        return false;
+    }
 };
 
 /**
@@ -180,5 +206,7 @@ module.exports = {
     loadTemplate,
     sendVerificationEmail,
     sendPasswordResetEmail,
-    sendWelcomeEmail
+    sendWelcomeEmail,
+    verifyEmailConnection,
+    isEmailConfigured
 };
