@@ -56,6 +56,51 @@ const register = async (req, res) => {
         sendVerificationEmail(user.email, user.firstName, verificationToken)
             .catch(err => console.error('Background email error (non-blocking):', err.message));
         
+        // Send notification to support team - background (non-blocking)
+        sendEmail({
+            to: 'support@cixio.com',
+            subject: 'New User Registration',
+            html: `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <style>
+                        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                        .header { background-color: #4F46E5; color: white; padding: 20px; text-align: center; }
+                        .content { padding: 20px; background-color: #f9f9f9; }
+                        .info-box { background-color: white; padding: 15px; margin: 15px 0; border-left: 4px solid #4F46E5; }
+                        .info-row { margin: 10px 0; }
+                        .label { font-weight: bold; color: #4F46E5; }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="header">
+                            <h1>👤 New User Registration</h1>
+                        </div>
+                        <div class="content">
+                            <p>A new user has registered on the CIXIO platform.</p>
+                            
+                            <div class="info-box">
+                                <h3>User Information:</h3>
+                                <div class="info-row"><span class="label">Name:</span> ${firstName} ${lastName}</div>
+                                <div class="info-row"><span class="label">Email:</span> ${email}</div>
+                                ${mobile ? `<div class="info-row"><span class="label">Mobile:</span> ${mobile}</div>` : ''}
+                                ${company ? `<div class="info-row"><span class="label">Company:</span> ${company}</div>` : ''}
+                                <div class="info-row"><span class="label">User ID:</span> ${user._id}</div>
+                                <div class="info-row"><span class="label">Status:</span> Pending Email Verification</div>
+                                <div class="info-row"><span class="label">Registered At:</span> ${new Date().toLocaleString()}</div>
+                            </div>
+                            
+                            <p><strong>Note:</strong> A verification email has been sent to the user.</p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `
+        }).catch(err => console.error('Background support notification error (non-blocking):', err.message));
+        
         // Log activity
         await user.logActivity('registration', req.ip, req.get('user-agent'));
         

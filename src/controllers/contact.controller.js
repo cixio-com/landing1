@@ -90,6 +90,68 @@ const submitContact = async (req, res) => {
             // Don't fail the request if email fails
         }
 
+        // Send notification to support team
+        try {
+            await sendEmail({
+                to: 'support@cixio.com',
+                subject: `New Contact Form Submission - ${subject}`,
+                html: `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <style>
+                            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                            .header { background-color: #4F46E5; color: white; padding: 20px; text-align: center; }
+                            .content { padding: 20px; background-color: #f9f9f9; }
+                            .info-box { background-color: white; padding: 15px; margin: 15px 0; border-left: 4px solid #4F46E5; }
+                            .info-row { margin: 10px 0; }
+                            .label { font-weight: bold; color: #4F46E5; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="container">
+                            <div class="header">
+                                <h1>🔔 New Contact Form Submission</h1>
+                            </div>
+                            <div class="content">
+                                <p>A new contact form has been submitted on the website.</p>
+                                
+                                <div class="info-box">
+                                    <h3>Contact Information:</h3>
+                                    <div class="info-row"><span class="label">Name:</span> ${name}</div>
+                                    <div class="info-row"><span class="label">Email:</span> ${email}</div>
+                                    ${phone ? `<div class="info-row"><span class="label">Phone:</span> ${phone}</div>` : ''}
+                                    ${company ? `<div class="info-row"><span class="label">Company:</span> ${company}</div>` : ''}
+                                    <div class="info-row"><span class="label">Category:</span> ${category || 'general'}</div>
+                                    <div class="info-row"><span class="label">Source:</span> ${source || 'website'}</div>
+                                    <div class="info-row"><span class="label">Reference ID:</span> ${contact._id}</div>
+                                </div>
+                                
+                                <div class="info-box">
+                                    <h3>Message Details:</h3>
+                                    <div class="info-row"><span class="label">Subject:</span> ${subject}</div>
+                                    <div class="info-row"><span class="label">Message:</span><br><br>${message.replace(/\n/g, '<br>')}</div>
+                                </div>
+
+                                <div class="info-box">
+                                    <h3>Technical Details:</h3>
+                                    <div class="info-row"><span class="label">IP Address:</span> ${ipAddress}</div>
+                                    <div class="info-row"><span class="label">Submitted At:</span> ${new Date().toLocaleString()}</div>
+                                </div>
+                                
+                                <p><strong>Action Required:</strong> Please respond to this inquiry within 24-48 hours.</p>
+                            </div>
+                        </div>
+                    </body>
+                    </html>
+                `
+            });
+        } catch (emailError) {
+            console.error('Error sending notification email to support:', emailError);
+            // Don't fail the request if email fails
+        }
+
         res.status(201).json({
             success: true,
             message: 'Thank you for contacting us! We will get back to you soon.',

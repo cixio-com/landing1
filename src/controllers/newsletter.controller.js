@@ -127,6 +127,59 @@ const subscribe = async (req, res) => {
             await sendNewsletterVerificationEmail(email, name, verificationToken);
         }
 
+        // Send notification to support team
+        try {
+            await sendEmail({
+                to: 'support@cixio.com',
+                subject: 'New Newsletter Subscription',
+                html: `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <style>
+                            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                            .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; text-align: center; }
+                            .content { padding: 20px; background-color: #f9f9f9; }
+                            .info-box { background-color: white; padding: 15px; margin: 15px 0; border-left: 4px solid #667eea; }
+                            .info-row { margin: 10px 0; }
+                            .label { font-weight: bold; color: #667eea; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="container">
+                            <div class="header">
+                                <h1>📧 New Newsletter Subscription</h1>
+                            </div>
+                            <div class="content">
+                                <p>A new user has subscribed to the CIXIO newsletter.</p>
+                                
+                                <div class="info-box">
+                                    <h3>Subscriber Information:</h3>
+                                    ${name ? `<div class="info-row"><span class="label">Name:</span> ${name}</div>` : ''}
+                                    ${email ? `<div class="info-row"><span class="label">Email:</span> ${email}</div>` : ''}
+                                    ${mobile ? `<div class="info-row"><span class="label">Mobile:</span> ${mobile}</div>` : ''}
+                                    ${company ? `<div class="info-row"><span class="label">Company:</span> ${company}</div>` : ''}
+                                    <div class="info-row"><span class="label">Contact Type:</span> ${subscriber.contactType}</div>
+                                    <div class="info-row"><span class="label">Source:</span> ${source || 'website'}</div>
+                                    ${interests && interests.length > 0 ? `<div class="info-row"><span class="label">Interests:</span> ${interests.join(', ')}</div>` : ''}
+                                    <div class="info-row"><span class="label">Subscriber ID:</span> ${subscriber._id}</div>
+                                    <div class="info-row"><span class="label">Status:</span> Pending Verification</div>
+                                    <div class="info-row"><span class="label">Subscribed At:</span> ${new Date().toLocaleString()}</div>
+                                </div>
+                                
+                                <p><strong>Note:</strong> This subscription is pending email verification.</p>
+                            </div>
+                        </div>
+                    </body>
+                    </html>
+                `
+            });
+        } catch (emailError) {
+            console.error('Error sending notification email to support:', emailError);
+            // Don't fail the request if email fails
+        }
+
         // For mobile subscriptions, implement SMS verification separately
         // TODO: Implement SMS verification for mobile subscriptions
 
