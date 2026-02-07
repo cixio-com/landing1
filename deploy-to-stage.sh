@@ -61,6 +61,10 @@ cp .env ${EXPORT_DIR}/.env
 echo "Copying docker-compose.yml..."
 cp docker-compose.yml ${EXPORT_DIR}/docker-compose.yml
 
+echo "Copying load-images.sh..."
+cp load-images.sh ${EXPORT_DIR}/load-images.sh
+chmod +x ${EXPORT_DIR}/load-images.sh
+
 echo "Copying deploy-on-stage.sh..."
 cp deploy-on-stage.sh ${EXPORT_DIR}/deploy-on-stage.sh
 chmod +x ${EXPORT_DIR}/deploy-on-stage.sh
