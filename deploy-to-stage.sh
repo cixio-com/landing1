@@ -44,7 +44,7 @@ git pull
 echo ""
 echo "Step 3: Building and exporting Docker images..."
 echo "----------------------------------------"
-chmod +x build-and-export-images.sh load-images.sh
+chmod +x build-and-export-images.sh
 ./build-and-export-images.sh
 
 if [ ! -d "${EXPORT_DIR}" ]; then
