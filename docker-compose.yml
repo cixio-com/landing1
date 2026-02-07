@@ -2,7 +2,7 @@
 services:
   # MongoDB Service
   mongo:
-    image: mongo:7.0
+    image: cixio-com-mongo:7.0
     container_name: cixio-com-mongodb
     restart: unless-stopped
     environment:
@@ -51,26 +51,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 60s
-
-  # MongoDB Express (Optional - for database management UI)
-  mongo-express:
-    image: mongo-express:latest
-    container_name: cixio-com-mongo-express
-    restart: unless-stopped
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
-      ME_CONFIG_MONGODB_ADMINPASSWORD: changeme123
-      ME_CONFIG_MONGODB_URL: mongodb://admin:changeme123@mongo:27017/
-      ME_CONFIG_BASICAUTH_USERNAME: admin
-      ME_CONFIG_BASICAUTH_PASSWORD: admin123
-    ports:
-      - "8081:8081"
-    depends_on:
-      - mongo
-    networks:
-      - cixio-com-network
-    profiles:
-      - dev # Only start with: docker-compose --profile dev up
 
 # Networks
 networks:

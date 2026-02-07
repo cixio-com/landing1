@@ -82,16 +82,12 @@ fi
 
 # Load all images from current directory
 echo ""
-echo "[1/3] Loading cixio-com-app:latest..."
+echo "[1/2] Loading cixio-com-app:latest..."
 docker load -i cixio-com-app.tar
 
 echo ""
-echo "[2/3] Loading mongo:7.0..."
-docker load -i mongo-7.0.tar
-
-echo ""
-echo "[3/3] Loading mongo-express:latest..."
-docker load -i mongo-express.tar
+echo "[2/2] Loading cixio-com-mongo:7.0..."
+docker load -i cixio-com-mongo-7.0.tar
 
 echo ""
 echo "================================================"

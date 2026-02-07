@@ -16,29 +16,23 @@ docker-compose build
 
 # Step 2: Pull required base images
 echo ""
-echo "[2/5] Pulling MongoDB 7.0 image..."
+echo "[2/4] Pulling MongoDB 7.0 image..."
 docker pull mongo:7.0
-
-echo ""
-echo "[3/5] Pulling Mongo Express image..."
-docker pull mongo-express:latest
+docker tag mongo:7.0 cixio-com-mongo:7.0
 
 # Step 3: Create exports directory
 echo ""
-echo "[4/5] Creating exports directory..."
+echo "[3/4] Creating exports directory..."
 mkdir -p docker-images-export
 
 # Step 4: Save all images to tar files
 echo ""
-echo "[5/5] Saving all images to tar files..."
+echo "[4/4] Saving all images to tar files..."
 echo "  - Saving cixio-com-app:latest..."
 docker save -o docker-images-export/cixio-com-app.tar cixio-com-app:latest
 
-echo "  - Saving mongo:7.0..."
-docker save -o docker-images-export/mongo-7.0.tar mongo:7.0
-
-echo "  - Saving mongo-express:latest..."
-docker save -o docker-images-export/mongo-express.tar mongo-express:latest
+echo "  - Saving cixio-com-mongo:7.0..."
+docker save -o docker-images-export/cixio-com-mongo-7.0.tar cixio-com-mongo:7.0
 
 # Display file sizes
 echo ""
