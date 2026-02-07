@@ -18,11 +18,6 @@ echo "Current directory: ${DEPLOY_DIR}"
 echo ""
 
 # Check if required files exist
-if [ ! -f "load-images.sh" ]; then
-    echo "ERROR: load-images.sh not found in current directory!"
-    exit 1
-fi
-
 if [ ! -f "docker-compose.yml" ]; then
     echo "ERROR: docker-compose.yml not found in current directory!"
     exit 1
@@ -62,15 +57,23 @@ docker images -a
 docker ps -a
 
 echo ""
-echo "Step 4: Loading Docker images from tar.gz files..."
+echo "Step 4: Loading Docker images from tar files..."
 echo "----------------------------------------"
-chmod +x load-images.sh
-./load-images.sh
 
-if [ $? -ne 0 ]; then
-    echo "ERROR: Failed to load Docker images!"
+if [ ! -f "cixio-com-app.tar" ]; then
+    echo "ERROR: cixio-com-app.tar not found in current directory!"
     exit 1
 fi
+
+echo "[1/2] Loading cixio-com-app:latest..."
+docker load -i cixio-com-app.tar
+
+echo ""
+echo "[2/2] Loading cixio-com-mongo:7.0..."
+docker load -i cixio-com-mongo-7.0.tar
+
+echo ""
+echo "All Docker images loaded successfully!"
 
 echo ""
 echo "Docker images after loading:"

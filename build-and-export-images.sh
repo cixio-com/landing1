@@ -11,7 +11,7 @@ echo "================================================"
 
 # Step 1: Build the custom app image from docker-compose
 echo ""
-echo "[1/5] Building custom app image from docker-compose..."
+echo "[1/4] Building custom app image from docker-compose..."
 docker-compose build
 
 # Step 2: Pull required base images
