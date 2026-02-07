@@ -1,4 +1,4 @@
-#!/bin/bash
+    #!/bin/bash
 
 # Load Docker Images Script
 # This script loads all exported Docker images on the destination machine
