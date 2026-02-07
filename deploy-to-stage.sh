@@ -53,34 +53,55 @@ if [ ! -d "${EXPORT_DIR}" ]; then
 fi
 
 echo ""
-echo "Step 4: Creating remote directory on stage server..."
+echo "Step 3.1: Copying additional files to export directory..."
+echo "----------------------------------------"
+echo "Copying .env file..."
+cp .env ${EXPORT_DIR}/.env
+
+echo "Copying docker-compose.yml..."
+cp docker-compose.yml ${EXPORT_DIR}/docker-compose.yml
+
+echo "Copying deploy-on-stage.sh..."
+cp deploy-on-stage.sh ${EXPORT_DIR}/deploy-on-stage.sh
+chmod +x ${EXPORT_DIR}/deploy-on-stage.sh
+
+echo "All required files are now in ${EXPORT_DIR}/"
+ls -lh ${EXPORT_DIR}/
+
+echo ""
+echo "Step 4: Checking disk space on stage server..."
+echo "----------------------------------------"
+ssh -i ${SSH_KEY} ${STAGE_SERVER} "df -h ${REMOTE_BASE_DIR}"
+
+echo ""
+echo "Step 5: Cleaning up old deployments on stage server (keeping last 3)..."
+echo "----------------------------------------"
+ssh -i ${SSH_KEY} ${STAGE_SERVER} "cd ${REMOTE_BASE_DIR} && ls -t | tail -n +4 | xargs -r rm -rf"
+
+echo ""
+echo "Step 6: Creating remote directory on stage server..."
 echo "----------------------------------------"
 ssh -i ${SSH_KEY} ${STAGE_SERVER} "mkdir -p ${REMOTE_DIR}"
 
 echo ""
-echo "Step 5: Transferring files to stage server..."
+echo "Step 7: Transferring all files to stage server (single command)..."
 echo "----------------------------------------"
-echo "Copying docker-images-export directory..."
+echo "Copying docker-images-export directory with all files..."
 scp -i ${SSH_KEY} -r ${LOCAL_PROJECT_DIR}/${EXPORT_DIR} ${STAGE_SERVER}:${REMOTE_DIR}/
 
-echo "Copying docker-compose.yml..."
-scp -i ${SSH_KEY} ${LOCAL_PROJECT_DIR}/docker-compose.yml ${STAGE_SERVER}:${REMOTE_DIR}/docker-compose.yml
-
-echo "Copying .env file..."
-scp -i ${SSH_KEY} ${LOCAL_PROJECT_DIR}/.env ${STAGE_SERVER}:${REMOTE_DIR}/.env
-
-echo "Copying deploy-on-stage.sh script..."
-scp -i ${SSH_KEY} ${LOCAL_PROJECT_DIR}/deploy-on-stage.sh ${STAGE_SERVER}:${REMOTE_DIR}/deploy-on-stage.sh
+echo ""
+echo "Verifying transferred files on stage server..."
+ssh -i ${SSH_KEY} ${STAGE_SERVER} "ls -lh ${REMOTE_DIR}/${EXPORT_DIR}/"
 
 echo ""
-echo "Step 6: Cleaning up local Docker environment..."
+echo "Step 8: Cleaning up local Docker environment..."
 echo "----------------------------------------"
 docker stop $(docker ps -aq) 2>/dev/null || echo "No running containers to stop"
 docker rm $(docker ps -aq) 2>/dev/null || echo "No containers to remove"
 docker rmi -f $(docker images -aq) 2>/dev/null || echo "No images to remove"
 
 echo ""
-echo "Step 7: Removing local export directory..."
+echo "Step 9: Removing local export directory..."
 echo "----------------------------------------"
 rm -rf ${EXPORT_DIR}/
 echo "Cleanup completed"
@@ -94,9 +115,9 @@ echo "Deployment Directory: ${DATE_TIME_DIR}"
 echo ""
 echo "Next steps:"
 echo "1. SSH to stage server: ssh -i ${SSH_KEY} ${STAGE_SERVER}"
-echo "2. Navigate to: cd ${REMOTE_DIR}"
+echo "2. Navigate to: cd ${REMOTE_DIR}/${EXPORT_DIR}"
 echo "3. Run deployment: ./deploy-on-stage.sh"
 echo ""
 echo "Or run directly from jump server:"
-echo "ssh -i ${SSH_KEY} ${STAGE_SERVER} 'cd ${REMOTE_DIR} && chmod +x deploy-on-stage.sh && ./deploy-on-stage.sh'"
+echo "ssh -i ${SSH_KEY} ${STAGE_SERVER} 'cd ${REMOTE_DIR}/${EXPORT_DIR} && chmod +x deploy-on-stage.sh && ./deploy-on-stage.sh'"
 echo ""
