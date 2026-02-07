@@ -10,9 +10,8 @@ echo "=========================================="
 echo "Starting Deployment on Stage Server"
 echo "=========================================="
 
-# Get the current directory (should be the deployment directory)
+# Get the current directory (should be inside docker-images-export)
 DEPLOY_DIR=$(pwd)
-EXPORT_DIR="docker-images-export"
 
 echo ""
 echo "Current directory: ${DEPLOY_DIR}"
@@ -34,10 +33,14 @@ if [ ! -f ".env" ]; then
     echo "Make sure environment variables are properly configured."
 fi
 
-if [ ! -d "${EXPORT_DIR}" ]; then
-    echo "ERROR: ${EXPORT_DIR} directory not found!"
+# Check if tar files exist
+TAR_FILES=$(ls *.tar 2>/dev/null | wc -l)
+if [ ${TAR_FILES} -eq 0 ]; then
+    echo "ERROR: No Docker image tar files found in current directory!"
     exit 1
 fi
+
+echo "Found ${TAR_FILES} Docker image tar file(s)"
 
 echo "Step 1: Stopping existing Docker containers..."
 echo "----------------------------------------"
