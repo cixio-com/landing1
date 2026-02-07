@@ -63,14 +63,14 @@ echo "----------------------------------------"
 echo "Copying docker-images-export directory..."
 scp -i ${SSH_KEY} -r ${LOCAL_PROJECT_DIR}/${EXPORT_DIR} ${STAGE_SERVER}:${REMOTE_DIR}/
 
-echo "Copying load-images.sh..."
-scp -i ${SSH_KEY} ${LOCAL_PROJECT_DIR}/${EXPORT_DIR}/load-images.sh ${STAGE_SERVER}:${REMOTE_DIR}/load-images.sh
-
 echo "Copying docker-compose.yml..."
 scp -i ${SSH_KEY} ${LOCAL_PROJECT_DIR}/docker-compose.yml ${STAGE_SERVER}:${REMOTE_DIR}/docker-compose.yml
 
 echo "Copying .env file..."
 scp -i ${SSH_KEY} ${LOCAL_PROJECT_DIR}/.env ${STAGE_SERVER}:${REMOTE_DIR}/.env
+
+echo "Copying deploy-on-stage.sh script..."
+scp -i ${SSH_KEY} ${LOCAL_PROJECT_DIR}/deploy-on-stage.sh ${STAGE_SERVER}:${REMOTE_DIR}/deploy-on-stage.sh
 
 echo ""
 echo "Step 6: Cleaning up local Docker environment..."
