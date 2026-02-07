@@ -61,8 +61,50 @@ cp .env ${EXPORT_DIR}/.env
 echo "Copying docker-compose.yml..."
 cp docker-compose.yml ${EXPORT_DIR}/docker-compose.yml
 
-echo "Copying load-images.sh..."
-cp load-images.sh ${EXPORT_DIR}/load-images.sh
+echo "Creating load-images.sh for export directory..."
+cat > ${EXPORT_DIR}/load-images.sh << 'EOF'
+#!/bin/bash
+
+# Load Docker Images Script
+# This script loads all exported Docker images from the current directory
+
+set -e  # Exit on any error
+
+echo "================================================"
+echo "Loading CIXIO Docker Images"
+echo "================================================"
+
+# Check if tar files exist in current directory
+if [ ! -f "cixio-com-app.tar" ]; then
+    echo "Error: cixio-com-app.tar not found in current directory!"
+    exit 1
+fi
+
+# Load all images from current directory
+echo ""
+echo "[1/3] Loading cixio-com-app:latest..."
+docker load -i cixio-com-app.tar
+
+echo ""
+echo "[2/3] Loading mongo:7.0..."
+docker load -i mongo-7.0.tar
+
+echo ""
+echo "[3/3] Loading mongo-express:latest..."
+docker load -i mongo-express.tar
+
+echo ""
+echo "================================================"
+echo "All Docker images loaded successfully!"
+echo "================================================"
+echo ""
+echo "Loaded images:"
+docker images
+
+echo ""
+echo "Next step: Run 'docker-compose up -d' to start the containers"
+echo ""
+EOF
 chmod +x ${EXPORT_DIR}/load-images.sh
 
 echo "Copying deploy-on-stage.sh..."
