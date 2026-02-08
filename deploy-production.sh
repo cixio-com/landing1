@@ -24,4 +24,4 @@ echo "Proceeding with PRODUCTION deployment..."
 echo ""
 
 # Run the main deployment script
-./deploy-to-stage.sh
+./deploy.sh

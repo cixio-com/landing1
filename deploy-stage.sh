@@ -11,4 +11,4 @@ echo "=========================================="
 echo ""
 
 # Run the main deployment script
-./deploy-to-stage.sh
+./deploy.sh
