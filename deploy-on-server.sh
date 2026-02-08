@@ -88,7 +88,8 @@ docker images | grep cixio-com
 echo ""
 echo "Step 5: Starting Docker containers with docker-compose..."
 echo "----------------------------------------"
-docker-compose up -d
+# Use explicit project name to prevent conflicts with other services
+docker-compose -p cixio-com up -d
 
 if [ $? -ne 0 ]; then
     echo "ERROR: Failed to start Docker containers!"
