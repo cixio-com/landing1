@@ -196,12 +196,19 @@ npm run dev            # Development (with auto-reload)
 
 ### Test the API
 
+**Note:** Port numbers depend on your deployment method:
+- **Docker**: Use `http://localhost:5001` (mapped from internal port 80)
+- **Non-Docker**: Use `http://localhost:3000` (or your configured PORT)
+
 ```bash
-# Health check
+# Health check (Docker)
+curl http://localhost:5001/api/health
+
+# Health check (Non-Docker)
 curl http://localhost:3000/api/health
 
-# Register a user
-curl -X POST http://localhost:3000/api/auth/register \
+# Register a user (adjust port based on deployment)
+curl -X POST http://localhost:5001/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "firstName": "John",
@@ -210,8 +217,8 @@ curl -X POST http://localhost:3000/api/auth/register \
     "password": "SecurePass123!"
   }'
 
-# Login
-curl -X POST http://localhost:3000/api/auth/login \
+# Login (adjust port based on deployment)
+curl -X POST http://localhost:5001/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "john@example.com",
@@ -346,7 +353,7 @@ All templates are professionally designed, mobile-responsive HTML emails with CI
 ```env
 # Server
 NODE_ENV=production
-PORT=3000
+PORT=80  # Use 80 for Docker, 3000 for non-Docker development
 
 # Database
 MONGODB_URI=mongodb+srv://<cluster-host>/cixio
@@ -479,23 +486,25 @@ Complete documentation is available in 8 comprehensive files:
 
 ### Manual Testing
 
+**Note:** Replace `5001` with `3000` if running non-Docker deployment.
+
 ```bash
-# Test registration flow
-curl -X POST http://localhost:3000/api/auth/register \
+# Test registration flow (Docker)
+curl -X POST http://localhost:5001/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{"firstName":"Test","lastName":"User","email":"test@example.com","password":"Test123!"}'
 
-# Test login
-curl -X POST http://localhost:3000/api/auth/login \
+# Test login (Docker)
+curl -X POST http://localhost:5001/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com","password":"Test123!"}'
 
-# Test authenticated endpoint (use token from login)
-curl http://localhost:3000/api/users/profile \
+# Test authenticated endpoint (use token from login) (Docker)
+curl http://localhost:5001/api/users/profile \
   -H "Authorization: Bearer YOUR_TOKEN_HERE"
 
-# Test newsletter subscription
-curl -X POST http://localhost:3000/api/newsletter/subscribe \
+# Test newsletter subscription (Docker)
+curl -X POST http://localhost:5001/api/newsletter/subscribe \
   -H "Content-Type: application/json" \
   -d '{"email":"subscriber@example.com"}'
 ```
@@ -560,8 +569,21 @@ sudo systemctl start mongod            # Linux
 4. Check spam folder
 
 ### Port Already in Use
+
+**Docker Deployment:**
 ```bash
-# Find process on port 3000
+# Check if port 5001 is in use
+lsof -i :5001        # macOS/Linux
+netstat -ano | findstr :5001  # Windows
+
+# Stop the container using the port
+docker ps
+docker stop cixio-com-app
+```
+
+**Non-Docker Deployment:**
+```bash
+# Find process on port 3000 (or your configured PORT)
 lsof -i :3000        # macOS/Linux
 netstat -ano | findstr :3000  # Windows
 
