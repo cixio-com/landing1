@@ -1,0 +1,556 @@
+================================================================================
+DEPLOYMENT SYSTEM OVERHAUL - COMPLETE MIGRATION GUIDE
+================================================================================
+
+Use this guide to apply the same deployment improvements to other repositories.
+
+================================================================================
+OVERVIEW OF CHANGES
+================================================================================
+
+This guide updates the deployment system to:
+1. Support both STAGE and PRODUCTION environments via .env configuration
+2. Use safer Docker cleanup (only remove project-specific containers/images)
+3. Simplify file structure (remove backward compatibility)
+4. Fix .env file loading to handle special characters (email with <>)
+5. Align all port configurations with docker-compose.yml
+
+================================================================================
+STEP 1: PORT CONFIGURATION AUDIT
+================================================================================
+
+1.1 Check docker-compose.yml for actual port mapping
+    Example: ports: "5001:80" means external 5001, internal 80
+
+1.2 Update .env.example with correct PORT value
+    Set PORT=80 (the internal Docker port, not external)
+    
+1.3 Add clear comments:
+    # Port Configuration
+    # Docker internal port (don't change unless you modify Dockerfile)
+    PORT=80
+    
+    # External port is mapped in docker-compose.yml: 5001:80
+    # Access application at: http://your-server:5001
+
+1.4 Update all documentation files to reflect correct ports
+
+================================================================================
+STEP 2: ENVIRONMENT CONFIGURATION
+================================================================================
+
+2.1 Update .env.example with deployment configuration:
+
+----BEGIN .env.example ADDITIONS----
+
+# ==============================================================================
+# Deployment Configuration
+# ==============================================================================
+
+# Deployment target: 'stage' or 'production'
+# Set via convenience scripts: deploy-stage.sh or deploy-production.sh
+DEPLOY_TARGET=stage
+
+# ==============================================================================
+# Stage Server Configuration
+# ==============================================================================
+
+STAGE_SERVER_USER=ec2-user
+STAGE_SERVER_IP=172.31.45.88
+STAGE_SERVER_SSH_KEY=~/.ssh/id_ed25519
+STAGE_SERVER_BASE_DIR=/home/ec2-user/PROJECT_NAME/REPO_NAME
+
+# ==============================================================================
+# Production Server Configuration
+# ==============================================================================
+
+PRODUCTION_SERVER_USER=ec2-user
+PRODUCTION_SERVER_IP=172.31.36.168
+PRODUCTION_SERVER_SSH_KEY=~/.ssh/id_ed25519
+PRODUCTION_SERVER_BASE_DIR=/home/ec2-user/PROJECT_NAME/REPO_NAME
+
+# ==============================================================================
+# Email Configuration
+# ==============================================================================
+# IMPORTANT: Use quotes for values with special characters like < > & |
+
+EMAIL_FROM="Project Team <noreply@domain.com>"
+EMAIL_SUPPORT="Support <support@domain.com>"
+
+----END .env.example ADDITIONS----
+
+2.2 Update existing .env file(s) with quotes around email values:
+    Change: EMAIL_FROM=CIXIO <noreply@cixio.com>
+    To:     EMAIL_FROM="Cixio Team <noreply@cixio.com>"
+
+2.3 Fix .env loading in all scripts:
+
+    WRONG WAY (causes errors with special characters):
+    export $(cat .env | xargs)
+    
+    CORRECT WAY:
+    set -o allexport
+    . .env
+    set +o allexport
+
+================================================================================
+STEP 3: CREATE SIMPLIFIED DEPLOYMENT SCRIPTS
+================================================================================
+
+3.1 CREATE: deploy.sh (Main deployment script - runs on JUMP SERVER)
+--------------------------------------------------------------------
+
+Key features:
+- Reads DEPLOY_TARGET from environment (set by convenience scripts)
+- Validates all required configuration variables
+- NO hardcoded defaults (security requirement)
+- Builds Docker images, exports them, transfers to target server
+- Cleans up local environment after deployment
+
+Template structure:
+#!/bin/bash
+set -e  # Exit on any error
+
+# Load .env file
+set -o allexport
+. .env
+set +o allexport
+
+# Validate DEPLOY_TARGET (stage or production)
+DEPLOY_TARGET="${DEPLOY_TARGET:-stage}"
+DEPLOY_TARGET=$(echo "$DEPLOY_TARGET" | tr '[:upper:]' '[:lower:]')
+
+# Set server configuration based on target
+if [ "$DEPLOY_TARGET" == "production" ]; then
+    SERVER_USER="${PRODUCTION_SERVER_USER}"
+    SERVER_IP="${PRODUCTION_SERVER_IP}"
+    SSH_KEY="${PRODUCTION_SERVER_SSH_KEY}"
+    REMOTE_BASE_DIR="${PRODUCTION_SERVER_BASE_DIR}"
+    SERVER_NAME="PRODUCTION"
+elif [ "$DEPLOY_TARGET" == "stage" ]; then
+    SERVER_USER="${STAGE_SERVER_USER}"
+    SERVER_IP="${STAGE_SERVER_IP}"
+    SSH_KEY="${STAGE_SERVER_SSH_KEY}"
+    REMOTE_BASE_DIR="${STAGE_SERVER_BASE_DIR}"
+    SERVER_NAME="STAGE"
+else
+    echo "ERROR: Invalid DEPLOY_TARGET"
+    exit 1
+fi
+
+# Validate required variables (NO DEFAULTS)
+if [ -z "$SERVER_USER" ] || [ -z "$SERVER_IP" ] || [ -z "$SSH_KEY" ] || [ -z "$REMOTE_BASE_DIR" ]; then
+    echo "ERROR: Missing required ${SERVER_NAME} server configuration!"
+    exit 1
+fi
+
+# Rest of deployment logic...
+# 1. Clean up local Docker
+# 2. Reset git and pull latest code
+# 3. Build and export Docker images
+# 4. Copy files to export directory
+# 5. Transfer to target server
+# 6. Clean up local environment
+
+See the actual deploy.sh file in this repository for complete implementation.
+
+--------------------------------------------------------------------
+
+3.2 CREATE: deploy-stage.sh (Convenience script for STAGE)
+--------------------------------------------------------------------
+
+#!/bin/bash
+
+# Convenience script to deploy to STAGE server
+# This sets DEPLOY_TARGET=stage and runs the main deployment script
+
+export DEPLOY_TARGET=stage
+
+echo "=========================================="
+echo "Deploying to STAGE Server"
+echo "=========================================="
+echo ""
+
+# Run the main deployment script
+./deploy.sh
+
+--------------------------------------------------------------------
+
+3.3 CREATE: deploy-production.sh (Convenience script for PRODUCTION)
+--------------------------------------------------------------------
+
+#!/bin/bash
+
+# Convenience script to deploy to PRODUCTION server
+# This sets DEPLOY_TARGET=production and runs the main deployment script
+
+export DEPLOY_TARGET=production
+
+echo "=========================================="
+echo "Deploying to PRODUCTION Server"
+echo "=========================================="
+echo ""
+echo "⚠️  WARNING: You are deploying to PRODUCTION!"
+echo "Press Ctrl+C to cancel, or wait 5 seconds to continue..."
+echo ""
+
+# 5 second safety delay
+for i in 5 4 3 2 1; do
+    echo "Continuing in $i..."
+    sleep 1
+done
+
+echo ""
+echo "Proceeding with PRODUCTION deployment..."
+echo ""
+
+# Run the main deployment script
+./deploy.sh
+
+--------------------------------------------------------------------
+
+3.4 CREATE: deploy-on-server.sh (Runs on TARGET SERVER - stage or production)
+--------------------------------------------------------------------
+
+CRITICAL: This script must use TARGETED cleanup, not remove all Docker resources!
+
+WRONG WAY (removes ALL Docker containers/images on server):
+docker stop $(docker ps -aq)
+docker rm $(docker ps -aq)
+docker rmi -f $(docker images -aq)
+
+CORRECT WAY (only removes project-specific resources):
+
+#!/bin/bash
+
+# Deploy on Server Script
+# This script runs on the TARGET SERVER (stage or production)
+# It loads Docker images and starts containers
+
+set -e
+
+echo "=========================================="
+echo "Starting Deployment on Server"
+echo "=========================================="
+
+# Load environment variables
+set -o allexport
+. .env
+set +o allexport
+
+# Stop and remove ONLY project-specific containers
+echo "Step 1: Stopping existing project containers..."
+docker stop PROJECT-APP-CONTAINER PROJECT-MONGODB-CONTAINER 2>/dev/null || echo "No project containers running"
+docker rm PROJECT-APP-CONTAINER PROJECT-MONGODB-CONTAINER 2>/dev/null || echo "No project containers to remove"
+
+# Remove ONLY project-specific images
+echo "Step 2: Removing old project images..."
+docker rmi PROJECT-APP-IMAGE:latest PROJECT-MONGO-IMAGE:7.0 2>/dev/null || echo "No old images to remove"
+
+# Show ONLY project containers/images
+echo "Project containers before deployment:"
+docker ps -a | grep -E "CONTAINER ID|PROJECT-NAME" || echo "No project containers"
+
+echo "Project images before deployment:"
+docker images | grep -E "REPOSITORY|PROJECT-NAME" || echo "No project images"
+
+# Load new images
+echo "Step 3: Loading Docker images..."
+docker load -i cixio-com-app.tar
+docker load -i cixio-com-mongo.tar
+
+# Start containers
+echo "Step 4: Starting containers with docker-compose..."
+docker-compose up -d
+
+# Verify deployment
+echo "Step 5: Verifying deployment..."
+docker ps | grep -E "CONTAINER ID|PROJECT-NAME"
+
+echo "=========================================="
+echo "Deployment Completed Successfully!"
+echo "=========================================="
+
+**IMPORTANT: Replace these placeholders with your actual project names:**
+- PROJECT-APP-CONTAINER → e.g., cixio-com-app
+- PROJECT-MONGODB-CONTAINER → e.g., cixio-com-mongodb
+- PROJECT-APP-IMAGE → e.g., cixio-com-app
+- PROJECT-MONGO-IMAGE → e.g., cixio-com-mongo
+- PROJECT-NAME → e.g., cixio-com
+
+These names come from your docker-compose.yml file!
+
+================================================================================
+STEP 4: REMOVE OLD FILES
+================================================================================
+
+Delete these files if they exist:
+
+4.1 deploy-to-stage.sh (renamed to deploy.sh)
+4.2 deploy-on-stage.sh (replaced by deploy-on-server.sh)
+4.3 Any other deployment scripts with environment-specific names
+
+Commands:
+rm deploy-to-stage.sh
+rm deploy-on-stage.sh
+
+================================================================================
+STEP 5: UPDATE DOCUMENTATION
+================================================================================
+
+5.1 CREATE: DEPLOYMENT_SIMPLE.md
+--------------------------------------------------------------------
+
+# Simple Deployment Guide
+
+## Files You Need to Know
+
+### On Jump Server (3 files):
+1. **deploy-stage.sh** - Deploy to stage server
+2. **deploy-production.sh** - Deploy to production server  
+3. **deploy.sh** - Main deployment script (called by above)
+
+### On Target Server (1 file):
+1. **deploy-on-server.sh** - Runs on stage/production server to start containers
+
+## Quick Usage
+
+### Deploy to Stage:
+```bash
+./deploy-stage.sh
+```
+
+### Deploy to Production:
+```bash
+./deploy-production.sh
+```
+
+That's it! The scripts handle everything automatically.
+
+## What Happens Behind the Scenes
+
+### Jump Server (deploy.sh):
+1. Builds Docker images
+2. Exports images to files
+3. Copies everything to target server
+4. Cleans up local files
+
+### Target Server (deploy-on-server.sh):
+1. Stops old project containers (only)
+2. Removes old project images (only)
+3. Loads new images
+4. Starts new containers
+
+## Configuration
+
+All settings are in .env file:
+- STAGE_SERVER_IP - Stage server address
+- PRODUCTION_SERVER_IP - Production server address
+- STAGE_SERVER_USER - Stage SSH user
+- PRODUCTION_SERVER_USER - Production SSH user
+- STAGE_SERVER_SSH_KEY - Stage SSH key path
+- PRODUCTION_SERVER_SSH_KEY - Production SSH key path
+
+## That's All!
+
+No need to maintain multiple files or remember complex commands.
+Just run ./deploy-stage.sh or ./deploy-production.sh and you're done.
+
+--------------------------------------------------------------------
+
+5.2 Update existing README.md or DEPLOYMENT.md:
+    - Reference the new deployment scripts
+    - Remove references to old scripts
+    - Update port numbers if changed
+
+================================================================================
+STEP 6: KEY REQUIREMENTS CHECKLIST
+================================================================================
+
+MUST DO:
+☐ No hardcoded server IPs or credentials in any script
+☐ Quote all .env values with special characters: EMAIL_FROM="Name <email@domain.com>"
+☐ Use "set -o allexport; . .env; set +o allexport" for .env loading
+☐ Targeted Docker cleanup (only project containers/images)
+☐ Remove all backward compatibility code
+☐ Validate required variables before deployment (no defaults)
+☐ Generic naming (deploy.sh, deploy-on-server.sh)
+☐ Make all .sh files executable (chmod +x *.sh)
+
+PROJECT-SPECIFIC UPDATES REQUIRED:
+☐ Update container names in deploy-on-server.sh
+☐ Update image names in deploy-on-server.sh
+☐ Update project paths in .env.example
+☐ Update port numbers to match docker-compose.yml
+☐ Update email addresses in .env files
+
+================================================================================
+STEP 7: FINDING PROJECT-SPECIFIC VALUES
+================================================================================
+
+7.1 Container Names:
+    Open docker-compose.yml
+    Look for "container_name:" entries
+    Example:
+        services:
+          app:
+            container_name: cixio-com-app
+          mongo:
+            container_name: cixio-com-mongodb
+
+7.2 Image Names:
+    Open docker-compose.yml
+    Look for "image:" entries
+    Example:
+        services:
+          app:
+            image: cixio-com-app:latest
+          mongo:
+            image: cixio-com-mongo:7.0
+
+7.3 Port Mappings:
+    Open docker-compose.yml
+    Look for "ports:" entries
+    Example:
+        ports:
+          - "5001:80"  # external:internal
+    
+    Then update .env.example:
+        PORT=80  # Use internal port
+
+7.4 Project Base Directory:
+    Determine where you want deployments stored on servers
+    Example:
+        /home/ec2-user/cixio.com/landing1
+        /home/ec2-user/cixio.com/admin-panel
+        /home/ec2-user/cixio.com/api-backend
+
+================================================================================
+STEP 8: TESTING CHECKLIST
+================================================================================
+
+After making all changes, test the following:
+
+8.1 Environment Loading:
+    ☐ Run: bash -c "set -o allexport; . .env; set +o allexport; env | grep EMAIL"
+    ☐ Verify: Email addresses load correctly without errors
+
+8.2 Stage Deployment:
+    ☐ Run: ./deploy-stage.sh
+    ☐ Verify: Script completes without errors
+    ☐ Verify: Files transferred to stage server
+    ☐ SSH to stage server and run: ./deploy-on-server.sh
+    ☐ Verify: Only project containers are affected
+    ☐ Verify: Application starts successfully
+
+8.3 Production Deployment:
+    ☐ Run: ./deploy-production.sh
+    ☐ Verify: 5-second safety delay appears
+    ☐ Verify: Script completes without errors
+    ☐ Verify: Files transferred to production server
+    ☐ SSH to production server and run: ./deploy-on-server.sh
+    ☐ Verify: Only project containers are affected
+    ☐ Verify: Application starts successfully
+
+8.4 Safety Verification:
+    ☐ Check: Other Docker containers on server remain running
+    ☐ Check: Other Docker images on server remain intact
+    ☐ Run: docker ps (should show all containers, not just project)
+
+================================================================================
+STEP 9: COMMON ISSUES AND SOLUTIONS
+================================================================================
+
+9.1 Issue: "export: not a valid identifier" error
+    Cause: Special characters in .env values (< > & |)
+    Solution: Add quotes around the value
+    Example: EMAIL_FROM="Team <email@domain.com>"
+
+9.2 Issue: All Docker containers stopped on server
+    Cause: Using "docker stop $(docker ps -aq)"
+    Solution: Use targeted cleanup with specific container names
+    Example: docker stop project-app project-mongodb
+
+9.3 Issue: Missing required configuration variables
+    Cause: .env file not updated or variables not set
+    Solution: Copy values from .env.example to .env and update
+
+9.4 Issue: SSH connection fails
+    Cause: Incorrect SSH key path or permissions
+    Solution: 
+    - Verify SSH key exists: ls -l ~/.ssh/id_ed25519
+    - Check permissions: chmod 600 ~/.ssh/id_ed25519
+    - Test connection: ssh -i ~/.ssh/id_ed25519 user@server
+
+9.5 Issue: "Permission denied" when running scripts
+    Cause: Scripts not executable
+    Solution: chmod +x *.sh
+
+================================================================================
+STEP 10: REPOSITORY-SPECIFIC CUSTOMIZATION
+================================================================================
+
+For each repository, customize the following:
+
+10.1 Project Names:
+     landing1 → YOUR_PROJECT_NAME
+     cixio-com → YOUR_PROJECT_PREFIX
+
+10.2 Container Names (in deploy-on-server.sh):
+     cixio-com-app → YOUR_APP_CONTAINER
+     cixio-com-mongodb → YOUR_DB_CONTAINER
+
+10.3 Image Names (in deploy-on-server.sh):
+     cixio-com-app:latest → YOUR_APP_IMAGE
+     cixio-com-mongo:7.0 → YOUR_DB_IMAGE
+
+10.4 Base Directories (in .env.example):
+     /home/ec2-user/cixio.com/landing1 → YOUR_PATH
+
+10.5 Email Addresses (in .env files):
+     noreply@cixio.com → YOUR_EMAIL
+     support@cixio.com → YOUR_SUPPORT_EMAIL
+
+10.6 Ports (in .env.example):
+     Check docker-compose.yml for actual ports
+
+================================================================================
+FINAL NOTES
+================================================================================
+
+1. Always test on stage first before deploying to production
+2. Keep a backup of .env files (they contain sensitive data)
+3. Never commit .env files to git (only .env.example)
+4. Document any project-specific deployment steps
+5. Maintain this guide updated with any new changes
+
+================================================================================
+QUICK REFERENCE: File Structure After Migration
+================================================================================
+
+Deployment Scripts (4 files total):
+├── deploy.sh                  # Main script (runs on jump server)
+├── deploy-stage.sh            # Convenience wrapper for stage
+├── deploy-production.sh       # Convenience wrapper for production
+└── deploy-on-server.sh        # Server-side deployment (runs on target)
+
+Configuration:
+├── .env                       # Actual config (git-ignored)
+└── .env.example               # Template (committed to git)
+
+Documentation:
+├── DEPLOYMENT_SIMPLE.md       # Quick guide
+└── DEPLOYMENT_MIGRATION_GUIDE.txt  # This file
+
+Removed (no longer needed):
+✗ deploy-to-stage.sh
+✗ deploy-on-stage.sh
+✗ Any environment-specific scripts
+
+================================================================================
+END OF GUIDE
+================================================================================
+
+Last Updated: February 8, 2026
+Version: 1.0
+Repository: landing1 (reference implementation)
