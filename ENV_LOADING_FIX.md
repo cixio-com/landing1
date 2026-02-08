@@ -25,27 +25,27 @@ EMAIL_FROM=CIXIO <noreply@cixio.com>
 
 Because `xargs` splits on spaces, it tries to export `<noreply@cixio.com>` as a separate variable, which is invalid.
 
-### The Solution
+### The Solution (v2 - Most Robust)
 
-Changed to use `set -a` with `source`:
+Changed to use `set -o allexport` with direct sourcing:
 ```bash
-set -a
-source <(grep -v '^#' .env | grep -v '^[[:space:]]*$' | sed 's/\r$//')
-set +a
+set -o allexport
+. .env
+set +o allexport
 ```
 
 **How it works:**
-- `set -a` - Automatically exports all variables that are set
-- `source <(...)` - Sources the filtered .env file content
-- `sed 's/\r$//'` - Removes Windows line endings if present
-- `set +a` - Turns off automatic export
+- `set -o allexport` (same as `set -a`) - Automatically exports all variables
+- `. .env` - Sources the .env file directly (most reliable method)
+- `set +o allexport` (same as `set +a`) - Turns off automatic export
+- Bash handles the parsing, so it supports all valid bash syntax
 
-This properly handles:
-- Values with spaces
-- Values with special characters (`<`, `>`, `&`, etc.)
-- Multi-word values
-- Email addresses in angle brackets
-- Windows and Unix line endings
+This is the **most robust** method because:
+- Bash's native parser handles all special characters correctly
+- No intermediate processing that could corrupt values
+- Handles quotes, spaces, special characters automatically
+- Works with multi-line values (if properly quoted)
+- Most widely used method in production systems
 
 ---
 

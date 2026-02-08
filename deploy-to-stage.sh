@@ -13,10 +13,11 @@ echo "=========================================="
 # Load environment variables from .env file
 if [ -f .env ]; then
     echo "Loading configuration from .env file..."
-    # Use set -a to automatically export variables, avoiding xargs issues with special characters
-    set -a
-    source <(grep -v '^#' .env | grep -v '^[[:space:]]*$' | sed 's/\r$//')
-    set +a
+    # Use a robust method to load .env file that handles special characters
+    set -o allexport
+    # shellcheck disable=SC1091
+    . .env
+    set +o allexport
 else
     echo "WARNING: .env file not found. Using default values."
 fi
