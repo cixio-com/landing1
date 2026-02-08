@@ -10,7 +10,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: changeme123
       MONGO_INITDB_DATABASE: cixio
     ports:
-      - "27017:27017"
+      - "127.0.0.1:27017:27017"  # Bind to localhost only - not exposed externally
     volumes:
       - mongo-data:/data/db
       - mongo-config:/data/configdb
@@ -37,7 +37,7 @@ services:
       NODE_ENV: production
       MONGODB_URI: mongodb://admin:changeme123@mongo:27017/cixio?authSource=admin
     ports:
-      - "80:80"
+      - "5001:80"  # Multi-app deployment: unique host port
     volumes:
       - ./uploads:/app/uploads
     depends_on:
