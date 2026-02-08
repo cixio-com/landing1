@@ -320,6 +320,8 @@ mongosh mongodb://localhost:27017/cixio
 |----------------|----------|--------------|------------|
 | Docker (Current) | 5001→80 | 127.0.0.1:27017 | http://localhost:5001 |
 | Development | 3000 | 27017 | http://localhost:3000 |
+| Stage Server | 5001→80 | 127.0.0.1:27017 | http://172.31.45.88:5001 |
+| Production Server | 5001→80 | 127.0.0.1:27017 | http://172.31.36.168:5001 |
 | Production (Nginx) | 5001→80 or 3000 | 27017 | https://www.cixio.com |
 
 ---
