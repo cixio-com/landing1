@@ -139,9 +139,8 @@ cp .env ${EXPORT_DIR}/.env
 echo "Copying docker-compose.yml..."
 cp docker-compose.yml ${EXPORT_DIR}/docker-compose.yml
 
-echo "Copying deploy-on-stage.sh..."
-cp deploy-on-stage.sh ${EXPORT_DIR}/deploy-on-stage.sh
-chmod +x ${EXPORT_DIR}/deploy-on-stage.sh
+echo "Copying deploy-on-server.sh..."
+cp deploy-on-server.sh ${EXPORT_DIR}/deploy-on-server.sh
 
 echo "All required files are now in ${EXPORT_DIR}/"
 ls -lh ${EXPORT_DIR}/
@@ -195,8 +194,8 @@ echo ""
 echo "Next steps:"
 echo "1. SSH to ${SERVER_NAME} server: ssh -i ${SSH_KEY} ${TARGET_SERVER}"
 echo "2. Navigate to: cd ${REMOTE_DIR}/${EXPORT_DIR}"
-echo "3. Run deployment: ./deploy-on-stage.sh"
+echo "3. Run deployment: ./deploy-on-server.sh"
 echo ""
 echo "Or run directly from jump server:"
-echo "ssh -i ${SSH_KEY} ${TARGET_SERVER} 'cd ${REMOTE_DIR}/${EXPORT_DIR} && chmod +x deploy-on-stage.sh && ./deploy-on-stage.sh'"
+echo "ssh -i ${SSH_KEY} ${TARGET_SERVER} 'cd ${REMOTE_DIR}/${EXPORT_DIR} && ./deploy-on-server.sh'"
 echo ""

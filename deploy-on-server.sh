@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Deploy on Stage Server Script
-# This script runs on the STAGE SERVER
-# It stops existing containers, loads new Docker images, and starts services
+# Deploy on Server Script (Stage or Production)
+# This script runs on the TARGET SERVER (Stage or Production)
+# It stops existing CIXIO containers, loads new Docker images, and starts services
 
 set -e  # Exit on any error
 
 echo "=========================================="
-echo "Starting Deployment on Stage Server"
+echo "Starting Deployment on Server"
 echo "=========================================="
 
 # Get the current directory (should be inside docker-images-export)
@@ -37,24 +37,30 @@ fi
 
 echo "Found ${TAR_FILES} Docker image tar file(s)"
 
-echo "Step 1: Stopping existing Docker containers..."
+echo "Step 1: Stopping CIXIO Docker containers (if running)..."
 echo "----------------------------------------"
-docker stop $(docker ps -aq) 2>/dev/null || echo "No running containers to stop"
+docker stop cixio-com-app 2>/dev/null || echo "cixio-com-app container not running"
+docker stop cixio-com-mongodb 2>/dev/null || echo "cixio-com-mongodb container not running"
 
 echo ""
-echo "Step 2: Removing existing Docker containers..."
+echo "Step 2: Removing CIXIO Docker containers (if exist)..."
 echo "----------------------------------------"
-docker rm $(docker ps -aq) 2>/dev/null || echo "No containers to remove"
+docker rm cixio-com-app 2>/dev/null || echo "cixio-com-app container does not exist"
+docker rm cixio-com-mongodb 2>/dev/null || echo "cixio-com-mongodb container does not exist"
 
 echo ""
-echo "Step 3: Removing existing Docker images..."
+echo "Step 3: Removing CIXIO Docker images (if exist)..."
 echo "----------------------------------------"
-docker rmi -f $(docker images -aq) 2>/dev/null || echo "No images to remove"
+docker rmi cixio-com-app:latest 2>/dev/null || echo "cixio-com-app:latest image does not exist"
+docker rmi cixio-com-mongo:7.0 2>/dev/null || echo "cixio-com-mongo:7.0 image does not exist"
 
 echo ""
 echo "Docker status after cleanup:"
-docker images -a
-docker ps -a
+echo "CIXIO containers:"
+docker ps -a | grep cixio-com || echo "No CIXIO containers found"
+echo ""
+echo "CIXIO images:"
+docker images | grep cixio-com || echo "No CIXIO images found"
 
 echo ""
 echo "Step 4: Loading Docker images from tar files..."
@@ -77,7 +83,7 @@ echo "All Docker images loaded successfully!"
 
 echo ""
 echo "Docker images after loading:"
-docker images -a
+docker images | grep cixio-com
 
 echo ""
 echo "Step 5: Starting Docker containers with docker-compose..."
@@ -92,8 +98,8 @@ fi
 echo ""
 echo "Step 6: Verifying deployment..."
 echo "----------------------------------------"
-echo "Running containers:"
-docker ps
+echo "Running CIXIO containers:"
+docker ps | grep cixio-com
 
 echo ""
 echo "Container logs (last 20 lines):"
@@ -101,7 +107,7 @@ docker-compose logs --tail=20
 
 echo ""
 echo "=========================================="
-echo "Deployment on Stage Server COMPLETED!"
+echo "Deployment on Server COMPLETED!"
 echo "=========================================="
 echo ""
 echo "Useful commands:"
@@ -109,4 +115,6 @@ echo "  View logs: docker-compose logs -f"
 echo "  Check status: docker-compose ps"
 echo "  Stop services: docker-compose down"
 echo "  Restart services: docker-compose restart"
+echo "  Check CIXIO containers: docker ps | grep cixio-com"
+echo "  Check CIXIO images: docker images | grep cixio-com"
 echo ""
