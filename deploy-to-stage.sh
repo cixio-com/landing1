@@ -13,7 +13,10 @@ echo "=========================================="
 # Load environment variables from .env file
 if [ -f .env ]; then
     echo "Loading configuration from .env file..."
-    export $(grep -v '^#' .env | grep -v '^[[:space:]]*$' | xargs)
+    # Use set -a to automatically export variables, avoiding xargs issues with special characters
+    set -a
+    source <(grep -v '^#' .env | grep -v '^[[:space:]]*$' | sed 's/\r$//')
+    set +a
 else
     echo "WARNING: .env file not found. Using default values."
 fi
