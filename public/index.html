@@ -7,8 +7,12 @@
     <meta name="keywords" content="AI, Machine Learning, Data Privacy, Encryption, Healthcare Software, E-commerce Platform">
     <title>CIXIO - Advanced AI Software Solutions</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/modern-enhancements.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Optimized for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Updated styles for unselected buttons to ensure visibility -->
     <style>
         .btn-outline {
@@ -24,6 +28,17 @@
     </style>
 </head>
 <body>
+    <!-- Page Loader -->
+    <div class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <p class="loader-text">Loading Amazing Experience...</p>
+        </div>
+    </div>
+    
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress"></div>
+    
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="container">
@@ -97,20 +112,20 @@
     <!-- About Section -->
     <section id="about" class="about section">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header animate-on-scroll">
                 <h2 class="section-title">About CIXIO</h2>
                 <p class="section-subtitle">Innovating Tomorrow's Enterprise, Driven by AI</p>
             </div>
             <div class="about-content">
-                <div class="about-item">
+                <div class="about-item animate-on-scroll">
                     <h3><i class="fas fa-bullseye"></i> Our Mission</h3>
                     <p>To empower businesses with cutting-edge AI and ML solutions, delivering secure, scalable software that drives innovation and growth in the digital era.</p>
                 </div>
-                <div class="about-item">
+                <div class="about-item animate-on-scroll">
                     <h3><i class="fas fa-star"></i> Our Vision</h3>
                     <p>To be the global leader in enterprise AI software, recognized for our commitment to excellence, innovation, sustainability, and transforming how businesses operate.</p>
                 </div>
-                <div class="about-item">
+                <div class="about-item animate-on-scroll">
                     <h3><i class="fas fa-heart"></i> Our Values</h3>
                     <p>Excellence in delivery, Innovation at heart, Security by design, Transparency in communication, and Client success as our priority.</p>
                 </div>
@@ -702,6 +717,8 @@
     <script src="js/forms.js"></script>
     <!-- Load main application script -->
     <script src="js/main.js"></script>
+    <!-- Load modern UI/UX enhancements -->
+    <script src="js/modern-effects.js"></script>
     <!-- Enhanced JavaScript to toggle button colors dynamically -->
     <script>
         const pricingData = {
@@ -748,5 +765,10 @@
         // Initialize with yearly pricing
         updatePricing('yearly');
     </script>
+    
+    <!-- Back to Top Button -->
+    <button class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 </body>
 </html>
