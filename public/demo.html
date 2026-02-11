@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIXIO - UI/UX Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0A0E27 0%, #1A1F3A 100%);
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #0066FF 0%, #00D9FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientFlow 3s ease infinite;
+            background-size: 200% 200%;
+        }
+        
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin: 40px 0 20px;
+            color: #00D9FF;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 102, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 217, 255, 0.3);
+        }
+        
+        .card:hover::before {
+            top: -10%;
+            left: -10%;
+        }
+        
+        .icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #0066FF, #00D9FF);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 28px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #0066FF, #00D9FF);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 102, 255, 0.3);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 0 30px rgba(0, 102, 255, 0.5),
+                0 0 60px rgba(0, 217, 255, 0.3);
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-5px) scale(1.05);
+        }
+        
+        .stat-item h3 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #00D9FF, #0066FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(0, 217, 255, 0.5);
+            border-radius: 50%;
+            animation: particleFloat 15s linear infinite;
+        }
+        
+        @keyframes particleFloat {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
+        }
+        
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.5), transparent);
+            margin: 60px 0;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="demo-container">
+        <h1>✨ CIXIO - Modern UI/UX Transformation</h1>
+        <p style="font-size: 1.2rem; color: rgba(255,255,255,0.8); margin-bottom: 30px;">
+            A showcase of cutting-edge design elements and interactions
+        </p>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <h3>100+</h3>
+                <p>Projects Delivered</p>
+            </div>
+            <div class="stat-item">
+                <h3>12+</h3>
+                <p>Years Experience</p>
+            </div>
+            <div class="stat-item">
+                <h3>99.9%</h3>
+                <p>Uptime SLA</p>
+            </div>
+            <div class="stat-item">
+                <h3>24/7</h3>
+                <p>Support</p>
+            </div>
+        </div>
+        
+        <h2>🎨 Key Features</h2>
+        <div class="feature-grid">
+            <div class="card">
+                <div class="icon">🚀</div>
+                <h3 style="margin-bottom: 10px;">Glassmorphism Design</h3>
+                <p style="color: rgba(255,255,255,0.8);">Modern frosted-glass effects with backdrop blur for a premium feel</p>
+            </div>
+            
+            <div class="card">
+                <div class="icon">✨</div>
+                <h3 style="margin-bottom: 10px;">Smooth Animations</h3>
+                <p style="color: rgba(255,255,255,0.8);">60 FPS animations with GPU acceleration for buttery-smooth transitions</p>
+            </div>
+            
+            <div class="card">
+                <div class="icon">📱</div>
+                <h3 style="margin-bottom: 10px;">Mobile-First Design</h3>
+                <p style="color: rgba(255,255,255,0.8);">Fully responsive with optimized performance for mobile devices</p>
+            </div>
+            
+            <div class="card">
+                <div class="icon">🎯</div>
+                <h3 style="margin-bottom: 10px;">3D Card Effects</h3>
+                <p style="color: rgba(255,255,255,0.8);">Interactive hover states with depth and perspective transformations</p>
+            </div>
+            
+            <div class="card">
+                <div class="icon">💫</div>
+                <h3 style="margin-bottom: 10px;">Gradient Animations</h3>
+                <p style="color: rgba(255,255,255,0.8);">Flowing animated gradients that bring the design to life</p>
+            </div>
+            
+            <div class="card">
+                <div class="icon">⚡</div>
+                <h3 style="margin-bottom: 10px;">Performance Optimized</h3>
+                <p style="color: rgba(255,255,255,0.8);">Lazy loading, debouncing, and RAF for optimal performance</p>
+            </div>
+        </div>
+        
+        <div class="section-divider"></div>
+        
+        <h2>💎 Premium Interactions</h2>
+        <p style="margin: 20px 0; color: rgba(255,255,255,0.8);">Experience our enhanced buttons with neon glow effects:</p>
+        
+        <div style="display: flex; gap: 20px; flex-wrap: wrap; margin: 30px 0;">
+            <button class="btn">
+                <span>🚀</span>
+                <span>Get Started</span>
+            </button>
+            <button class="btn">
+                <span>📞</span>
+                <span>Contact Sales</span>
+            </button>
+            <button class="btn">
+                <span>📖</span>
+                <span>View Documentation</span>
+            </button>
+        </div>
+        
+        <div class="section-divider"></div>
+        
+        <h2>🎉 The "Wow Factor" Elements</h2>
+        <ul style="list-style: none; padding: 0; color: rgba(255,255,255,0.9); line-height: 2;">
+            <li>✅ Animated particle background system</li>
+            <li>✅ Glassmorphism cards with backdrop blur</li>
+            <li>✅ 3D card tilting on mouse movement</li>
+            <li>✅ Neon glow effects on CTAs</li>
+            <li>✅ Scroll progress indicator</li>
+            <li>✅ Magnetic button effects</li>
+            <li>✅ Ripple click animations</li>
+            <li>✅ Floating icon animations</li>
+            <li>✅ Smooth page loader</li>
+            <li>✅ Staggered entrance animations</li>
+        </ul>
+        
+        <div class="section-divider"></div>
+        
+        <div style="text-align: center; padding: 40px 0;">
+            <h2 style="margin-bottom: 20px;">🌟 World-Class Design Delivered</h2>
+            <p style="font-size: 1.1rem; color: rgba(255,255,255,0.8); max-width: 800px; margin: 0 auto 30px;">
+                The CIXIO landing page has been transformed into a cutting-edge digital experience that combines modern aesthetics with exceptional performance and usability.
+            </p>
+            <button class="btn" style="font-size: 18px; padding: 18px 40px;">
+                <span>🎨</span>
+                <span>View Full Site</span>
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // Create particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+        
+        // Add 3D tilt effect to cards
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px) scale(1.02)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0) scale(1)';
+            });
+        });
+        
+        // Add ripple effect to buttons
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const rect = this.getBoundingClientRect();
+                const ripple = document.createElement('span');
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.5);
+                    left: ${x}px;
+                    top: ${y}px;
+                    transform: scale(0);
+                    animation: ripple 0.6s ease-out;
+                    pointer-events: none;
+                `;
+                
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes ripple {
+                        to {
+                            transform: scale(4);
+                            opacity: 0;
+                        }
+                    }
+                `;
+                if (!document.querySelector('#ripple-style')) {
+                    style.id = 'ripple-style';
+                    document.head.appendChild(style);
+                }
+                
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+        
+        console.log('%c🎨 CIXIO UI/UX Demo', 'color: #00D9FF; font-size: 20px; font-weight: bold;');
+        console.log('%cModern design with cutting-edge effects!', 'color: #0066FF; font-size: 14px;');
+    </script>
+</body>
+</html>

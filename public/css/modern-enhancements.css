@@ -835,3 +835,284 @@ textarea:focus {
     opacity: 1;
     transform: translateY(0);
 }
+
+/* ===== Additional Advanced Effects ===== */
+
+/* Neon glow effect for CTAs */
+.btn-primary {
+    position: relative;
+    box-shadow: 
+        0 0 20px rgba(0, 102, 255, 0.3),
+        0 0 40px rgba(0, 217, 255, 0.2),
+        inset 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary:hover {
+    box-shadow: 
+        0 0 30px rgba(0, 102, 255, 0.5),
+        0 0 60px rgba(0, 217, 255, 0.3),
+        0 0 90px rgba(0, 102, 255, 0.2),
+        inset 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+/* Enhanced section transitions */
+.section {
+    position: relative;
+}
+
+.section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 102, 255, 0.3), transparent);
+}
+
+/* Improved service card interactions */
+.service-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 1) 100%);
+}
+
+.service-card:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(248, 249, 250, 1) 100%);
+}
+
+/* Card shine effect */
+.service-card::after,
+.product-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    bottom: -50%;
+    left: -50%;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.03) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotateZ(45deg) translate(0, -100%);
+    transition: transform 0.6s ease;
+}
+
+.service-card:hover::after,
+.product-card:hover::after {
+    transform: rotateZ(45deg) translate(0, 100%);
+}
+
+/* Text selection styling */
+::selection {
+    background: rgba(0, 217, 255, 0.3);
+    color: var(--dark);
+}
+
+::-moz-selection {
+    background: rgba(0, 217, 255, 0.3);
+    color: var(--dark);
+}
+
+/* Smooth transitions for all interactive elements */
+a, button, input, textarea, select {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enhanced focus states */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid rgba(0, 217, 255, 0.5);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px rgba(0, 217, 255, 0.1);
+}
+
+/* Improved newsletter section */
+.newsletter {
+    position: relative;
+    overflow: hidden;
+}
+
+.newsletter::after {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background: 
+        radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: float 20s linear infinite;
+}
+
+.newsletter-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* Enhanced stat items with counter animation */
+.stat-item h3 {
+    font-variant-numeric: tabular-nums;
+    will-change: contents;
+}
+
+/* Improved modal backdrop */
+.modal {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.modal.active .modal-content {
+    animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Enhanced footer with subtle animation */
+.footer {
+    position: relative;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(0, 102, 255, 0.5), 
+        rgba(0, 217, 255, 0.5), 
+        transparent
+    );
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+}
+
+/* Improved form inputs with modern styling */
+.form-group input,
+.form-group textarea {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    background: rgba(255, 255, 255, 1);
+    border-color: var(--primary-color);
+    box-shadow: 
+        0 0 0 4px rgba(0, 102, 255, 0.1),
+        0 8px 25px rgba(0, 102, 255, 0.15);
+}
+
+/* Loading skeleton for better perceived performance */
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        rgba(248, 249, 250, 1) 0%,
+        rgba(239, 239, 239, 1) 50%,
+        rgba(248, 249, 250, 1) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Enhanced pricing card featured effect */
+.pricing-card.featured {
+    position: relative;
+    overflow: visible;
+}
+
+.pricing-card.featured::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #0066FF, #00D9FF, #0066FF);
+    background-size: 200% 200%;
+    border-radius: inherit;
+    z-index: -1;
+    animation: gradientFlow 3s ease infinite;
+}
+
+/* Improved social links with hover effects */
+.social-links a,
+.footer-social a {
+    background: linear-gradient(135deg, #0066FF, #00D9FF);
+}
+
+.social-links a:hover,
+.footer-social a:hover {
+    background: linear-gradient(135deg, #00D9FF, #0066FF);
+    box-shadow: 0 10px 30px rgba(0, 217, 255, 0.4);
+}
+
+/* Enhanced About section cards */
+.about-item {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
+    backdrop-filter: blur(10px);
+}
+
+.about-item:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(248, 249, 250, 1) 100%);
+}
+
+/* Performance: GPU acceleration for animated elements */
+.service-card,
+.product-card,
+.feature-card,
+.pricing-card,
+.btn,
+.hero-stats {
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+/* Dark theme compatibility (optional future enhancement) */
+@media (prefers-color-scheme: dark) {
+    /* Uncomment to enable automatic dark mode
+    :root {
+        --dark: #F8F9FA;
+        --light: #0A0E27;
+        --white: #1A1F3A;
+    }
+    */
+}
+
+/* Print styles */
+@media print {
+    .navbar,
+    .back-to-top,
+    .scroll-progress,
+    .page-loader,
+    .modal,
+    .btn {
+        display: none !important;
+    }
+    
+    .hero-background::after {
+        display: none;
+    }
+    
+    .section {
+        page-break-inside: avoid;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .btn-primary,
+    .btn-outline {
+        border-width: 3px;
+    }
+    
+    .service-card,
+    .product-card,
+    .pricing-card {
+        border: 2px solid var(--primary-color);
+    }
+}
