@@ -422,24 +422,26 @@ function debounce(func, wait) {
 
 const handleResize = debounce(() => {
     // Re-calculate positions or layouts if needed
-    console.log('Window resized');
+    // Removed console.log for production
 }, 250);
 
 window.addEventListener('resize', handleResize);
 
 // ===== Add Intersection Observer for All Cards =====
 const cardObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry, index) => {
+    entries.forEach((entry) => {
         if (entry.isIntersecting) {
+            const cardIndex = parseInt(entry.target.dataset.cardIndex || '0');
             setTimeout(() => {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
-            }, index * 100);
+            }, cardIndex * 100);
         }
     });
 }, { threshold: 0.1 });
 
-document.querySelectorAll('.service-card, .product-card, .feature-card').forEach(card => {
+document.querySelectorAll('.service-card, .product-card, .feature-card').forEach((card, index) => {
+    card.dataset.cardIndex = index;
     card.style.opacity = '0';
     card.style.transform = 'translateY(30px)';
     card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
