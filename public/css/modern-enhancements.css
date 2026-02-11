@@ -144,10 +144,11 @@ body {
     transform: scale(1.05) rotate(2deg);
 }
 
-/* ===== Modernized Hero Section ===== */
+/* ===== Enhanced Hero Section ===== */
 .hero {
     position: relative;
     overflow: hidden;
+    min-height: 100vh;
 }
 
 .hero-background {
@@ -172,39 +173,71 @@ body {
     animation: particles 20s ease-in-out infinite;
 }
 
+/* Add pulsing glow effect to hero-overlay */
+.hero-overlay {
+    animation: float 8s ease-in-out infinite;
+}
+
 .hero-content {
     animation: slideInUp 1s ease-out;
+    position: relative;
+    z-index: 10;
 }
 
 .hero-title {
     animation: slideInUp 1s ease-out 0.2s both;
     text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+/* Enhanced gradient text with glow */
+.gradient-text {
+    background: linear-gradient(135deg, #0066FF 0%, #00D9FF 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientFlow 3s ease infinite;
+    text-shadow: none;
+    filter: drop-shadow(0 0 20px rgba(0, 217, 255, 0.3));
 }
 
 .hero-subtitle {
     animation: slideInUp 1s ease-out 0.4s both;
+    font-size: 1.3rem;
+    line-height: 1.8;
 }
 
 .hero-cta {
     animation: slideInUp 1s ease-out 0.6s both;
+    gap: var(--spacing-lg);
 }
 
 .hero-stats {
     animation: slideInUp 1s ease-out 0.8s both;
     border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
 .hero-stats .stat-item {
     transition: all 0.3s ease;
     cursor: pointer;
+    padding: var(--spacing-md);
 }
 
 .hero-stats .stat-item:hover {
     transform: translateY(-5px) scale(1.05);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-md);
 }
 
 .hero-stats .stat-item h3 {
     animation: pulse 2s ease-in-out infinite;
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, #00D9FF, #0066FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 /* ===== Enhanced Buttons ===== */
@@ -612,6 +645,34 @@ button:active, .btn:active {
 
 /* ===== Mobile Optimizations ===== */
 @media (max-width: 768px) {
+    .hero {
+        min-height: 90vh;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+    
+    .hero-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-sm);
+        padding: var(--spacing-md);
+    }
+    
+    .hero-stats .stat-item h3 {
+        font-size: 1.8rem;
+    }
+    
+    .hero-stats .stat-item p {
+        font-size: 0.85rem;
+    }
+    
     .hero-background::after {
         background-size: 100% 100%;
     }
@@ -630,6 +691,63 @@ button:active, .btn:active {
     .service-icon i,
     .feature-icon i {
         animation: none;
+    }
+    
+    /* Better button sizing on mobile */
+    .btn-lg {
+        padding: 0.85rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    .hero-cta {
+        gap: var(--spacing-md);
+    }
+    
+    /* Optimize card hover effects for mobile */
+    .service-card:hover,
+    .product-card:hover,
+    .pricing-card:hover {
+        transform: translateY(-5px) scale(1.01);
+    }
+}
+
+@media (max-width: 576px) {
+    .hero {
+        min-height: 85vh;
+        padding-top: 70px;
+    }
+    
+    .hero-title {
+        font-size: 1.75rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.95rem;
+    }
+    
+    .hero-cta {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .hero-cta .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .back-to-top {
+        width: 45px;
+        height: 45px;
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1rem;
     }
 }
 
