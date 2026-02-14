@@ -7,9 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### 📝 Documentation
+### � Fixed
+- **build-and-export-images.sh** - Skip MongoDB image build/export for Stage deployments
+- **deploy-on-server.sh** - Conditionally handle MongoDB based on deployment target
+
+### �📝 Documentation
 - Centralized all detailed documentation to CIXIO-DOCUMENTS repository
 - Maintained README.md in main repository for quick reference
+
+---
+
+## [2.1.1] - 2026-02-14
+
+### 🐛 Fixed
+- **Deployment Optimization**: Stage deployments no longer build/export MongoDB image
+  - MongoDB is only built for Production (local containers)
+  - Stage uses remote MongoDB server (172.31.33.96)
+  - Reduces Stage deployment package size by ~840MB
+  - Faster Stage deployments (no unnecessary MongoDB image transfer)
+
+### 🔄 Changed
+- **build-and-export-images.sh**:
+  - Checks `DEPLOY_TARGET` environment variable
+  - Skips MongoDB pull/tag/export for Stage deployments
+  - Only includes MongoDB for Production deployments
+  
+- **deploy-on-server.sh**:
+  - Conditionally loads MongoDB image (only if tar file exists)
+  - Cleanup steps now environment-aware (skip MongoDB cleanup for Stage)
+  - Improved logging to show why MongoDB is skipped
+
+### 📊 Impact
+- **Stage Deployment**: ~840MB smaller, faster transfers
+- **Production Deployment**: No change, still includes MongoDB
 
 ---
 
