@@ -136,8 +136,33 @@ echo "----------------------------------------"
 echo "Copying .env file..."
 cp .env ${EXPORT_DIR}/.env
 
-echo "Copying docker-compose.yml..."
-cp docker-compose.yml ${EXPORT_DIR}/docker-compose.yml
+# Determine which docker-compose file to copy based on DEPLOY_TARGET
+echo "Copying docker-compose files..."
+if [ "$DEPLOY_TARGET" = "stage" ]; then
+    # Copy stage-specific compose file as docker-compose.yml
+    if [ -f "docker-compose.stage.yml" ]; then
+        cp docker-compose.stage.yml ${EXPORT_DIR}/docker-compose.stage.yml
+        cp docker-compose.stage.yml ${EXPORT_DIR}/docker-compose.yml
+        echo "  ✓ Copied docker-compose.stage.yml (for Stage deployment)"
+    else
+        cp docker-compose.yml ${EXPORT_DIR}/docker-compose.yml
+        echo "  ⚠ docker-compose.stage.yml not found, using default docker-compose.yml"
+    fi
+elif [ "$DEPLOY_TARGET" = "production" ]; then
+    # Copy production-specific compose file as docker-compose.yml
+    if [ -f "docker-compose.production.yml" ]; then
+        cp docker-compose.production.yml ${EXPORT_DIR}/docker-compose.production.yml
+        cp docker-compose.production.yml ${EXPORT_DIR}/docker-compose.yml
+        echo "  ✓ Copied docker-compose.production.yml (for Production deployment)"
+    else
+        cp docker-compose.yml ${EXPORT_DIR}/docker-compose.yml
+        echo "  ⚠ docker-compose.production.yml not found, using default docker-compose.yml"
+    fi
+else
+    # Fallback: copy default
+    cp docker-compose.yml ${EXPORT_DIR}/docker-compose.yml
+    echo "  ✓ Copied docker-compose.yml"
+fi
 
 echo "Copying deploy-on-server.sh..."
 cp deploy-on-server.sh ${EXPORT_DIR}/deploy-on-server.sh
