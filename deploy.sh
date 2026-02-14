@@ -34,15 +34,11 @@ echo "----------------------------------------"
 
 # Set server configuration based on target
 if [ "$DEPLOY_TARGET" == "production" ]; then
-    SERVER_USER="${PRODUCTION_SERVER_USER}"
-    SERVER_IP="${PRODUCTION_SERVER_IP}"
-    SSH_KEY="${PRODUCTION_SERVER_SSH_KEY}"
+    SSH_HOST="${PRODUCTION_SERVER_SSH_HOST:-cixio-production-server}"
     REMOTE_BASE_DIR="${PRODUCTION_SERVER_BASE_DIR}"
     SERVER_NAME="PRODUCTION"
 elif [ "$DEPLOY_TARGET" == "stage" ]; then
-    SERVER_USER="${STAGE_SERVER_USER}"
-    SERVER_IP="${STAGE_SERVER_IP}"
-    SSH_KEY="${STAGE_SERVER_SSH_KEY}"
+    SSH_HOST="${STAGE_SERVER_SSH_HOST:-cixio-stage-server}"
     REMOTE_BASE_DIR="${STAGE_SERVER_BASE_DIR}"
     SERVER_NAME="STAGE"
 else
@@ -51,44 +47,35 @@ else
 fi
 
 # Validate required configuration
-if [ -z "$SERVER_USER" ] || [ -z "$SERVER_IP" ] || [ -z "$SSH_KEY" ] || [ -z "$REMOTE_BASE_DIR" ]; then
+if [ -z "$SSH_HOST" ] || [ -z "$REMOTE_BASE_DIR" ]; then
     echo ""
     echo "ERROR: Missing required ${SERVER_NAME} server configuration!"
     echo "Please ensure the following variables are set in your .env file:"
     echo ""
     if [ "$DEPLOY_TARGET" == "production" ]; then
-        echo "  PRODUCTION_SERVER_USER"
-        echo "  PRODUCTION_SERVER_IP"
-        echo "  PRODUCTION_SERVER_SSH_KEY"
+        echo "  PRODUCTION_SERVER_SSH_HOST (default: cixio-production-server)"
         echo "  PRODUCTION_SERVER_BASE_DIR"
     else
-        echo "  STAGE_SERVER_USER"
-        echo "  STAGE_SERVER_IP"
-        echo "  STAGE_SERVER_SSH_KEY"
+        echo "  STAGE_SERVER_SSH_HOST (default: cixio-stage-server)"
         echo "  STAGE_SERVER_BASE_DIR"
     fi
     echo ""
     echo "Example .env configuration:"
     if [ "$DEPLOY_TARGET" == "production" ]; then
-        echo "  PRODUCTION_SERVER_USER=ec2-user"
-        echo "  PRODUCTION_SERVER_IP=172.31.36.168"
-        echo "  PRODUCTION_SERVER_SSH_KEY=~/.ssh/id_ed25519"
+        echo "  PRODUCTION_SERVER_SSH_HOST=cixio-production-server  # Uses ~/.ssh/config"
         echo "  PRODUCTION_SERVER_BASE_DIR=/home/ec2-user/cixio.com/landing1"
     else
-        echo "  STAGE_SERVER_USER=ec2-user"
-        echo "  STAGE_SERVER_IP=172.31.45.88"
-        echo "  STAGE_SERVER_SSH_KEY=~/.ssh/id_ed25519"
+        echo "  STAGE_SERVER_SSH_HOST=cixio-stage-server  # Uses ~/.ssh/config"
         echo "  STAGE_SERVER_BASE_DIR=/home/ec2-user/cixio.com/landing1"
     fi
+    echo ""
+    echo "Make sure your ~/.ssh/config has an entry for: ${SSH_HOST}"
     echo ""
     exit 1
 fi
 
-TARGET_SERVER="${SERVER_USER}@${SERVER_IP}"
-
 echo "Target Server: ${SERVER_NAME}"
-echo "Server Address: ${TARGET_SERVER}"
-echo "SSH Key: ${SSH_KEY}"
+echo "SSH Host: ${SSH_HOST}"
 echo "Remote Directory: ${REMOTE_BASE_DIR}"
 echo ""
 
@@ -173,10 +160,10 @@ ls -lh ${EXPORT_DIR}/
 echo ""
 echo "Step 4: Creating base directory on ${SERVER_NAME} server if it doesn't exist..."
 echo "----------------------------------------"
-ssh -i ${SSH_KEY} ${TARGET_SERVER} "mkdir -p ${REMOTE_BASE_DIR}"
+ssh ${SSH_HOST} "mkdir -p ${REMOTE_BASE_DIR}"
 
 # Check if directory already exists and has deployments
-if ssh -i ${SSH_KEY} ${TARGET_SERVER} "[ -d ${REMOTE_BASE_DIR} ] && [ \$(ls -A ${REMOTE_BASE_DIR} 2>/dev/null | wc -l) -gt 0 ]"; then
+if ssh ${SSH_HOST} "[ -d ${REMOTE_BASE_DIR} ] && [ \$(ls -A ${REMOTE_BASE_DIR} 2>/dev/null | wc -l) -gt 0 ]"; then
     echo "Base directory exists with previous deployments"
 else
     echo "Base directory created (new installation)"
@@ -185,27 +172,27 @@ fi
 echo ""
 echo "Step 5: Checking disk space on ${SERVER_NAME} server..."
 echo "----------------------------------------"
-ssh -i ${SSH_KEY} ${TARGET_SERVER} "df -h ${REMOTE_BASE_DIR}"
+ssh ${SSH_HOST} "df -h ${REMOTE_BASE_DIR}"
 
 echo ""
 echo "Step 6: Cleaning up old deployments on ${SERVER_NAME} server (keeping last 3)..."
 echo "----------------------------------------"
-ssh -i ${SSH_KEY} ${TARGET_SERVER} "cd ${REMOTE_BASE_DIR} && ls -t 2>/dev/null | tail -n +4 | xargs -r rm -rf" || echo "No old deployments to clean"
+ssh ${SSH_HOST} "cd ${REMOTE_BASE_DIR} && ls -t 2>/dev/null | tail -n +4 | xargs -r rm -rf" || echo "No old deployments to clean"
 
 echo ""
 echo "Step 7: Creating deployment directory on ${SERVER_NAME} server..."
 echo "----------------------------------------"
-ssh -i ${SSH_KEY} ${TARGET_SERVER} "mkdir -p ${REMOTE_DIR}"
+ssh ${SSH_HOST} "mkdir -p ${REMOTE_DIR}"
 
 echo ""
 echo "Step 8: Transferring all files to ${SERVER_NAME} server (single command)..."
 echo "----------------------------------------"
 echo "Copying docker-images-export directory with all files..."
-scp -i ${SSH_KEY} -r ${LOCAL_PROJECT_DIR}/${EXPORT_DIR} ${TARGET_SERVER}:${REMOTE_DIR}/
+scp -r ${LOCAL_PROJECT_DIR}/${EXPORT_DIR} ${SSH_HOST}:${REMOTE_DIR}/
 
 echo ""
 echo "Verifying transferred files on ${SERVER_NAME} server..."
-ssh -i ${SSH_KEY} ${TARGET_SERVER} "ls -lh ${REMOTE_DIR}/${EXPORT_DIR}/"
+ssh ${SSH_HOST} "ls -lh ${REMOTE_DIR}/${EXPORT_DIR}/"
 
 echo ""
 echo "Step 9: Cleaning up local Docker environment..."
@@ -229,10 +216,10 @@ echo "Deployment Target: ${SERVER_NAME}"
 echo "Deployment Directory: ${DATE_TIME_DIR}"
 echo ""
 echo "Next steps:"
-echo "1. SSH to ${SERVER_NAME} server: ssh -i ${SSH_KEY} ${TARGET_SERVER}"
+echo "1. SSH to ${SERVER_NAME} server: ssh ${SSH_HOST}"
 echo "2. Navigate to: cd ${REMOTE_DIR}/${EXPORT_DIR}"
 echo "3. Run deployment: ./deploy-on-server.sh"
 echo ""
-echo "Or run directly from jump server:"
-echo "ssh -i ${SSH_KEY} ${TARGET_SERVER} 'cd ${REMOTE_DIR}/${EXPORT_DIR} && ./deploy-on-server.sh'"
+echo "Or run directly from build server:"
+echo "ssh ${SSH_HOST} 'cd ${REMOTE_DIR}/${EXPORT_DIR} && ./deploy-on-server.sh'"
 echo ""

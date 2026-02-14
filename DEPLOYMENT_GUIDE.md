@@ -70,14 +70,22 @@ nano .env
 DEPLOY_TARGET=stage
 NODE_ENV=staging
 
-# Stage Server
-STAGE_SERVER_USER=ec2-user
-STAGE_SERVER_IP=172.31.45.88
-STAGE_SERVER_SSH_KEY=~/.ssh/id_rsa
+# Stage Server - Uses SSH config host alias
+STAGE_SERVER_SSH_HOST=cixio-stage-server
 STAGE_SERVER_BASE_DIR=/home/ec2-user/cixio.com/landing1
 
 # MongoDB - Production Server (Remote)
 MONGODB_URI=mongodb://172.31.33.96:27017,172.31.33.96:27018,172.31.33.96:27019/cixio_com_production?replicaSet=rs0
+```
+
+**Required ~/.ssh/config entry on Build Server:**
+```
+Host cixio-stage-server
+    HostName 172.31.45.88
+    User ec2-user
+    IdentityFile ~/.ssh/id_ed25519_stage
+    StrictHostKeyChecking no
+    UserKnownHostsFile=/dev/null
 ```
 
 ### **Step 2: Deploy from Build Server**
@@ -179,10 +187,8 @@ nano .env
 DEPLOY_TARGET=production
 NODE_ENV=production
 
-# Production Server
-PRODUCTION_SERVER_USER=ec2-user
-PRODUCTION_SERVER_IP=172.31.36.168
-PRODUCTION_SERVER_SSH_KEY=~/.ssh/id_rsa
+# Production Server - Uses SSH config host alias
+PRODUCTION_SERVER_SSH_HOST=cixio-production-server
 PRODUCTION_SERVER_BASE_DIR=/home/ec2-user/cixio.com/landing1
 
 # MongoDB - Local (Docker Network)
@@ -191,6 +197,16 @@ CIXIO_COM_DB_PASSWORD=your_secure_password
 
 # Uses container names
 MONGODB_URI=mongodb://${CIXIO_COM_DB_USER}:${CIXIO_COM_DB_PASSWORD}@cixio-mongo1:27017,cixio-mongo2:27017,cixio-mongo3:27017/cixio_com_production?replicaSet=rs0&authSource=cixio_com_production
+```
+
+**Required ~/.ssh/config entry on Build Server:**
+```
+Host cixio-production-server
+    HostName 172.31.36.168
+    User ec2-user
+    IdentityFile ~/.ssh/id_ed25519
+    StrictHostKeyChecking no
+    UserKnownHostsFile=/dev/null
 ```
 
 ### **Step 3: Deploy from Build Server**
@@ -327,11 +343,11 @@ docker ps | grep mongo
 # On Build Server
 cd ~/CIXIO/CIXIO.COM/landing1
 cp .env.stage.example .env
-nano .env  # Set DEPLOY_TARGET=stage
+nano .env  # Set STAGE_SERVER_SSH_HOST=cixio-stage-server
 ./deploy.sh
 
 # Remote deploy on Stage
-ssh ec2-user@172.31.45.88 'cd ~/cixio.com/landing1/$(ls -t | head -1)/docker-images-export && ./deploy-on-server.sh'
+ssh cixio-stage-server 'cd ~/cixio.com/landing1/$(ls -t | head -1)/docker-images-export && ./deploy-on-server.sh'
 ```
 
 ### **Production Deployment Commands**
@@ -340,11 +356,11 @@ ssh ec2-user@172.31.45.88 'cd ~/cixio.com/landing1/$(ls -t | head -1)/docker-ima
 # On Build Server
 cd ~/CIXIO/CIXIO.COM/landing1
 cp .env.production.example .env
-nano .env  # Set DEPLOY_TARGET=production
+nano .env  # Set PRODUCTION_SERVER_SSH_HOST=cixio-production-server
 ./deploy.sh
 
 # Remote deploy on Production
-ssh ec2-user@172.31.36.168 'cd ~/cixio.com/landing1/$(ls -t | head -1)/docker-images-export && ./deploy-on-server.sh'
+ssh cixio-production-server 'cd ~/cixio.com/landing1/$(ls -t | head -1)/docker-images-export && ./deploy-on-server.sh'
 ```
 
 ### **Verification Commands**
