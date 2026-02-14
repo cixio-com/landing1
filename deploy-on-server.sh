@@ -17,9 +17,40 @@ echo ""
 echo "Current directory: ${DEPLOY_DIR}"
 echo ""
 
-# Check if required files exist
-if [ ! -f "docker-compose.yml" ]; then
-    echo "ERROR: docker-compose.yml not found in current directory!"
+# Detect environment from .env file or default to production
+DEPLOY_ENV="production"
+if [ -f ".env" ]; then
+    # Try to read NODE_ENV from .env
+    NODE_ENV_VALUE=$(grep -E "^NODE_ENV=" .env | cut -d'=' -f2 | tr -d '"' | tr -d "'" || echo "production")
+    if [ ! -z "$NODE_ENV_VALUE" ]; then
+        DEPLOY_ENV="$NODE_ENV_VALUE"
+    fi
+fi
+
+echo "Detected environment: ${DEPLOY_ENV}"
+
+# Determine which docker-compose file to use
+COMPOSE_FILE="docker-compose.yml"
+
+if [ "$DEPLOY_ENV" = "staging" ] || [ "$DEPLOY_ENV" = "stage" ]; then
+    if [ -f "docker-compose.stage.yml" ]; then
+        COMPOSE_FILE="docker-compose.stage.yml"
+        echo "Using Stage configuration: ${COMPOSE_FILE}"
+    else
+        echo "WARNING: docker-compose.stage.yml not found, falling back to docker-compose.yml"
+    fi
+elif [ "$DEPLOY_ENV" = "production" ] || [ "$DEPLOY_ENV" = "prod" ]; then
+    if [ -f "docker-compose.production.yml" ]; then
+        COMPOSE_FILE="docker-compose.production.yml"
+        echo "Using Production configuration: ${COMPOSE_FILE}"
+    else
+        echo "WARNING: docker-compose.production.yml not found, falling back to docker-compose.yml"
+    fi
+fi
+
+# Check if docker-compose file exists
+if [ ! -f "$COMPOSE_FILE" ]; then
+    echo "ERROR: ${COMPOSE_FILE} not found in current directory!"
     exit 1
 fi
 
@@ -88,11 +119,30 @@ docker images | grep cixio-com
 echo ""
 echo "Step 5: Starting Docker containers with docker-compose..."
 echo "----------------------------------------"
+echo "Using compose file: ${COMPOSE_FILE}"
 # Use explicit project name to prevent conflicts with other services
-docker-compose -p cixio-com up -d
+docker-compose -f ${COMPOSE_FILE} -p cixio-com up -d
 
 if [ $? -ne 0 ]; then
     echo "ERROR: Failed to start Docker containers!"
+    echo "Checking for common issues..."
+    echo ""
+    
+    # Check if external network is missing (common issue)
+    if grep -q "external: true" ${COMPOSE_FILE}; then
+        echo "WARNING: Compose file uses external network."
+        echo "If you see 'network not found' error, the external network may not exist."
+        echo ""
+        echo "For Stage/Dev servers connecting to remote MongoDB:"
+        echo "  - Use docker-compose.stage.yml (no external network)"
+        echo "  - Set NODE_ENV=staging in .env"
+        echo ""
+        echo "For Production servers with local MongoDB:"
+        echo "  - Use docker-compose.production.yml"
+        echo "  - Ensure 'cixio-shared-db' network exists"
+        echo "  - Create network: docker network create cixio-shared-db"
+    fi
+    
     exit 1
 fi
 
@@ -104,18 +154,21 @@ docker ps | grep cixio-com
 
 echo ""
 echo "Container logs (last 20 lines):"
-docker-compose logs --tail=20
+docker-compose -f ${COMPOSE_FILE} logs --tail=20
 
 echo ""
 echo "=========================================="
 echo "Deployment on Server COMPLETED!"
 echo "=========================================="
 echo ""
+echo "Environment: ${DEPLOY_ENV}"
+echo "Compose file: ${COMPOSE_FILE}"
+echo ""
 echo "Useful commands:"
-echo "  View logs: docker-compose logs -f"
-echo "  Check status: docker-compose ps"
-echo "  Stop services: docker-compose down"
-echo "  Restart services: docker-compose restart"
+echo "  View logs: docker-compose -f ${COMPOSE_FILE} logs -f"
+echo "  Check status: docker-compose -f ${COMPOSE_FILE} ps"
+echo "  Stop services: docker-compose -f ${COMPOSE_FILE} down"
+echo "  Restart services: docker-compose -f ${COMPOSE_FILE} restart"
 echo "  Check CIXIO containers: docker ps | grep cixio-com"
 echo "  Check CIXIO images: docker images | grep cixio-com"
 echo ""
