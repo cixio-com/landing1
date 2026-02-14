@@ -1,0 +1,36 @@
+services:
+  # Node.js Application Service - Stage Configuration
+  # Connects to Production MongoDB via VPC private IP (no shared network needed)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cixio-com-app:latest
+    container_name: cixio-com-app
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: staging
+      # MongoDB via VPC private IP (remote server)
+      MONGODB_URI: ${MONGODB_URI:-mongodb://172.31.33.96:27017,172.31.33.96:27018,172.31.33.96:27019/cixio_com_production?replicaSet=rs0}
+    ports:
+      - "5001:80"
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - cixio-com-network  # Only local network needed
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:80/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+# Networks - Only local bridge network
+networks:
+  cixio-com-network:
+    driver: bridge
+
+# Volumes
+volumes: {}

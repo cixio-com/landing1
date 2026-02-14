@@ -1,0 +1,40 @@
+services:
+  # Node.js Application Service - Production Configuration
+  # Uses shared Docker network to connect to local MongoDB containers
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cixio-com-app:latest
+    container_name: cixio-com-app
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      # MongoDB via Docker network (container names)
+      MONGODB_URI: ${MONGODB_URI:-mongodb://${CIXIO_COM_DB_USER:-cixio_com_user}:${CIXIO_COM_DB_PASSWORD}@cixio-mongo1:27017,cixio-mongo2:27017,cixio-mongo3:27017/cixio_com_production?replicaSet=rs0&authSource=cixio_com_production}
+    ports:
+      - "5001:80"
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - cixio-com-network
+      - cixio-shared-db  # Connect to shared DB network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:80/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+# Networks
+networks:
+  cixio-com-network:
+    driver: bridge
+  cixio-shared-db:
+    external: true
+    name: cixio-shared-db
+
+# Volumes
+volumes: {}
