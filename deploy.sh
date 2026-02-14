@@ -146,22 +146,34 @@ echo "All required files are now in ${EXPORT_DIR}/"
 ls -lh ${EXPORT_DIR}/
 
 echo ""
-echo "Step 4: Checking disk space on ${SERVER_NAME} server..."
+echo "Step 4: Creating base directory on ${SERVER_NAME} server if it doesn't exist..."
+echo "----------------------------------------"
+ssh -i ${SSH_KEY} ${TARGET_SERVER} "mkdir -p ${REMOTE_BASE_DIR}"
+
+# Check if directory already exists and has deployments
+if ssh -i ${SSH_KEY} ${TARGET_SERVER} "[ -d ${REMOTE_BASE_DIR} ] && [ \$(ls -A ${REMOTE_BASE_DIR} 2>/dev/null | wc -l) -gt 0 ]"; then
+    echo "Base directory exists with previous deployments"
+else
+    echo "Base directory created (new installation)"
+fi
+
+echo ""
+echo "Step 5: Checking disk space on ${SERVER_NAME} server..."
 echo "----------------------------------------"
 ssh -i ${SSH_KEY} ${TARGET_SERVER} "df -h ${REMOTE_BASE_DIR}"
 
 echo ""
-echo "Step 5: Cleaning up old deployments on ${SERVER_NAME} server (keeping last 3)..."
+echo "Step 6: Cleaning up old deployments on ${SERVER_NAME} server (keeping last 3)..."
 echo "----------------------------------------"
-ssh -i ${SSH_KEY} ${TARGET_SERVER} "cd ${REMOTE_BASE_DIR} && ls -t | tail -n +4 | xargs -r rm -rf"
+ssh -i ${SSH_KEY} ${TARGET_SERVER} "cd ${REMOTE_BASE_DIR} && ls -t 2>/dev/null | tail -n +4 | xargs -r rm -rf" || echo "No old deployments to clean"
 
 echo ""
-echo "Step 6: Creating remote directory on ${SERVER_NAME} server..."
+echo "Step 7: Creating deployment directory on ${SERVER_NAME} server..."
 echo "----------------------------------------"
 ssh -i ${SSH_KEY} ${TARGET_SERVER} "mkdir -p ${REMOTE_DIR}"
 
 echo ""
-echo "Step 7: Transferring all files to ${SERVER_NAME} server (single command)..."
+echo "Step 8: Transferring all files to ${SERVER_NAME} server (single command)..."
 echo "----------------------------------------"
 echo "Copying docker-images-export directory with all files..."
 scp -i ${SSH_KEY} -r ${LOCAL_PROJECT_DIR}/${EXPORT_DIR} ${TARGET_SERVER}:${REMOTE_DIR}/
@@ -171,14 +183,14 @@ echo "Verifying transferred files on ${SERVER_NAME} server..."
 ssh -i ${SSH_KEY} ${TARGET_SERVER} "ls -lh ${REMOTE_DIR}/${EXPORT_DIR}/"
 
 echo ""
-echo "Step 8: Cleaning up local Docker environment..."
+echo "Step 9: Cleaning up local Docker environment..."
 echo "----------------------------------------"
 docker stop $(docker ps -aq) 2>/dev/null || echo "No running containers to stop"
 docker rm $(docker ps -aq) 2>/dev/null || echo "No containers to remove"
 docker rmi -f $(docker images -aq) 2>/dev/null || echo "No images to remove"
 
 echo ""
-echo "Step 9: Removing local export directory..."
+echo "Step 10: Removing local export directory..."
 echo "----------------------------------------"
 rm -rf ${EXPORT_DIR}/
 echo "Cleanup completed"
