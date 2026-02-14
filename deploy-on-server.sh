@@ -71,19 +71,25 @@ echo "Found ${TAR_FILES} Docker image tar file(s)"
 echo "Step 1: Stopping CIXIO Docker containers (if running)..."
 echo "----------------------------------------"
 docker stop cixio-com-app 2>/dev/null || echo "cixio-com-app container not running"
-docker stop cixio-com-mongodb 2>/dev/null || echo "cixio-com-mongodb container not running"
+if [ "$DEPLOY_ENV" = "production" ] || [ "$DEPLOY_ENV" = "prod" ]; then
+    docker stop cixio-com-mongodb 2>/dev/null || echo "cixio-com-mongodb container not running"
+fi
 
 echo ""
 echo "Step 2: Removing CIXIO Docker containers (if exist)..."
 echo "----------------------------------------"
 docker rm cixio-com-app 2>/dev/null || echo "cixio-com-app container does not exist"
-docker rm cixio-com-mongodb 2>/dev/null || echo "cixio-com-mongodb container does not exist"
+if [ "$DEPLOY_ENV" = "production" ] || [ "$DEPLOY_ENV" = "prod" ]; then
+    docker rm cixio-com-mongodb 2>/dev/null || echo "cixio-com-mongodb container does not exist"
+fi
 
 echo ""
 echo "Step 3: Removing CIXIO Docker images (if exist)..."
 echo "----------------------------------------"
 docker rmi cixio-com-app:latest 2>/dev/null || echo "cixio-com-app:latest image does not exist"
-docker rmi cixio-com-mongo:7.0 2>/dev/null || echo "cixio-com-mongo:7.0 image does not exist"
+if [ "$DEPLOY_ENV" = "production" ] || [ "$DEPLOY_ENV" = "prod" ]; then
+    docker rmi cixio-com-mongo:7.0 2>/dev/null || echo "cixio-com-mongo:7.0 image does not exist"
+fi
 
 echo ""
 echo "Docker status after cleanup:"
@@ -102,12 +108,23 @@ if [ ! -f "cixio-com-app.tar" ]; then
     exit 1
 fi
 
-echo "[1/2] Loading cixio-com-app:latest..."
+# Count total images to load
+TOTAL_IMAGES=1
+if [ -f "cixio-com-mongo-7.0.tar" ]; then
+    TOTAL_IMAGES=2
+fi
+
+echo "[1/${TOTAL_IMAGES}] Loading cixio-com-app:latest..."
 docker load -i cixio-com-app.tar
 
-echo ""
-echo "[2/2] Loading cixio-com-mongo:7.0..."
-docker load -i cixio-com-mongo-7.0.tar
+if [ -f "cixio-com-mongo-7.0.tar" ]; then
+    echo ""
+    echo "[2/${TOTAL_IMAGES}] Loading cixio-com-mongo:7.0..."
+    docker load -i cixio-com-mongo-7.0.tar
+else
+    echo ""
+    echo "INFO: MongoDB image not found (Stage uses remote MongoDB at 172.31.33.96)"
+fi
 
 echo ""
 echo "All Docker images loaded successfully!"
