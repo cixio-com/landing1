@@ -9,17 +9,17 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Updated styles for unselected buttons to ensure visibility -->
+    <!-- Contract toggle active/inactive button state styles -->
     <style>
-        .btn-outline {
-            color: #007bff; /* Blue text */
-            border: 1px solid #007bff; /* Blue border */
-            background-color: transparent; /* Transparent background */
+        .contract-toggle .btn-outline {
+            color: var(--text-primary, #0f172a);
+            border: 2px solid var(--border-color, #e2e8f0);
+            background-color: transparent;
         }
-
-        .btn-outline:hover {
-            background-color: #007bff; /* Blue background on hover */
-            color: #fff; /* White text on hover */
+        .contract-toggle .btn-outline:hover {
+            border-color: var(--primary-color, #6366f1);
+            color: var(--primary-color, #6366f1);
+            background-color: rgba(99, 102, 241, 0.04);
         }
     </style>
 </head>
@@ -729,10 +729,17 @@
         }
 
         function toggleButtonColors(activeButton, inactiveButton) {
-            activeButton.classList.add('btn-primary');
+            activeButton.classList.add('btn-primary', 'active');
             activeButton.classList.remove('btn-outline');
+            activeButton.style.background = 'linear-gradient(135deg, #6366f1, #ec4899)';
+            activeButton.style.color = '#fff';
+            activeButton.style.borderColor = 'transparent';
+            
             inactiveButton.classList.add('btn-outline');
-            inactiveButton.classList.remove('btn-primary');
+            inactiveButton.classList.remove('btn-primary', 'active');
+            inactiveButton.style.background = 'transparent';
+            inactiveButton.style.color = '#0f172a';
+            inactiveButton.style.borderColor = '#e2e8f0';
         }
 
         document.getElementById('yearlyContract').addEventListener('click', function() {
