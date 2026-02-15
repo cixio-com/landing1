@@ -120,8 +120,73 @@ fi
 echo ""
 echo "Step 3.1: Copying additional files to export directory..."
 echo "----------------------------------------"
-echo "Copying .env file..."
-cp .env ${EXPORT_DIR}/.env
+
+# Copy the correct .env for the target environment
+if [ "$DEPLOY_TARGET" = "stage" ]; then
+    echo "Preparing Stage .env file..."
+    if [ -f ".env.stage.example" ]; then
+        cp .env.stage.example ${EXPORT_DIR}/.env
+        echo "  ✓ Copied .env.stage.example as .env"
+
+        # Auto-fetch CIXIO_COM_DB_PASSWORD from MongoDB server
+        MONGO_SERVER_SSH="${MONGO_SERVER_SSH_HOST:-cixio-mongodb-server}"
+        MONGO_SERVER_ENV="${MONGO_SERVER_ENV_PATH:-/home/ec2-user/cixio-database/mvp_10_cixio-database/.env}"
+        echo "  Fetching CIXIO_COM_DB_PASSWORD from MongoDB server (${MONGO_SERVER_SSH})..."
+        DB_PASS=$(ssh ${MONGO_SERVER_SSH} "grep ^CIXIO_COM_DB_PASSWORD= ${MONGO_SERVER_ENV} | cut -d= -f2" 2>/dev/null || echo "")
+
+        if [ -n "$DB_PASS" ] && [ "$DB_PASS" != "CHANGE_THIS_MATCH_CENTRAL_DB_ENV" ]; then
+            sed -i "s|^CIXIO_COM_DB_PASSWORD=.*|CIXIO_COM_DB_PASSWORD=${DB_PASS}|" ${EXPORT_DIR}/.env
+            sed -i "s|CHANGE_THIS_MATCH_CENTRAL_DB_ENV|${DB_PASS}|g" ${EXPORT_DIR}/.env
+            echo "  ✓ CIXIO_COM_DB_PASSWORD auto-filled from MongoDB server"
+        else
+            echo "  ⚠️  Could not fetch DB password from MongoDB server."
+            echo "     SSH host '${MONGO_SERVER_SSH}' may not be configured in ~/.ssh/config"
+            echo "     You MUST manually set CIXIO_COM_DB_PASSWORD in .env on the Stage server!"
+            echo ""
+            echo "     To configure, add to ~/.ssh/config:"
+            echo "       Host cixio-mongodb-server"
+            echo "         HostName 172.31.33.96"
+            echo "         User ec2-user"
+            echo "         IdentityFile ~/.ssh/id_ed25519_stage"
+            echo ""
+            echo "     Or set in .env: MONGO_SERVER_SSH_HOST=<your-ssh-alias>"
+        fi
+
+        # Also copy over shared config from build server .env (JWT, EMAIL, etc.)
+        if [ -f ".env" ]; then
+            # Extract non-DB, non-deployment settings from dev .env and merge
+            for KEY in JWT_SECRET JWT_EXPIRE EMAIL_HOST EMAIL_PORT EMAIL_USER EMAIL_PASS \
+                       EMAIL_FROM EMAIL_FROM_NAME EMAIL_FROM_ADDRESS SUPPORT_EMAIL INFO_EMAIL ADMIN_EMAIL \
+                       ALLOWED_ORIGINS RATE_LIMIT_WINDOW_MS RATE_LIMIT_MAX_REQUESTS AUTH_RATE_LIMIT_MAX \
+                       MAX_LOGIN_ATTEMPTS ACCOUNT_LOCK_TIME PASSWORD_RESET_EXPIRE EMAIL_VERIFICATION_EXPIRE \
+                       TRIAL_PERIOD_DAYS DEFAULT_CURRENCY MAX_FILE_SIZE UPLOAD_PATH; do
+                VAL=$(grep "^${KEY}=" .env | cut -d= -f2- || echo "")
+                if [ -n "$VAL" ]; then
+                    if grep -q "^${KEY}=" ${EXPORT_DIR}/.env; then
+                        sed -i "s|^${KEY}=.*|${KEY}=${VAL}|" ${EXPORT_DIR}/.env
+                    else
+                        echo "${KEY}=${VAL}" >> ${EXPORT_DIR}/.env
+                    fi
+                fi
+            done
+            echo "  ✓ Merged shared config (JWT, EMAIL, CORS, etc.) into Stage .env"
+        fi
+
+        # Set Stage-specific URLs
+        if ! grep -q "^FRONTEND_URL=" ${EXPORT_DIR}/.env; then
+            echo "FRONTEND_URL=https://www.cixio.com" >> ${EXPORT_DIR}/.env
+        fi
+        if ! grep -q "^API_URL=" ${EXPORT_DIR}/.env; then
+            echo "API_URL=http://localhost:80/api" >> ${EXPORT_DIR}/.env
+        fi
+    else
+        echo "  ⚠ .env.stage.example not found, copying dev .env (may need manual edits!)"
+        cp .env ${EXPORT_DIR}/.env
+    fi
+else
+    echo "Copying .env file..."
+    cp .env ${EXPORT_DIR}/.env
+fi
 
 # Determine which docker-compose file to copy based on DEPLOY_TARGET
 echo "Copying docker-compose files..."

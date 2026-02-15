@@ -59,6 +59,44 @@ if [ ! -f ".env" ]; then
     echo "Make sure environment variables are properly configured."
 fi
 
+# Pre-flight check: Validate MongoDB credentials for Stage
+if [ -f ".env" ]; then
+    DB_PASS_CHECK=$(grep "^CIXIO_COM_DB_PASSWORD=" .env | cut -d= -f2 || echo "")
+    MONGODB_URI_CHECK=$(grep "^MONGODB_URI=" .env | cut -d= -f2- || echo "")
+
+    if [ "$DB_PASS_CHECK" = "CHANGE_THIS_MATCH_CENTRAL_DB_ENV" ] || [ -z "$DB_PASS_CHECK" ]; then
+        echo ""
+        echo "❌ ERROR: CIXIO_COM_DB_PASSWORD is not set in .env!"
+        echo ""
+        echo "   The password must match the one generated on the MongoDB server."
+        echo "   Get it from MongoDB server (172.31.33.96):"
+        echo ""
+        echo "     ssh cixio-mongodb-server 'grep ^CIXIO_COM_DB_PASSWORD /home/ec2-user/cixio-database/mvp_10_cixio-database/.env'"
+        echo ""
+        echo "   Then update .env:"
+        echo "     sed -i 's|^CIXIO_COM_DB_PASSWORD=.*|CIXIO_COM_DB_PASSWORD=<password>|' .env"
+        echo "     sed -i 's|CHANGE_THIS_MATCH_CENTRAL_DB_ENV|<password>|g' .env"
+        echo ""
+        exit 1
+    fi
+
+    if echo "$MONGODB_URI_CHECK" | grep -q "CHANGE_THIS_MATCH_CENTRAL_DB_ENV"; then
+        echo ""
+        echo "❌ ERROR: MONGODB_URI still has placeholder password!"
+        echo "   Fixing MONGODB_URI with the CIXIO_COM_DB_PASSWORD value..."
+        sed -i "s|CHANGE_THIS_MATCH_CENTRAL_DB_ENV|${DB_PASS_CHECK}|g" .env
+        echo "   ✅ Fixed MONGODB_URI"
+    fi
+
+    if echo "$MONGODB_URI_CHECK" | grep -q "localhost:27017/cixio"; then
+        echo ""
+        echo "⚠️  WARNING: MONGODB_URI points to localhost — this looks like a dev .env!"
+        echo "   Stage should connect to MongoDB server at 172.31.33.96"
+        echo "   Please verify your .env file is correct for Stage deployment."
+        echo ""
+    fi
+fi
+
 # Check if tar files exist
 TAR_FILES=$(ls *.tar 2>/dev/null | wc -l)
 if [ ${TAR_FILES} -eq 0 ]; then
