@@ -1,10 +1,8 @@
 services:
   # Node.js Application Service - Stage Configuration
   # Connects to Production MongoDB via VPC private IP (no shared network needed)
+  # Image is pre-built and loaded from tar file — no build on Stage server
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
     image: cixio-com-app:latest
     container_name: cixio-com-app
     restart: unless-stopped
