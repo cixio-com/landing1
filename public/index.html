@@ -7,19 +7,19 @@
     <meta name="keywords" content="AI, Machine Learning, Data Privacy, Encryption, Healthcare Software, E-commerce Platform">
     <title>CIXIO - Advanced AI Software Solutions</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Updated styles for unselected buttons to ensure visibility -->
+    <link rel="stylesheet" href="fonts/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="fonts/inter/inter.css">
+    <!-- Contract toggle active/inactive button state styles -->
     <style>
-        .btn-outline {
-            color: #007bff; /* Blue text */
-            border: 1px solid #007bff; /* Blue border */
-            background-color: transparent; /* Transparent background */
+        .contract-toggle .btn-outline {
+            color: var(--text-primary, #0f172a);
+            border: 2px solid var(--border-color, #e2e8f0);
+            background-color: transparent;
         }
-
-        .btn-outline:hover {
-            background-color: #007bff; /* Blue background on hover */
-            color: #fff; /* White text on hover */
+        .contract-toggle .btn-outline:hover {
+            border-color: var(--primary-color, #6366f1);
+            color: var(--primary-color, #6366f1);
+            background-color: rgba(99, 102, 241, 0.04);
         }
     </style>
 </head>
@@ -612,17 +612,6 @@
                     <a href="#" class="link">Forgot password?</a>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                <div class="form-divider">
-                    <span>OR</span>
-                </div>
-                <div class="social-auth">
-                    <button type="button" class="btn btn-social">
-                        <i class="fab fa-google"></i> Sign in with Google
-                    </button>
-                    <button type="button" class="btn btn-social">
-                        <i class="fab fa-microsoft"></i> Sign in with Microsoft
-                    </button>
-                </div>
                 <p class="form-footer">
                     Don't have an account? <a href="#" data-modal="registerModal" class="link">Sign up</a>
                 </p>
@@ -672,17 +661,6 @@
                     </label>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Create Account</button>
-                <div class="form-divider">
-                    <span>OR</span>
-                </div>
-                <div class="social-auth">
-                    <button type="button" class="btn btn-social">
-                        <i class="fab fa-google"></i> Sign up with Google
-                    </button>
-                    <button type="button" class="btn btn-social">
-                        <i class="fab fa-microsoft"></i> Sign up with Microsoft
-                    </button>
-                </div>
                 <p class="form-footer">
                     Already have an account? <a href="#" data-modal="loginModal" class="link">Sign in</a>
                 </p>
@@ -729,10 +707,17 @@
         }
 
         function toggleButtonColors(activeButton, inactiveButton) {
-            activeButton.classList.add('btn-primary');
+            activeButton.classList.add('btn-primary', 'active');
             activeButton.classList.remove('btn-outline');
+            activeButton.style.background = 'linear-gradient(135deg, #6366f1, #ec4899)';
+            activeButton.style.color = '#fff';
+            activeButton.style.borderColor = 'transparent';
+            
             inactiveButton.classList.add('btn-outline');
-            inactiveButton.classList.remove('btn-primary');
+            inactiveButton.classList.remove('btn-primary', 'active');
+            inactiveButton.style.background = 'transparent';
+            inactiveButton.style.color = '#0f172a';
+            inactiveButton.style.borderColor = '#e2e8f0';
         }
 
         document.getElementById('yearlyContract').addEventListener('click', function() {

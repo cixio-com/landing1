@@ -40,6 +40,7 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.2.8",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
