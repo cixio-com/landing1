@@ -31,9 +31,9 @@ app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
-            styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
-            scriptSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
-            fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
+            styleSrc: ["'self'", "'unsafe-inline'"],
+            scriptSrc: ["'self'", "'unsafe-inline'"],
+            fontSrc: ["'self'"],
             imgSrc: ["'self'", "data:", "https:"],
             connectSrc: ["'self'"]
         }
@@ -128,6 +128,11 @@ app.get('/api/health', (req, res) => {
         timestamp: new Date().toISOString(),
         environment: process.env.NODE_ENV || 'development'
     });
+});
+
+// Serve verify-email page
+app.get('/verify-email', staticLimiter, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'verify-email.html'));
 });
 
 // Serve index.html for all other routes (SPA support) - with rate limiting

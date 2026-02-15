@@ -236,144 +236,10 @@ subscribeForm.addEventListener('submit', async (e) => {
 });
 
 // ===== Login Form =====
-const loginForm = document.getElementById('loginForm');
-
-loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
-    
-    // Validate input
-    if (!isEmailOrPhone(email)) {
-        alert('Please enter a valid email address or mobile number');
-        return;
-    }
-    
-    if (password.length < 6) {
-        alert('Password must be at least 6 characters');
-        return;
-    }
-    
-    const loginData = {
-        email: email,
-        password: password,
-        timestamp: new Date().toISOString()
-    };
-    
-    console.log('Login Attempt:', { email: loginData.email, timestamp: loginData.timestamp });
-    
-    try {
-        // In production, replace with actual API call:
-        // const response = await fetch('/api/login', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(loginData)
-        // });
-        
-        await simulateApiCall(1200);
-        
-        // Close modal
-        modals.loginModal.classList.remove('active');
-        document.body.style.overflow = '';
-        
-        showSuccessMessage('Successfully logged in! Redirecting...');
-        loginForm.reset();
-        
-        // In production, redirect to dashboard
-        setTimeout(() => {
-            console.log('Redirecting to dashboard...');
-            // window.location.href = '/dashboard';
-        }, 1500);
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Invalid credentials. Please try again.');
-    }
-});
+// Login form is handled by forms.js (API-based handler)
 
 // ===== Register Form =====
-const registerForm = document.getElementById('registerForm');
-
-registerForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const firstName = document.getElementById('registerFirstName').value;
-    const lastName = document.getElementById('registerLastName').value;
-    const email = document.getElementById('registerEmail').value;
-    const mobile = document.getElementById('registerMobile').value;
-    const password = document.getElementById('registerPassword').value;
-    const confirmPassword = document.getElementById('registerConfirmPassword').value;
-    const terms = registerForm.querySelector('input[name="terms"]').checked;
-    
-    // Validation
-    if (!validateEmail(email)) {
-        alert('Please enter a valid email address');
-        return;
-    }
-    
-    if (mobile && !validatePhone(mobile)) {
-        alert('Please enter a valid mobile number');
-        return;
-    }
-    
-    if (!validatePassword(password)) {
-        alert('Password must be at least 8 characters with uppercase, lowercase, and number');
-        return;
-    }
-    
-    if (password !== confirmPassword) {
-        alert('Passwords do not match');
-        return;
-    }
-    
-    if (!terms) {
-        alert('Please accept the Terms of Service and Privacy Policy');
-        return;
-    }
-    
-    const registrationData = {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        mobile: mobile,
-        password: password,
-        timestamp: new Date().toISOString()
-    };
-    
-    console.log('Registration Attempt:', {
-        name: `${registrationData.firstName} ${registrationData.lastName}`,
-        email: registrationData.email,
-        mobile: registrationData.mobile,
-        timestamp: registrationData.timestamp
-    });
-    
-    try {
-        // In production, replace with actual API call:
-        // const response = await fetch('/api/register', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(registrationData)
-        // });
-        
-        await simulateApiCall(1500);
-        
-        // Close modal
-        modals.registerModal.classList.remove('active');
-        document.body.style.overflow = '';
-        
-        showSuccessMessage('Account created successfully! Please check your email to verify.');
-        registerForm.reset();
-        
-        // In production, might redirect or open login
-        setTimeout(() => {
-            console.log('Account created, showing login...');
-            // Could automatically open login modal
-        }, 2000);
-    } catch (error) {
-        console.error('Error:', error);
-        alert('There was an error creating your account. Please try again.');
-    }
-});
+// Register form is handled by forms.js (API-based handler)
 
 // ===== Commented out FT and PT pricing in the UI =====
 const pricingCards = document.querySelectorAll('.pricing-card');
@@ -403,28 +269,19 @@ const observerOptions = {
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.classList.add('fade-in');
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
             observer.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
 // Observe elements for animation
-document.querySelectorAll('.service-card, .product-card, .feature-card, .pricing-card').forEach(el => {
+document.querySelectorAll('.service-card, .product-card, .feature-card, .pricing-card, .about-item, .info-card, .stat-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     observer.observe(el);
-});
-
-// ===== Social Auth Buttons (Placeholder) =====
-document.querySelectorAll('.btn-social').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const provider = btn.textContent.includes('Google') ? 'Google' : 'Microsoft';
-        console.log(`Social auth with ${provider} clicked`);
-        showSuccessMessage(`${provider} authentication would be triggered here`);
-        
-        // In production, implement OAuth flow:
-        // window.location.href = `/auth/${provider.toLowerCase()}`;
-    });
 });
 
 // ===== Update Current Year in Footer =====
@@ -435,8 +292,8 @@ if (footerYearText) {
 }
 
 // ===== Console Welcome Message =====
-console.log('%c🚀 Welcome to CIXIO!', 'color: #0066FF; font-size: 20px; font-weight: bold;');
-console.log('%cAdvanced AI Software Solutions', 'color: #00D9FF; font-size: 14px;');
+console.log('%c🚀 Welcome to CIXIO!', 'color: #6366f1; font-size: 20px; font-weight: bold;');
+console.log('%cAdvanced AI Software Solutions', 'color: #ec4899; font-size: 14px;');
 console.log('%cBuilt with ❤️ using modern web technologies', 'color: #666; font-size: 12px;');
 
 // ===== Performance Logging (Development) =====
@@ -467,3 +324,15 @@ function getFormData(formId) {
 
 // ===== Initialize =====
 console.log('CIXIO Landing Page initialized successfully');
+
+// Auto-open login modal if redirected from verify-email page
+(function() {
+    const params = new URLSearchParams(window.location.search);
+    const action = params.get('action');
+    if (action === 'login' && modals.loginModal) {
+        modals.loginModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        // Clean up the URL
+        window.history.replaceState({}, '', '/');
+    }
+})();
