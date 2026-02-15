@@ -124,39 +124,22 @@ echo "----------------------------------------"
 # Copy the correct .env for the target environment
 if [ "$DEPLOY_TARGET" = "stage" ]; then
     echo "Preparing Stage .env file..."
-    if [ -f ".env.stage.example" ]; then
-        cp .env.stage.example ${EXPORT_DIR}/.env
-        echo "  ✓ Copied .env.stage.example as .env"
-
-        # Auto-fetch CIXIO_COM_DB_PASSWORD from MongoDB server
-        MONGO_SERVER_SSH="${MONGO_SERVER_SSH_HOST:-cixio-mongodb-server}"
-        MONGO_SERVER_ENV="${MONGO_SERVER_ENV_PATH:-/home/ec2-user/cixio-database/mvp_10_cixio-database/.env}"
-        echo "  Fetching CIXIO_COM_DB_PASSWORD from MongoDB server (${MONGO_SERVER_SSH})..."
-        DB_PASS=$(ssh ${MONGO_SERVER_SSH} "grep ^CIXIO_COM_DB_PASSWORD= ${MONGO_SERVER_ENV} | cut -d= -f2" 2>/dev/null || echo "")
-
-        if [ -n "$DB_PASS" ] && [ "$DB_PASS" != "CHANGE_THIS_MATCH_CENTRAL_DB_ENV" ]; then
-            sed -i "s|^CIXIO_COM_DB_PASSWORD=.*|CIXIO_COM_DB_PASSWORD=${DB_PASS}|" ${EXPORT_DIR}/.env
-            sed -i "s|CHANGE_THIS_MATCH_CENTRAL_DB_ENV|${DB_PASS}|g" ${EXPORT_DIR}/.env
-            echo "  ✓ CIXIO_COM_DB_PASSWORD auto-filled from MongoDB server"
-        else
-            echo "  ⚠️  Could not fetch DB password from MongoDB server."
-            echo "     SSH host '${MONGO_SERVER_SSH}' may not be configured in ~/.ssh/config"
-            echo "     You MUST manually set CIXIO_COM_DB_PASSWORD in .env on the Stage server!"
-            echo ""
-            echo "     To configure, add to ~/.ssh/config:"
-            echo "       Host cixio-mongodb-server"
-            echo "         HostName 172.31.33.96"
-            echo "         User ec2-user"
-            echo "         IdentityFile ~/.ssh/id_ed25519_stage"
-            echo ""
-            echo "     Or set in .env: MONGO_SERVER_SSH_HOST=<your-ssh-alias>"
-        fi
-
-        # NOTE: .env.stage.example now has all configs pre-filled
-        # (FRONTEND_URL, JWT_SECRET, EMAIL, CORS, etc.)
-        echo "  ✓ Using complete Stage configuration from .env.stage.example"
+    if [ -f ".env.stage" ]; then
+        cp .env.stage ${EXPORT_DIR}/.env
+        echo "  ✓ Copied .env.stage as .env"
+        echo "  ✓ Using complete Stage configuration with actual values"
     else
-        echo "  ⚠ .env.stage.example not found, copying dev .env (may need manual edits!)"
+        echo "  ⚠ .env.stage not found, copying dev .env (may need manual edits!)"
+        cp .env ${EXPORT_DIR}/.env
+    fi
+elif [ "$DEPLOY_TARGET" = "production" ]; then
+    echo "Preparing Production .env file..."
+    if [ -f ".env.production" ]; then
+        cp .env.production ${EXPORT_DIR}/.env
+        echo "  ✓ Copied .env.production as .env"
+        echo "  ✓ Using complete Production configuration with actual values"
+    else
+        echo "  ⚠ .env.production not found, copying dev .env (may need manual edits!)"
         cp .env ${EXPORT_DIR}/.env
     fi
 else
@@ -164,33 +147,10 @@ else
     cp .env ${EXPORT_DIR}/.env
 fi
 
-# Determine which docker-compose file to copy based on DEPLOY_TARGET
-echo "Copying docker-compose files..."
-if [ "$DEPLOY_TARGET" = "stage" ]; then
-    # Copy stage-specific compose file as docker-compose.yml
-    if [ -f "docker-compose.stage.yml" ]; then
-        cp docker-compose.stage.yml ${EXPORT_DIR}/docker-compose.stage.yml
-        cp docker-compose.stage.yml ${EXPORT_DIR}/docker-compose.yml
-        echo "  ✓ Copied docker-compose.stage.yml (for Stage deployment)"
-    else
-        cp docker-compose.yml ${EXPORT_DIR}/docker-compose.yml
-        echo "  ⚠ docker-compose.stage.yml not found, using default docker-compose.yml"
-    fi
-elif [ "$DEPLOY_TARGET" = "production" ]; then
-    # Copy production-specific compose file as docker-compose.yml
-    if [ -f "docker-compose.production.yml" ]; then
-        cp docker-compose.production.yml ${EXPORT_DIR}/docker-compose.production.yml
-        cp docker-compose.production.yml ${EXPORT_DIR}/docker-compose.yml
-        echo "  ✓ Copied docker-compose.production.yml (for Production deployment)"
-    else
-        cp docker-compose.yml ${EXPORT_DIR}/docker-compose.yml
-        echo "  ⚠ docker-compose.production.yml not found, using default docker-compose.yml"
-    fi
-else
-    # Fallback: copy default
-    cp docker-compose.yml ${EXPORT_DIR}/docker-compose.yml
-    echo "  ✓ Copied docker-compose.yml"
-fi
+# Copy docker-compose.yml (same file works for all environments)
+echo "Copying docker-compose.yml..."
+cp docker-compose.yml ${EXPORT_DIR}/docker-compose.yml
+echo "  ✓ Copied docker-compose.yml (universal config for all environments)"
 
 echo "Copying deploy-on-server.sh..."
 cp deploy-on-server.sh ${EXPORT_DIR}/deploy-on-server.sh

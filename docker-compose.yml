@@ -1,17 +1,17 @@
 
 services:
   # ---------------------------------------------------------------
-  # MongoDB Configuration:
+  # CIXIO.COM Application Service
   # 
-  # PRODUCTION (Single EC2): Apps + DB on same machine
-  #   → MONGODB_URI uses container names: cixio-mongo1:27017
-  #   → Requires: cixio-shared-db Docker network (external)
-  #   → Set USE_SHARED_DB_NETWORK=true in .env
+  # Works for all environments (Development, Stage, Production)
+  # Environment-specific behavior controlled by .env file:
+  #   - NODE_ENV: development | staging | production
+  #   - MONGODB_URI: Points to appropriate MongoDB instance
   #
-  # STAGE/DEV (Multi-EC2): DB on separate server
-  #   → MONGODB_URI uses VPC private IP: 172.31.33.96:27017
-  #   → Does NOT use cixio-shared-db network
-  #   → Set USE_SHARED_DB_NETWORK=false in .env (or leave unset)
+  # Build vs Pre-built Image:
+  #   - Development: Uses build context (builds on local machine)
+  #   - Stage/Production: Uses pre-built image loaded from tar file
+  #   - The build section is ignored if image already exists
   # ---------------------------------------------------------------
 
   # Node.js Application Service
@@ -26,14 +26,11 @@ services:
       - .env
     environment:
       NODE_ENV: ${NODE_ENV:-production}
-      MONGODB_URI: ${MONGODB_URI:-mongodb://${CIXIO_COM_DB_USER:-cixio_com_user}:${CIXIO_COM_DB_PASSWORD}@cixio-mongo1:27017,cixio-mongo2:27017,cixio-mongo3:27017/cixio?replicaSet=rs0&authSource=cixio}
+      MONGODB_URI: ${MONGODB_URI}
     ports:
       - "5001:80"  # Multi-app deployment: unique host port
     volumes:
       - ./uploads:/app/uploads
-    # Networks: conditionally include cixio-shared-db based on USE_SHARED_DB_NETWORK env var
-    # For multi-server (Stage/Dev), only use cixio-com-network
-    # For single-server (Production), use both networks
     networks:
       - cixio-com-network
     healthcheck:

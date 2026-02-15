@@ -17,10 +17,9 @@ echo ""
 echo "Current directory: ${DEPLOY_DIR}"
 echo ""
 
-# Detect environment from .env file or default to production
+# Detect environment from .env file
 DEPLOY_ENV="production"
 if [ -f ".env" ]; then
-    # Try to read NODE_ENV from .env
     NODE_ENV_VALUE=$(grep -E "^NODE_ENV=" .env | cut -d'=' -f2 | tr -d '"' | tr -d "'" || echo "production")
     if [ ! -z "$NODE_ENV_VALUE" ]; then
         DEPLOY_ENV="$NODE_ENV_VALUE"
@@ -29,24 +28,9 @@ fi
 
 echo "Detected environment: ${DEPLOY_ENV}"
 
-# Determine which docker-compose file to use
+# Use single docker-compose.yml for all environments
 COMPOSE_FILE="docker-compose.yml"
-
-if [ "$DEPLOY_ENV" = "staging" ] || [ "$DEPLOY_ENV" = "stage" ]; then
-    if [ -f "docker-compose.stage.yml" ]; then
-        COMPOSE_FILE="docker-compose.stage.yml"
-        echo "Using Stage configuration: ${COMPOSE_FILE}"
-    else
-        echo "WARNING: docker-compose.stage.yml not found, falling back to docker-compose.yml"
-    fi
-elif [ "$DEPLOY_ENV" = "production" ] || [ "$DEPLOY_ENV" = "prod" ]; then
-    if [ -f "docker-compose.production.yml" ]; then
-        COMPOSE_FILE="docker-compose.production.yml"
-        echo "Using Production configuration: ${COMPOSE_FILE}"
-    else
-        echo "WARNING: docker-compose.production.yml not found, falling back to docker-compose.yml"
-    fi
-fi
+echo "Using universal docker-compose.yml (environment controlled by .env)"
 
 # Check if docker-compose file exists
 if [ ! -f "$COMPOSE_FILE" ]; then
@@ -55,46 +39,31 @@ if [ ! -f "$COMPOSE_FILE" ]; then
 fi
 
 if [ ! -f ".env" ]; then
-    echo "WARNING: .env file not found in current directory!"
-    echo "Make sure environment variables are properly configured."
+    echo "ERROR: .env file not found in current directory!"
+    echo "The deploy.sh script should have created this file."
+    echo "Make sure you ran deploy.sh or deploy-stage.sh from the build server."
+    exit 1
 fi
 
-# Pre-flight check: Validate MongoDB credentials for Stage
+# Validate that essential environment variables are set
+echo ""
+echo "Validating environment configuration..."
 if [ -f ".env" ]; then
-    DB_PASS_CHECK=$(grep "^CIXIO_COM_DB_PASSWORD=" .env | cut -d= -f2 || echo "")
     MONGODB_URI_CHECK=$(grep "^MONGODB_URI=" .env | cut -d= -f2- || echo "")
-
-    if [ "$DB_PASS_CHECK" = "CHANGE_THIS_MATCH_CENTRAL_DB_ENV" ] || [ -z "$DB_PASS_CHECK" ]; then
-        echo ""
-        echo "❌ ERROR: CIXIO_COM_DB_PASSWORD is not set in .env!"
-        echo ""
-        echo "   The password must match the one generated on the MongoDB server."
-        echo "   Get it from MongoDB server (172.31.33.96):"
-        echo ""
-        echo "     ssh cixio-mongodb-server 'grep ^CIXIO_COM_DB_PASSWORD /home/ec2-user/cixio-database/mvp_10_cixio-database/.env'"
-        echo ""
-        echo "   Then update .env:"
-        echo "     sed -i 's|^CIXIO_COM_DB_PASSWORD=.*|CIXIO_COM_DB_PASSWORD=<password>|' .env"
-        echo "     sed -i 's|CHANGE_THIS_MATCH_CENTRAL_DB_ENV|<password>|g' .env"
-        echo ""
+    
+    if [ -z "$MONGODB_URI_CHECK" ]; then
+        echo "❌ ERROR: MONGODB_URI is not set in .env!"
         exit 1
     fi
-
-    if echo "$MONGODB_URI_CHECK" | grep -q "CHANGE_THIS_MATCH_CENTRAL_DB_ENV"; then
-        echo ""
-        echo "❌ ERROR: MONGODB_URI still has placeholder password!"
-        echo "   Fixing MONGODB_URI with the CIXIO_COM_DB_PASSWORD value..."
-        sed -i "s|CHANGE_THIS_MATCH_CENTRAL_DB_ENV|${DB_PASS_CHECK}|g" .env
-        echo "   ✅ Fixed MONGODB_URI"
-    fi
-
+    
     if echo "$MONGODB_URI_CHECK" | grep -q "localhost:27017/cixio"; then
-        echo ""
         echo "⚠️  WARNING: MONGODB_URI points to localhost — this looks like a dev .env!"
-        echo "   Stage should connect to MongoDB server at 172.31.33.96"
-        echo "   Please verify your .env file is correct for Stage deployment."
+        echo "   Stage/Production should connect to MongoDB server at 172.31.33.96"
+        echo "   Please verify your .env file is correct for this deployment."
         echo ""
     fi
+    
+    echo "✓ Environment configuration validated"
 fi
 
 # Check if tar files exist
