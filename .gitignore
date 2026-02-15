@@ -6,11 +6,14 @@ yarn-error.log*
 package-lock.json
 yarn.lock
 
-# Environment variables
+# Environment variables (NEVER commit actual .env files with secrets!)
 .env
 .env.local
 .env.development
 .env.production
+.env.stage
+
+# Keep only .env.example (template with dummy values)
 
 # IDE
 .vscode/
