@@ -13,7 +13,8 @@ services:
     environment:
       NODE_ENV: staging
       # MongoDB via VPC private IP (remote server)
-      MONGODB_URI: ${MONGODB_URI:-mongodb://172.31.33.96:27017,172.31.33.96:27018,172.31.33.96:27019/cixio_com_production?replicaSet=rs0}
+      # Requires authentication - credentials must match those created by mongo-init in cixio-database
+      MONGODB_URI: ${MONGODB_URI:-mongodb://${CIXIO_COM_DB_USER:-cixio_com_user}:${CIXIO_COM_DB_PASSWORD}@172.31.33.96:27017,172.31.33.96:27018,172.31.33.96:27019/cixio?replicaSet=rs0&authSource=cixio&directConnection=false}
     ports:
       - "5001:80"
     volumes:
