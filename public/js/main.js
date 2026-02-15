@@ -403,14 +403,18 @@ const observerOptions = {
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.classList.add('fade-in');
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
             observer.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
 // Observe elements for animation
-document.querySelectorAll('.service-card, .product-card, .feature-card, .pricing-card').forEach(el => {
+document.querySelectorAll('.service-card, .product-card, .feature-card, .pricing-card, .about-item, .info-card, .stat-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     observer.observe(el);
 });
 
@@ -435,8 +439,8 @@ if (footerYearText) {
 }
 
 // ===== Console Welcome Message =====
-console.log('%c🚀 Welcome to CIXIO!', 'color: #0066FF; font-size: 20px; font-weight: bold;');
-console.log('%cAdvanced AI Software Solutions', 'color: #00D9FF; font-size: 14px;');
+console.log('%c🚀 Welcome to CIXIO!', 'color: #6366f1; font-size: 20px; font-weight: bold;');
+console.log('%cAdvanced AI Software Solutions', 'color: #ec4899; font-size: 14px;');
 console.log('%cBuilt with ❤️ using modern web technologies', 'color: #666; font-size: 12px;');
 
 // ===== Performance Logging (Development) =====
