@@ -152,33 +152,9 @@ if [ "$DEPLOY_TARGET" = "stage" ]; then
             echo "     Or set in .env: MONGO_SERVER_SSH_HOST=<your-ssh-alias>"
         fi
 
-        # Also copy over shared config from build server .env (JWT, EMAIL, etc.)
-        if [ -f ".env" ]; then
-            # Extract non-DB, non-deployment settings from dev .env and merge
-            for KEY in JWT_SECRET JWT_EXPIRE EMAIL_HOST EMAIL_PORT EMAIL_USER EMAIL_PASS \
-                       EMAIL_FROM EMAIL_FROM_NAME EMAIL_FROM_ADDRESS SUPPORT_EMAIL INFO_EMAIL ADMIN_EMAIL \
-                       ALLOWED_ORIGINS RATE_LIMIT_WINDOW_MS RATE_LIMIT_MAX_REQUESTS AUTH_RATE_LIMIT_MAX \
-                       MAX_LOGIN_ATTEMPTS ACCOUNT_LOCK_TIME PASSWORD_RESET_EXPIRE EMAIL_VERIFICATION_EXPIRE \
-                       TRIAL_PERIOD_DAYS DEFAULT_CURRENCY MAX_FILE_SIZE UPLOAD_PATH; do
-                VAL=$(grep "^${KEY}=" .env | cut -d= -f2- || echo "")
-                if [ -n "$VAL" ]; then
-                    if grep -q "^${KEY}=" ${EXPORT_DIR}/.env; then
-                        sed -i "s|^${KEY}=.*|${KEY}=${VAL}|" ${EXPORT_DIR}/.env
-                    else
-                        echo "${KEY}=${VAL}" >> ${EXPORT_DIR}/.env
-                    fi
-                fi
-            done
-            echo "  ✓ Merged shared config (JWT, EMAIL, CORS, etc.) into Stage .env"
-        fi
-
-        # Set Stage-specific URLs
-        if ! grep -q "^FRONTEND_URL=" ${EXPORT_DIR}/.env; then
-            echo "FRONTEND_URL=https://www.cixio.com" >> ${EXPORT_DIR}/.env
-        fi
-        if ! grep -q "^API_URL=" ${EXPORT_DIR}/.env; then
-            echo "API_URL=http://localhost:80/api" >> ${EXPORT_DIR}/.env
-        fi
+        # NOTE: .env.stage.example now has all configs pre-filled
+        # (FRONTEND_URL, JWT_SECRET, EMAIL, CORS, etc.)
+        echo "  ✓ Using complete Stage configuration from .env.stage.example"
     else
         echo "  ⚠ .env.stage.example not found, copying dev .env (may need manual edits!)"
         cp .env ${EXPORT_DIR}/.env
