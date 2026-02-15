@@ -324,3 +324,15 @@ function getFormData(formId) {
 
 // ===== Initialize =====
 console.log('CIXIO Landing Page initialized successfully');
+
+// Auto-open login modal if redirected from verify-email page
+(function() {
+    const params = new URLSearchParams(window.location.search);
+    const action = params.get('action');
+    if (action === 'login' && modals.loginModal) {
+        modals.loginModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        // Clean up the URL
+        window.history.replaceState({}, '', '/');
+    }
+})();

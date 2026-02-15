@@ -130,6 +130,11 @@ app.get('/api/health', (req, res) => {
     });
 });
 
+// Serve verify-email page
+app.get('/verify-email', staticLimiter, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'verify-email.html'));
+});
+
 // Serve index.html for all other routes (SPA support) - with rate limiting
 app.get('*', staticLimiter, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
