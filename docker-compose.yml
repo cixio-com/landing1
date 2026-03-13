@@ -1,6 +1,7 @@
 
 services:
   # ---------------------------------------------------------------
+<<<<<<< Updated upstream
   # CIXIO.COM Application Service
   # 
   # Works for all environments (Development, Stage, Production)
@@ -12,6 +13,18 @@ services:
   #   - Development: Uses build context (builds on local machine)
   #   - Stage/Production: Uses pre-built image loaded from tar file
   #   - The build section is ignored if image already exists
+=======
+  # NOTE: MongoDB removed - using central replica set
+  # See: CIXIO-DATABASE/mvp_10_cixio-database
+  #
+  # SINGLE EC2: Apps + DB on same machine (via Docker network)
+  #   → Uses default: cixio-mongo1:27017 (container names)
+  #   → Requires: cixio-shared-db Docker network
+  #
+  # MULTI-EC2: DB on separate server (via VPC private IP)
+  #   → Set MONGODB_URI in .env with DB server's private IP
+  #   → cixio-shared-db network NOT needed (remove from networks below)
+>>>>>>> Stashed changes
   # ---------------------------------------------------------------
 
   # Node.js Application Service
@@ -25,14 +38,20 @@ services:
     env_file:
       - .env
     environment:
+<<<<<<< Updated upstream
       NODE_ENV: ${NODE_ENV:-production}
       MONGODB_URI: ${MONGODB_URI}
+=======
+      NODE_ENV: production
+      MONGODB_URI: ${MONGODB_URI:-mongodb://${CIXIO_COM_DB_USER:-cixio_com_user}:${CIXIO_COM_DB_PASSWORD}@cixio-mongo1:27017,cixio-mongo2:27017,cixio-mongo3:27017/cixio?replicaSet=rs0&authSource=cixio}
+>>>>>>> Stashed changes
     ports:
       - "5001:80"  # Multi-app deployment: unique host port
     volumes:
       - ./uploads:/app/uploads
     networks:
       - cixio-com-network
+      - cixio-shared-db
     healthcheck:
       test: ["CMD", "node", "-e", "require('http').get('http://localhost:80/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
       interval: 30s
@@ -44,9 +63,15 @@ services:
 networks:
   cixio-com-network:
     driver: bridge
+<<<<<<< Updated upstream
   # Note: cixio-shared-db network removed from default config
   # For Production server with local MongoDB, manually add to app networks:
   #   - cixio-shared-db (external network)
+=======
+  cixio-shared-db:
+    external: true
+    name: cixio-shared-db
+>>>>>>> Stashed changes
 
 # Volumes
 volumes: {}
