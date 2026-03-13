@@ -1,27 +1,17 @@
 
 services:
-  # MongoDB Service
-  mongo:
-    image: cixio-com-mongo:7.0
-    container_name: cixio-com-mongodb
-    restart: unless-stopped
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: changeme123
-      MONGO_INITDB_DATABASE: cixio
-    ports:
-      - "127.0.0.1:27017:27017"  # Bind to localhost only - not exposed externally
-    volumes:
-      - mongo-data:/data/db
-      - mongo-config:/data/configdb
-    networks:
-      - cixio-com-network
-    healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 40s
+  # ---------------------------------------------------------------
+  # NOTE: MongoDB removed - using central replica set
+  # See: CIXIO-DATABASE/mvp_10_cixio-database
+  #
+  # SINGLE EC2: Apps + DB on same machine (via Docker network)
+  #   → Uses default: cixio-mongo1:27017 (container names)
+  #   → Requires: cixio-shared-db Docker network
+  #
+  # MULTI-EC2: DB on separate server (via VPC private IP)
+  #   → Set MONGODB_URI in .env with DB server's private IP
+  #   → cixio-shared-db network NOT needed (remove from networks below)
+  # ---------------------------------------------------------------
 
   # Node.js Application Service
   app:
@@ -35,16 +25,14 @@ services:
       - .env
     environment:
       NODE_ENV: production
-      MONGODB_URI: mongodb://admin:changeme123@mongo:27017/cixio?authSource=admin
+      MONGODB_URI: ${MONGODB_URI:-mongodb://${CIXIO_COM_DB_USER:-cixio_com_user}:${CIXIO_COM_DB_PASSWORD}@cixio-mongo1:27017,cixio-mongo2:27017,cixio-mongo3:27017/cixio?replicaSet=rs0&authSource=cixio}
     ports:
       - "5001:80"  # Multi-app deployment: unique host port
     volumes:
       - ./uploads:/app/uploads
-    depends_on:
-      mongo:
-        condition: service_healthy
     networks:
       - cixio-com-network
+      - cixio-shared-db
     healthcheck:
       test: ["CMD", "node", "-e", "require('http').get('http://localhost:80/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
       interval: 30s
@@ -56,10 +44,9 @@ services:
 networks:
   cixio-com-network:
     driver: bridge
+  cixio-shared-db:
+    external: true
+    name: cixio-shared-db
 
 # Volumes
-volumes:
-  mongo-data:
-    driver: local
-  mongo-config:
-    driver: local
+volumes: {}
