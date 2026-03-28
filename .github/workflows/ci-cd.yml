@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  id-token: write   # Required for OIDC to AWS
+  contents: read
+  packages: write
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: cixio-org/landing1
@@ -80,6 +85,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::972067303181:role/GitHubActionsRole
+          aws-region: us-east-1
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
