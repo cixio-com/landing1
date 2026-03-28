@@ -48,8 +48,8 @@
     "express-rate-limit": "^7.1.5",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^7.6.3",
-    "nodemailer": "^7.0.12",
+    "mongoose": "^9.3.1",
+    "nodemailer": "^8.0.3",
     "validator": "^13.11.0"
   },
   "devDependencies": {
