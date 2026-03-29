@@ -19,7 +19,7 @@ jobs:
   # â”€â”€ Test / Lint â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   test:
     name: Test & Lint
-    runs-on: cixio-org-runner
+    runs-on: cixio-enterprise-runner-linux
     steps:
       - uses: actions/checkout@v4
 
@@ -37,7 +37,7 @@ jobs:
   # â”€â”€ Build & Push Docker Image â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   build:
     name: Build & Push to GHCR
-    runs-on: cixio-org-runner
+    runs-on: cixio-enterprise-runner-linux
     needs: test
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     permissions:
@@ -78,7 +78,7 @@ jobs:
   # â”€â”€ Deploy to EC2 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   deploy:
     name: Deploy to Production EC2
-    runs-on: cixio-org-runner
+    runs-on: cixio-enterprise-runner-linux
     needs: build
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment: production
