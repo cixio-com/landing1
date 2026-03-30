@@ -48,7 +48,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::972067303181:role/GitHubActionsRole
           aws-region: us-east-1
-      - uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-buildx-action@v4
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
