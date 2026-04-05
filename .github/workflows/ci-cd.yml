@@ -14,7 +14,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: cixio-org/landing1
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   test:
