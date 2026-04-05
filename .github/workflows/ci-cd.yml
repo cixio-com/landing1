@@ -75,7 +75,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: Save Docker image to S3
-        if: steps.aws-creds.outcome == \'success\'
+        if: steps.aws-creds.outcome == 'success'
         run: |
           DATE=$(date -u +%Y-%m-%d)
           REPO_NAME="${{ github.event.repository.name }}"
