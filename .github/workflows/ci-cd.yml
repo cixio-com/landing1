@@ -44,6 +44,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Configure AWS Credentials (OIDC)
+        id: aws-creds
+        continue-on-error: true
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::972067303181:role/GitHubActionsRole
@@ -73,6 +75,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: Save Docker image to S3
+        if: steps.aws-creds.outcome == \'success\'
         run: |
           DATE=$(date -u +%Y-%m-%d)
           REPO_NAME="${{ github.event.repository.name }}"
