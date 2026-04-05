@@ -19,7 +19,7 @@ env:
 jobs:
   test:
     name: Test & Lint
-    runs-on: ubuntu-latest
+    runs-on: cixio-enterprise-runner-linux
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -32,7 +32,7 @@ jobs:
 
   build:
     name: Build & Push to GHCR
-    runs-on: ubuntu-latest
+    runs-on: cixio-enterprise-runner-linux
     needs: test
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     permissions:
@@ -91,7 +91,7 @@ jobs:
 
   deploy:
     name: Deploy to Production EC2
-    runs-on: ubuntu-latest
+    runs-on: cixio-enterprise-runner-linux
     needs: build
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment: production
