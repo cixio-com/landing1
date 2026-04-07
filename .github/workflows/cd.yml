@@ -2,10 +2,8 @@
 # landing1 (cixio.com) — CD Pipeline
 # ============================================================================
 # Calls the centralized reusable CD workflow from cixio-enterprise-iac.
-# Replaces the old ci-cd.yml inline deploy steps.
-#
-# Flow:  feature/* → dev → testing → qa → stage (gate) → main/prod
-# Port:  5001 (prod), 6001 (dev), 9001 (testing), 7001 (qa), 8001 (stage)
+# Zero secrets needed — uses OIDC for AWS, GITHUB_TOKEN for GHCR,
+# and runner-local SSH key on the build server.
 # ============================================================================
 
 name: CD Pipeline
@@ -25,7 +23,7 @@ permissions:
 
 jobs:
   deploy:
-    uses: cixio-org/cixio-enterprise-iac/.github/workflows/reusable-cd.yml@main
+    uses: cixio-infrastructure/cixio-enterprise-iac/.github/workflows/reusable-cd.yml@main
     with:
       app-name: landing1
       image-name: cixio-com/landing1
