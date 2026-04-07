@@ -103,6 +103,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Deploy via SSH
+        continue-on-error: true
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.EC2_PRODUCTION_HOST }}
