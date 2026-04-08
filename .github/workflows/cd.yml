@@ -31,5 +31,5 @@ jobs:
       runtime: node
       node-version: "20"
       container-port: "80"
-      health-path: /health
+      health-path: /api/health
     secrets: inherit
