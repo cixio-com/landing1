@@ -2,8 +2,9 @@
 # landing1 (cixio.com) — CD Pipeline
 # ============================================================================
 # Calls the centralized reusable CD workflow from cixio-enterprise-iac.
-# Zero secrets needed — uses OIDC for AWS, GITHUB_TOKEN for GHCR,
-# and runner-local SSH key on the build server.
+#
+# Deployment: OIDC → ECR (build) → SSM Run Command (deploy to EC2)
+# No SSH keys. No open ports. No long-lived credentials.
 # ============================================================================
 
 name: CD Pipeline
@@ -18,7 +19,6 @@ on:
 permissions:
   id-token: write
   contents: write
-  packages: write
   pull-requests: write
 
 jobs:
@@ -32,5 +32,4 @@ jobs:
       node-version: "20"
       container-port: "80"
       health-path: /api/health
-      ec2-jump-host: "13.233.11.147"
     secrets: inherit
