@@ -298,8 +298,7 @@ console.log('%cBuilt with ❤️ using modern web technologies', 'color: #666; f
 
 // ===== Performance Logging (Development) =====
 window.addEventListener('load', () => {
-    const perfData = performance.timing;
-    const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
+    const pageLoadTime = Math.round(performance.now());
     console.log(`Page loaded in ${pageLoadTime}ms`);
 });
 

@@ -46,7 +46,7 @@ if (backToTopBtn) {
 }
 
 // ===== Animate on Scroll =====
-const observerOptions = {
+const modernObserverOptions = {
     threshold: 0.15,
     rootMargin: '0px 0px -50px 0px'
 };
@@ -59,7 +59,7 @@ const animateOnScroll = new IntersectionObserver((entries) => {
             // animateOnScroll.unobserve(entry.target);
         }
     });
-}, observerOptions);
+}, modernObserverOptions);
 
 // Observe all elements with animate-on-scroll class
 document.querySelectorAll('.animate-on-scroll').forEach(el => {
