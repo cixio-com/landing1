@@ -496,5 +496,5 @@ document.getElementById('ssoRedirectBtn')?.addEventListener('click', () => {
         : host === 'localhost' ? 'http://localhost:4000'
         : 'https://sso.cixio.ai';
     const returnUrl = encodeURIComponent(window.location.origin + '/api/auth/sso-callback');
-    window.location.href = `${ssoBase}/login?redirect_uri=${returnUrl}&app=cixio-com`;
+    window.location.href = `${ssoBase}/login?client_id=cixio-com&redirect_uri=${returnUrl}`;
 });
