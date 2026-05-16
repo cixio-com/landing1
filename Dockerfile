@@ -4,11 +4,12 @@ FROM node:18-alpine
 # Set working directory
 WORKDIR /app
 
-# Install dependencies for native modules
+# Install dependencies for native modules and health check
 RUN apk add --no-cache \
     python3 \
     make \
-    g++
+    g++ \
+    curl
 
 # Copy package files
 COPY package*.json ./
