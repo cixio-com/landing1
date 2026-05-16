@@ -233,112 +233,198 @@
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Products We Have Built</h2>
-                <p class="section-subtitle">Production-grade platforms designed, built, and operated by CIXIO</p>
+                <p class="section-subtitle">Production-grade platforms designed, built, and operated by CIXIO — privacy-first, self-hostable, enterprise-ready</p>
             </div>
             <div class="products-grid">
+
+                <!-- 1. CIXIO AI Platform -->
                 <div class="product-card">
                     <div class="product-image">
                         <i class="fas fa-robot"></i>
                     </div>
                     <div class="product-content">
-                        <h3>CIXIO AI — Enterprise AI Assistant</h3>
-                        <p>A production-ready AI assistant platform powered by multiple LLMs (GPT-4, Claude, Gemini) with RAG (Retrieval-Augmented Generation) for accurate, context-aware answers from your own data. Deployable on-premise for full data privacy.</p>
+                        <h3>CIXIO AI &mdash; Enterprise AI Platform</h3>
+                        <p>The flagship CIXIO product &mdash; an integrated enterprise platform orchestrating 32+ microservices: secure browsing, private LLM inference, AI agents, code editing, SSO, RAG, document vault, and automated infrastructure. All enterprise data stays fully within your own infrastructure.</p>
                         <ul class="product-features">
-                            <li><i class="fas fa-check-circle"></i> Multi-Model Routing (GPT, Claude, Gemini)</li>
-                            <li><i class="fas fa-check-circle"></i> RAG — Knowledge Base & Document Q&A</li>
-                            <li><i class="fas fa-check-circle"></i> On-Premise & Private Cloud Deployment</li>
-                            <li><i class="fas fa-check-circle"></i> Role-Based Access & Full Audit Logs</li>
-                            <li><i class="fas fa-check-circle"></i> File, PDF & Web Content Intelligence</li>
+                            <li><i class="fas fa-check-circle"></i> 32+ Integrated Microservices</li>
+                            <li><i class="fas fa-check-circle"></i> RAG Knowledge Base (LanceDB + vector search)</li>
+                            <li><i class="fas fa-check-circle"></i> Multi-Model AI (GPT-4, Claude, Gemini, Ollama)</li>
+                            <li><i class="fas fa-check-circle"></i> FastAPI + PostgreSQL + Redis + MongoDB</li>
+                            <li><i class="fas fa-check-circle"></i> On-Premise &amp; Private Cloud Deployment</li>
                         </ul>
                         <a href="#contact" class="btn btn-primary">Learn More</a>
                     </div>
                 </div>
+
+                <!-- 2. CIXIO LLM Gateway -->
                 <div class="product-card">
-                    <div class="product-image">
+                    <div class="product-image" style="background:linear-gradient(135deg,#7c3aed,#4f46e5);">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3>CIXIO LLM &mdash; Self-Hosted LLM Gateway</h3>
+                        <p>OpenAI-compatible unified LLM gateway that routes API requests to any backend &mdash; Ollama, vLLM, llama.cpp, or HuggingFace &mdash; with zero data leaving your infrastructure. Single API endpoint for 25+ curated models with streaming, token counting, and rate limiting.</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check-circle"></i> OpenAI-Compatible API (/v1/chat/completions)</li>
+                            <li><i class="fas fa-check-circle"></i> 25+ Models &mdash; Ollama, vLLM, HuggingFace</li>
+                            <li><i class="fas fa-check-circle"></i> Streaming SSE + Token Counting</li>
+                            <li><i class="fas fa-check-circle"></i> Enterprise: RBAC, SSO, PII Redaction, Billing</li>
+                            <li><i class="fas fa-check-circle"></i> Docker CPU &amp; GPU (CUDA 12.4) Deployment</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- 3. CIXIO Code -->
+                <div class="product-card">
+                    <div class="product-image" style="background:linear-gradient(135deg,#0f766e,#0e7490);">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3>CIXIO Code &mdash; Privacy-First Code Editor</h3>
+                        <p>A production-ready code editor forked from VS Code (Code-OSS) with zero telemetry, zero external API calls, and pre-configured local AI integration via CIXIO LLM. Full extension support via Open VSX. Ships v1.113.0 for macOS, Windows, and Linux with Docker deployment.</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check-circle"></i> VS Code Fork &mdash; Zero Telemetry &amp; Zero Tracking</li>
+                            <li><i class="fas fa-check-circle"></i> Local AI Coding Assistant (via CIXIO LLM)</li>
+                            <li><i class="fas fa-check-circle"></i> Open VSX Extension Marketplace</li>
+                            <li><i class="fas fa-check-circle"></i> macOS, Windows, Linux + Docker</li>
+                            <li><i class="fas fa-check-circle"></i> Version 1.113.0 &mdash; Production-Ready</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- 4. CIXIO Browser -->
+                <div class="product-card">
+                    <div class="product-image" style="background:linear-gradient(135deg,#1d4ed8,#0369a1);">
                         <i class="fas fa-globe"></i>
                     </div>
                     <div class="product-content">
-                        <h3>CIXIO Browser — Enterprise Web Browser</h3>
-                        <p>A custom enterprise browser built on Chromium with built-in SSO authentication, content policy enforcement, activity monitoring, and secure browsing controls — purpose-built for corporate environments.</p>
+                        <h3>CIXIO Browser &mdash; De-Googled Enterprise Browser</h3>
+                        <p>A privacy-first desktop browser built on Electron/Chromium with 25+ tracking features disabled, zero third-party telemetry, enterprise policy management, activity monitoring, URL blocklists, and full CIXIO SSO integration. Distributed as platform-native installers (DMG, EXE, AppImage).</p>
                         <ul class="product-features">
-                            <li><i class="fas fa-check-circle"></i> Chromium-Based, Cross-Platform</li>
-                            <li><i class="fas fa-check-circle"></i> Built-In SSO & Zero-Trust Login</li>
-                            <li><i class="fas fa-check-circle"></i> URL & Content Policy Controls</li>
-                            <li><i class="fas fa-check-circle"></i> Enterprise Activity Monitoring</li>
-                            <li><i class="fas fa-check-circle"></i> Secure Extension Management</li>
+                            <li><i class="fas fa-check-circle"></i> 25+ Tracking &amp; Telemetry Features Disabled</li>
+                            <li><i class="fas fa-check-circle"></i> Enterprise Policy &amp; URL Blocklists</li>
+                            <li><i class="fas fa-check-circle"></i> Activity Monitoring &amp; Audit Logs</li>
+                            <li><i class="fas fa-check-circle"></i> Built-In SSO &amp; Zero-Trust Auth</li>
+                            <li><i class="fas fa-check-circle"></i> macOS (DMG), Windows (EXE), Linux (AppImage)</li>
                         </ul>
                         <a href="#contact" class="btn btn-primary">Learn More</a>
                     </div>
                 </div>
+
+                <!-- 5. CIXIO PASS / Document Vault -->
                 <div class="product-card">
-                    <div class="product-image">
-                        <i class="fas fa-mobile-alt"></i>
+                    <div class="product-image" style="background:linear-gradient(135deg,#b45309,#d97706);">
+                        <i class="fas fa-vault"></i>
                     </div>
                     <div class="product-content">
-                        <h3>CIXIO Mobile — Enterprise App Platform</h3>
-                        <p>A white-label cross-platform mobile application built with Flutter. Ships with a built-in app marketplace, SSO login, push notifications, biometric authentication, and real-time analytics — ready to brand and deploy.</p>
+                        <h3>CIXIO PASS &mdash; Encrypted Document Vault</h3>
+                        <p>Military-grade encrypted document wallet for identity documents (passports, visas, licenses, bank statements) using AES-256-GCM with per-user key derivation. Generates QR codes for offline-ready verification, shareable links with expiry, view limits, and full access logging.</p>
                         <ul class="product-features">
-                            <li><i class="fas fa-check-circle"></i> Flutter — iOS & Android</li>
-                            <li><i class="fas fa-check-circle"></i> In-App Marketplace & Module System</li>
-                            <li><i class="fas fa-check-circle"></i> SSO & Biometric Authentication</li>
-                            <li><i class="fas fa-check-circle"></i> Push Notifications & Real-Time Updates</li>
-                            <li><i class="fas fa-check-circle"></i> White-Label Branding & Custom Themes</li>
+                            <li><i class="fas fa-check-circle"></i> AES-256-GCM + Per-User Key Derivation</li>
+                            <li><i class="fas fa-check-circle"></i> QR Code Generation for Offline Verification</li>
+                            <li><i class="fas fa-check-circle"></i> Share Links with Expiry &amp; View Limits</li>
+                            <li><i class="fas fa-check-circle"></i> Cross-Border Document Verification API</li>
+                            <li><i class="fas fa-check-circle"></i> Full Access Logs &amp; Audit Trail</li>
                         </ul>
                         <a href="#contact" class="btn btn-primary">Learn More</a>
                     </div>
                 </div>
+
+                <!-- 6. CIXIO File Protection -->
+                <div class="product-card">
+                    <div class="product-image" style="background:linear-gradient(135deg,#be185d,#9d174d);">
+                        <i class="fas fa-file-shield"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3>CIXIO File Protection &mdash; Enterprise Encryption</h3>
+                        <p>End-to-end file encryption suite supporting files up to 2GB+ with hybrid RSA+AES-256-GCM encryption. Features RSA key generation (2048&ndash;4096-bit), bulk folder encryption, password-protected files (PBKDF2), expiring files with grace periods, and secure sharing links via web UI and REST API.</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check-circle"></i> Hybrid RSA (4096-bit) + AES-256-GCM</li>
+                            <li><i class="fas fa-check-circle"></i> Files &amp; Folder Bulk Encryption (2GB+ tested)</li>
+                            <li><i class="fas fa-check-circle"></i> Expiring Files with Grace Periods</li>
+                            <li><i class="fas fa-check-circle"></i> Secure Sharing Links + Web UI &amp; REST API</li>
+                            <li><i class="fas fa-check-circle"></i> v2.0.0 &mdash; 100% Feature Complete</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- 7. CIXIO SSO -->
                 <div class="product-card">
                     <div class="product-image">
                         <i class="fas fa-id-badge"></i>
                     </div>
                     <div class="product-content">
-                        <h3>CIXIO SSO — Identity & Access Management</h3>
-                        <p>A self-hosted enterprise Single Sign-On platform supporting OAuth2, OIDC, and MFA. Centralizes authentication across all your web and mobile apps with a unified user directory and session management.</p>
+                        <h3>CIXIO SSO &mdash; Identity &amp; Access Management</h3>
+                        <p>A self-hosted enterprise Single Sign-On platform supporting OAuth2, OIDC, and MFA. Centralizes authentication across all your web and mobile apps with a unified user directory, session management, and multi-application SDK. Powers all other CIXIO products natively.</p>
                         <ul class="product-features">
                             <li><i class="fas fa-check-circle"></i> OAuth2 / OIDC / JWT Standard</li>
                             <li><i class="fas fa-check-circle"></i> Multi-Factor Authentication (MFA)</li>
                             <li><i class="fas fa-check-circle"></i> Centralized User Directory</li>
                             <li><i class="fas fa-check-circle"></i> Multi-App Integration SDK</li>
-                            <li><i class="fas fa-check-circle"></i> Session Control & Security Audit</li>
+                            <li><i class="fas fa-check-circle"></i> Session Control &amp; Security Audit</li>
                         </ul>
                         <a href="#contact" class="btn btn-primary">Learn More</a>
                     </div>
                 </div>
+
+                <!-- 8. CIXIO Mobile -->
                 <div class="product-card">
-                    <div class="product-image">
-                        <i class="fas fa-comments"></i>
+                    <div class="product-image" style="background:linear-gradient(135deg,#047857,#065f46);">
+                        <i class="fas fa-mobile-alt"></i>
                     </div>
                     <div class="product-content">
-                        <h3>CIXIO Chat — Enterprise Messaging</h3>
-                        <p>A real-time enterprise messaging and collaboration platform with end-to-end encrypted channels, file sharing, AI-powered message summaries, and deep integration with CIXIO SSO and mobile apps.</p>
+                        <h3>CIXIO Mobile &mdash; Flutter Enterprise App</h3>
+                        <p>A white-label cross-platform enterprise mobile application built with Flutter. Includes a full in-app marketplace with module system, Firebase push notifications, biometric &amp; SSO authentication, deep linking, contacts access, SMS auto-fill, and native camera integration.</p>
                         <ul class="product-features">
-                            <li><i class="fas fa-check-circle"></i> Real-Time Channels & Direct Messaging</li>
-                            <li><i class="fas fa-check-circle"></i> End-to-End Encrypted Conversations</li>
-                            <li><i class="fas fa-check-circle"></i> File Sharing & Document Preview</li>
-                            <li><i class="fas fa-check-circle"></i> AI Message Summaries</li>
-                            <li><i class="fas fa-check-circle"></i> SSO & Mobile App Integration</li>
+                            <li><i class="fas fa-check-circle"></i> Flutter &mdash; iOS &amp; Android (157MB APK built)</li>
+                            <li><i class="fas fa-check-circle"></i> In-App Marketplace &amp; Module System</li>
+                            <li><i class="fas fa-check-circle"></i> Firebase FCM Push Notifications</li>
+                            <li><i class="fas fa-check-circle"></i> SSO, Biometric Auth &amp; Deep Linking</li>
+                            <li><i class="fas fa-check-circle"></i> White-Label Branding &mdash; v1.0.0</li>
                         </ul>
                         <a href="#contact" class="btn btn-primary">Learn More</a>
                     </div>
                 </div>
+
+                <!-- 9. CIXIO Scan -->
                 <div class="product-card">
-                    <div class="product-image">
-                        <i class="fas fa-suitcase"></i>
+                    <div class="product-image" style="background:linear-gradient(135deg,#374151,#111827);">
+                        <i class="fas fa-qrcode"></i>
                     </div>
                     <div class="product-content">
-                        <h3>CIXIO Travel — Travel Desk Software</h3>
-                        <p>An intelligent travel desk management platform for enterprises and travel businesses. Handles booking requests, vendor coordination, itinerary management, approvals, and automated customer communications.</p>
+                        <h3>CIXIO Scan &mdash; 4096-bit Barcode System</h3>
+                        <p>A scalable barcode generation and scanning system that converts any data &mdash; files, text, images, documents &mdash; into high-density scannable barcodes with multi-layer splitting (4096+ characters), error correction, 2&ndash;3x compression, and blockchain integration for tamper-proof verification.</p>
                         <ul class="product-features">
-                            <li><i class="fas fa-check-circle"></i> Booking & Itinerary Management</li>
-                            <li><i class="fas fa-check-circle"></i> Automated Customer Emails</li>
-                            <li><i class="fas fa-check-circle"></i> Vendor & Package Configuration</li>
-                            <li><i class="fas fa-check-circle"></i> Approval Workflows</li>
-                            <li><i class="fas fa-check-circle"></i> Multi-Branch & Multi-Team Support</li>
+                            <li><i class="fas fa-check-circle"></i> 4096-bit Multi-Layer Barcode Generation</li>
+                            <li><i class="fas fa-check-circle"></i> 20x Capacity Over Traditional QR Codes</li>
+                            <li><i class="fas fa-check-circle"></i> Color Barcodes (24x capacity increase)</li>
+                            <li><i class="fas fa-check-circle"></i> Blockchain Tamper-Proof Verification</li>
+                            <li><i class="fas fa-check-circle"></i> Python + OpenCV + Flask API &mdash; v2.0.0</li>
                         </ul>
                         <a href="#contact" class="btn btn-primary">Learn More</a>
                     </div>
+                </div>
+
+            </div>
+
+            <!-- More Products Strip -->
+            <div style="margin-top:3rem;padding:2rem;background:var(--bg-secondary);border-radius:var(--radius-xl);border:1px solid var(--border-color);">
+                <h3 style="text-align:center;font-size:1.1rem;font-weight:700;color:var(--text-primary);margin-bottom:1.25rem;">Also Built by CIXIO</h3>
+                <div style="display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;">
+                    <span class="tech-chip"><i class="fas fa-comments"></i>&nbsp; CIXIO Chat &mdash; Enterprise Messaging</span>
+                    <span class="tech-chip"><i class="fas fa-suitcase"></i>&nbsp; CIXIO Travel &mdash; Travel Desk</span>
+                    <span class="tech-chip"><i class="fas fa-project-diagram"></i>&nbsp; CIXIO Workflows &mdash; n8n Automation</span>
+                    <span class="tech-chip"><i class="fas fa-tachometer-alt"></i>&nbsp; CIXIO Monitoring &mdash; Prometheus &amp; Grafana Stack</span>
+                    <span class="tech-chip"><i class="fas fa-brain"></i>&nbsp; CIXIO Agent OS &mdash; LangGraph AI Agents PaaS</span>
+                    <span class="tech-chip"><i class="fas fa-bell"></i>&nbsp; CIXIO Notifications &mdash; Multi-Channel Alerts</span>
+                    <span class="tech-chip"><i class="fas fa-ticket-alt"></i>&nbsp; CIXIO Support &mdash; Email Ticketing System</span>
+                    <span class="tech-chip"><i class="fas fa-funnel-dollar"></i>&nbsp; CIXIO B2B &mdash; AI Lead Generation Engine</span>
                 </div>
             </div>
+
         </div>
     </section>
 
