@@ -490,7 +490,11 @@ document.getElementById('cixioSSOSignIn')?.addEventListener('click', () => {
 
 document.getElementById('ssoRedirectBtn')?.addEventListener('click', () => {
     // SSO OAuth flow: redirect to SSO portal, which redirects back with a token
-    const ssoBase = 'https://sso.cixio.ai';
+    // Use dev SSO for dev.cixio.com, prod SSO for cixio.com, local for localhost
+    const host = window.location.hostname;
+    const ssoBase = host.includes('dev.') ? 'https://sso.dev.cixio.ai'
+        : host === 'localhost' ? 'http://localhost:4000'
+        : 'https://sso.cixio.ai';
     const returnUrl = encodeURIComponent(window.location.origin + '/api/auth/sso-callback');
     window.location.href = `${ssoBase}/login?redirect_uri=${returnUrl}&app=cixio-com`;
 });
