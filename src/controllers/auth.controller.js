@@ -516,9 +516,166 @@ const logout = async (req, res) => {
     }
 };
 
+/**
+ * SSO Login — exchange a cixio-sso access token for a local JWT
+ * POST /api/auth/sso-login
+ * Body: { token: "<sso_access_token>" }
+ *
+ * Flow:
+ *   1. Verify SSO token with SSO_JWT_SECRET
+ *   2. Find or create a local User record for the SSO identity
+ *   3. Return a local JWT (same format as /api/auth/login)
+ */
+const ssoLogin = async (req, res) => {
+    try {
+        const { token: ssoToken } = req.body;
+
+        if (!ssoToken) {
+            return res.status(400).json({ success: false, message: 'SSO token is required' });
+        }
+
+        const ssoSecret = process.env.SSO_JWT_SECRET;
+        if (!ssoSecret) {
+            return res.status(503).json({ success: false, message: 'SSO integration is not configured' });
+        }
+
+        let decoded;
+        try {
+            const jwt = require('jsonwebtoken');
+            decoded = jwt.verify(ssoToken, ssoSecret);
+        } catch (err) {
+            return res.status(401).json({ success: false, message: 'Invalid or expired SSO token' });
+        }
+
+        if (!decoded.type || decoded.type !== 'access' || !decoded.userId) {
+            return res.status(401).json({ success: false, message: 'Invalid SSO token payload' });
+        }
+
+        // Find or auto-create local user record for this SSO identity
+        let user = await User.findOne({ email: (decoded.email || '').toLowerCase() });
+
+        if (!user && decoded.email) {
+            // Auto-provision: create a local shadow user (no password — SSO-only)
+            user = await User.create({
+                firstName: decoded.firstName || decoded.email.split('@')[0],
+                lastName: decoded.lastName || 'User',
+                email: decoded.email.toLowerCase(),
+                password: crypto.randomBytes(32).toString('hex'), // random — not usable for local login
+                isEmailVerified: true,
+                isActive: true,
+            });
+            await user.logActivity('sso_auto_provision', req.ip, req.get('user-agent'));
+        }
+
+        if (!user) {
+            return res.status(401).json({ success: false, message: 'SSO identity could not be resolved to a user' });
+        }
+
+        if (!user.isActive) {
+            return res.status(403).json({ success: false, message: 'Your account has been deactivated. Please contact support.' });
+        }
+
+        // Update last login
+        user.lastLogin = Date.now();
+        await user.save();
+        await user.logActivity('sso_login', req.ip, req.get('user-agent'));
+
+        // Generate local JWT
+        const localToken = generateToken({
+            userId: user._id,
+            email: user.email,
+            role: user.role
+        });
+
+        res.status(200).json({
+            success: true,
+            message: 'SSO login successful',
+            data: {
+                user: {
+                    id: user._id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    role: user.role,
+                    isEmailVerified: user.isEmailVerified,
+                    subscriptionStatus: user.subscriptionStatus
+                },
+                token: localToken
+            }
+        });
+    } catch (error) {
+        console.error('SSO login error:', error);
+        res.status(500).json({ success: false, message: 'SSO login failed. Please try again.' });
+    }
+};
+
+/**
+ * SSO OAuth Callback — GET /api/auth/sso-callback?token=<sso_access_token>
+ * Called after the SSO portal redirects back. Exchanges the SSO token for a
+ * local JWT and redirects the browser to the frontend with it.
+ */
+const ssoCallback = async (req, res) => {
+    try {
+        const ssoToken = req.query.token;
+        const frontendUrl = process.env.FRONTEND_URL || 'https://www.cixio.com';
+
+        if (!ssoToken) {
+            return res.redirect(`${frontendUrl}?sso_error=missing_token`);
+        }
+
+        const ssoSecret = process.env.SSO_JWT_SECRET;
+        if (!ssoSecret) {
+            return res.redirect(`${frontendUrl}?sso_error=sso_not_configured`);
+        }
+
+        let decoded;
+        try {
+            const jwt = require('jsonwebtoken');
+            decoded = jwt.verify(ssoToken, ssoSecret);
+        } catch (_err) {
+            return res.redirect(`${frontendUrl}?sso_error=invalid_token`);
+        }
+
+        if (!decoded.type || decoded.type !== 'access' || !decoded.userId || !decoded.email) {
+            return res.redirect(`${frontendUrl}?sso_error=invalid_payload`);
+        }
+
+        // Find or auto-provision local user
+        let user = await User.findOne({ email: decoded.email.toLowerCase() });
+        if (!user) {
+            user = await User.create({
+                firstName: decoded.firstName || decoded.email.split('@')[0],
+                lastName: decoded.lastName || 'User',
+                email: decoded.email.toLowerCase(),
+                password: crypto.randomBytes(32).toString('hex'),
+                isEmailVerified: true,
+                isActive: true,
+            });
+        }
+
+        if (!user.isActive) {
+            return res.redirect(`${frontendUrl}?sso_error=account_deactivated`);
+        }
+
+        user.lastLogin = Date.now();
+        await user.save();
+
+        const localToken = generateToken({ userId: user._id, email: user.email, role: user.role });
+
+        // Redirect to frontend with local token (frontend JS reads it from query)
+        return res.redirect(`${frontendUrl}?sso_token=${encodeURIComponent(localToken)}`);
+    } catch (error) {
+        console.error('SSO callback error:', error);
+        const frontendUrl = process.env.FRONTEND_URL || 'https://www.cixio.com';
+        return res.redirect(`${frontendUrl}?sso_error=server_error`);
+    }
+};
+
 module.exports = {
     register,
     login,
+    ssoLogin,
+    ssoCallback,
     verifyEmail,
     resendVerification,
     forgotPassword,

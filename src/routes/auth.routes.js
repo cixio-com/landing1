@@ -46,6 +46,20 @@ router.post('/forgot-password', authController.forgotPassword);
 router.post('/reset-password', authController.resetPassword);
 
 /**
+ * @route   POST /api/auth/sso-login
+ * @desc    Exchange a cixio-sso access token for a local JWT
+ * @access  Public
+ */
+router.post('/sso-login', authController.ssoLogin);
+
+/**
+ * @route   GET /api/auth/sso-callback
+ * @desc    SSO OAuth redirect callback — token in query param, redirects to frontend
+ * @access  Public
+ */
+router.get('/sso-callback', authController.ssoCallback);
+
+/**
  * @route   POST /api/auth/logout
  * @desc    Logout user
  * @access  Private (optional authentication for activity logging)

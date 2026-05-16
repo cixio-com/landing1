@@ -621,18 +621,21 @@
                         <input type="checkbox" name="remember">
                         <span>Remember me</span>
                     </label>
-                    <a href="#" class="link">Forgot password?</a>
+                    <a href="#" class="link" id="forgotPasswordLink">Forgot password?</a>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                 <div class="form-divider">
                     <span>OR</span>
                 </div>
                 <div class="social-auth">
-                    <button type="button" class="btn btn-social">
+                    <button type="button" class="btn btn-social" id="googleSignIn">
                         <i class="fab fa-google"></i> Sign in with Google
                     </button>
-                    <button type="button" class="btn btn-social">
+                    <button type="button" class="btn btn-social" id="microsoftSignIn">
                         <i class="fab fa-microsoft"></i> Sign in with Microsoft
+                    </button>
+                    <button type="button" class="btn btn-social btn-sso" id="cixioSSOSignIn">
+                        <i class="fas fa-shield-alt"></i> Sign in with CIXIO SSO
                     </button>
                 </div>
                 <p class="form-footer">
@@ -688,10 +691,10 @@
                     <span>OR</span>
                 </div>
                 <div class="social-auth">
-                    <button type="button" class="btn btn-social">
+                    <button type="button" class="btn btn-social" id="googleSignUp">
                         <i class="fab fa-google"></i> Sign up with Google
                     </button>
-                    <button type="button" class="btn btn-social">
+                    <button type="button" class="btn btn-social" id="microsoftSignUp">
                         <i class="fab fa-microsoft"></i> Sign up with Microsoft
                     </button>
                 </div>
@@ -703,6 +706,68 @@
     </div>
 
     <!-- Success Message -->
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-header">
+                <h2>Reset Password</h2>
+                <p>Enter your email address and we'll send you a reset link</p>
+            </div>
+            <form id="forgotPasswordForm" class="auth-form">
+                <div class="form-group">
+                    <label for="forgotEmail">Email Address</label>
+                    <input type="email" id="forgotEmail" name="email" placeholder="Enter your registered email" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Send Reset Link</button>
+                <p class="form-footer">
+                    Remember your password? <a href="#" data-modal="loginModal" class="link">Sign in</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Reset Password Modal -->
+    <div id="resetPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-header">
+                <h2>Set New Password</h2>
+                <p>Choose a strong new password for your account</p>
+            </div>
+            <form id="resetPasswordForm" class="auth-form">
+                <input type="hidden" id="resetToken" name="token">
+                <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <input type="password" id="newPassword" name="newPassword" placeholder="At least 8 characters" required minlength="8">
+                </div>
+                <div class="form-group">
+                    <label for="confirmNewPassword">Confirm New Password</label>
+                    <input type="password" id="confirmNewPassword" name="confirmNewPassword" placeholder="Confirm your new password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Update Password</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SSO Login Modal -->
+    <div id="ssoLoginModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-header">
+                <h2>CIXIO SSO Login</h2>
+                <p>Sign in using your CIXIO platform account</p>
+            </div>
+            <div class="sso-login-content">
+                <p>You will be redirected to the CIXIO SSO portal to authenticate.</p>
+                <button type="button" class="btn btn-primary btn-block" id="ssoRedirectBtn">
+                    <i class="fas fa-shield-alt"></i> Continue to CIXIO SSO
+                </button>
+                <p class="form-footer">SSO URL: <strong>sso.cixio.ai</strong></p>
+            </div>
+        </div>
+    </div>
+
     <div id="successMessage" class="success-message">
         <i class="fas fa-check-circle"></i>
         <span id="successText"></span>

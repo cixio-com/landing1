@@ -1,9 +1,15 @@
+const jwt = require('jsonwebtoken');
 const { verifyToken } = require('../utils/jwt.utils');
 const User = require('../models/user.model');
 
 /**
- * Authenticate user using JWT token
- * Verifies token and attaches user to request object
+ * Authenticate user using JWT token.
+ *
+ * Priority:
+ *   1. Try cixio-sso shared secret (SSO_JWT_SECRET) — tokens issued by sso.cixio.ai.
+ *      SSO tokens carry { userId, email, type: 'access' }.
+ *      No DB lookup on SSO path — verified offline via shared secret.
+ *   2. Fall back to this service's own JWT_SECRET — tokens issued by /api/auth/login.
  */
 const authenticate = async (req, res, next) => {
     try {
@@ -18,7 +24,31 @@ const authenticate = async (req, res, next) => {
         }
         
         const token = authHeader.substring(7); // Remove 'Bearer ' prefix
-        
+
+        // ── 1. Try SSO JWT (shared secret, no issuer restriction) ────────────
+        const ssoSecret = process.env.SSO_JWT_SECRET;
+        if (ssoSecret) {
+            try {
+                const decoded = jwt.verify(token, ssoSecret);
+                if (decoded.type === 'access' && decoded.userId) {
+                    req.user = {
+                        _id: decoded.userId,
+                        id: decoded.userId,
+                        email: decoded.email || null,
+                        role: decoded.role || 'user',
+                        isActive: true,
+                        isAccountLocked: false,
+                        _ssoAuthenticated: true,
+                    };
+                    req.userId = decoded.userId;
+                    return next();
+                }
+            } catch (_ssoErr) {
+                // Not a valid SSO token — fall through to local JWT
+            }
+        }
+
+        // ── 2. Fall back to local JWT ─────────────────────────────────────
         // Verify token
         const decoded = verifyToken(token);
         
@@ -100,7 +130,8 @@ const authorize = (...allowedRoles) => {
 };
 
 /**
- * Optional authentication - attaches user if token is valid, but doesn't fail if missing
+ * Optional authentication - attaches user if token is valid, but doesn't fail if missing.
+ * Supports both SSO tokens and local tokens.
  */
 const optionalAuth = async (req, res, next) => {
     try {
@@ -111,6 +142,29 @@ const optionalAuth = async (req, res, next) => {
         }
         
         const token = authHeader.substring(7);
+
+        // Try SSO token first
+        const ssoSecret = process.env.SSO_JWT_SECRET;
+        if (ssoSecret) {
+            try {
+                const decoded = jwt.verify(token, ssoSecret);
+                if (decoded.type === 'access' && decoded.userId) {
+                    req.user = {
+                        _id: decoded.userId,
+                        id: decoded.userId,
+                        email: decoded.email || null,
+                        role: decoded.role || 'user',
+                        isActive: true,
+                        _ssoAuthenticated: true,
+                    };
+                    return next();
+                }
+            } catch (_ssoErr) {
+                // Fall through
+            }
+        }
+
+        // Try local JWT
         const decoded = verifyToken(token);
         const user = await User.findById(decoded.userId).select('-password');
         
