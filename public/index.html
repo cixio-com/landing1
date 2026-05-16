@@ -53,10 +53,12 @@
                     <li><a href="#services">Services</a></li>
                     <li><a href="#products">Products</a></li>
                     <li><a href="#features">Features</a></li>
-                    <li><a href="#pricing">Pricing</a></li>
                     <li><a href="#contact">Contact</a></li>
-                    <li><a href="#" class="btn-login" data-modal="loginModal">Login</a></li>
-                    <li><a href="#" class="btn-register" data-modal="registerModal">Get Started</a></li>
+                    <li id="navLoginItem"><a href="#" class="btn-login" data-modal="loginModal">Sign In / Sign Up</a></li>
+                    <li id="navUserItem" style="display:none" class="nav-user-item">
+                        <span id="navUserEmail" class="nav-user-email"></span>
+                        <a href="#" id="navLogoutBtn" class="btn-logout">Logout</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -69,29 +71,41 @@
         </div>
         <div class="container">
             <div class="hero-content">
+                <div class="hero-badge-wrap" style="margin-bottom:1.5rem;display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;">
+                    <span class="hero-badge" style="display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .9rem;background:rgba(0,217,255,0.12);border:1px solid rgba(0,217,255,0.35);border-radius:9999px;font-size:.8rem;font-weight:600;color:#00D9FF;letter-spacing:.03em;"><i class="fas fa-award"></i> DPIIT Recognized Startup</span>
+                    <span class="hero-badge" style="display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .9rem;background:rgba(0,102,255,0.12);border:1px solid rgba(0,102,255,0.35);border-radius:9999px;font-size:.8rem;font-weight:600;color:#60a5fa;letter-spacing:.03em;"><i class="fas fa-shield-alt"></i> AI/ML &amp; Enterprise Software</span>
+                    <span class="hero-badge" style="display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .9rem;background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.35);border-radius:9999px;font-size:.8rem;font-weight:600;color:#a78bfa;letter-spacing:.03em;"><i class="fas fa-map-marker-alt"></i> India</span>
+                </div>
                 <h1 class="hero-title">
                     <span class="gradient-text">Transform Your Business</span>
                     <br>with Cutting-Edge AI Solutions
                 </h1>
                 <p class="hero-subtitle">
-                    Empowering enterprises with intelligent, secure, and scalable software solutions. From AI/ML development to cloud infrastructure - we deliver end-to-end innovation that drives real results.
+                    CIXIO is a full-stack enterprise software company delivering technical solutions across every domain — AI &amp; ML, privacy &amp; security, cloud, automation, mobile, and enterprise software. We work with clients across the US, UK, Middle East, and beyond.
                 </p>
+                <div class="hero-chips" style="display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-bottom:2.5rem;">
+                    <span style="display:inline-flex;align-items:center;gap:.3rem;padding:.3rem .8rem;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:9999px;font-size:.82rem;color:rgba(255,255,255,0.8);"><i class="fas fa-brain"></i> AI &amp; ML</span>
+                    <span style="display:inline-flex;align-items:center;gap:.3rem;padding:.3rem .8rem;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:9999px;font-size:.82rem;color:rgba(255,255,255,0.8);"><i class="fas fa-mobile-alt"></i> Mobile Apps</span>
+                    <span style="display:inline-flex;align-items:center;gap:.3rem;padding:.3rem .8rem;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:9999px;font-size:.82rem;color:rgba(255,255,255,0.8);"><i class="fas fa-cloud"></i> Cloud &amp; DevOps</span>
+                    <span style="display:inline-flex;align-items:center;gap:.3rem;padding:.3rem .8rem;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:9999px;font-size:.82rem;color:rgba(255,255,255,0.8);"><i class="fas fa-lock"></i> Cybersecurity</span>
+                    <span style="display:inline-flex;align-items:center;gap:.3rem;padding:.3rem .8rem;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:9999px;font-size:.82rem;color:rgba(255,255,255,0.8);"><i class="fas fa-cogs"></i> Automation</span>
+                </div>
                 <div class="hero-cta">
-                    <a href="#" class="btn btn-primary btn-lg" data-modal="registerModal">
-                        <i class="fas fa-rocket"></i> Start Free Trial
+                    <a href="#contact" class="btn btn-primary btn-lg">
+                        <i class="fas fa-rocket"></i> Start Your Project
                     </a>
-                    <a href="#contact" class="btn btn-outline btn-lg">
-                        <i class="fas fa-phone"></i> Contact Sales
+                    <a href="#services" class="btn btn-outline btn-lg">
+                        <i class="fas fa-th-large"></i> Our Services
                     </a>
                 </div>
                 <div class="hero-stats glass">
                     <div class="stat-item">
-                        <h3>100+</h3>
-                        <p>Projects Delivered</p>
+                        <h3>15+</h3>
+                        <p>Products Built</p>
                     </div>
                     <div class="stat-item">
-                        <h3>12+</h3>
-                        <p>Years Experience</p>
+                        <h3>Global</h3>
+                        <p>US &middot; UK &middot; Middle East</p>
                     </div>
                     <div class="stat-item">
                         <h3>99.9%</h3>
@@ -111,20 +125,20 @@
         <div class="container">
             <div class="section-header animate-on-scroll">
                 <h2 class="section-title">About CIXIO</h2>
-                <p class="section-subtitle">Innovating Tomorrow's Enterprise, Driven by AI</p>
+                <p class="section-subtitle">A DPIIT Recognized AI Software Startup — India &nbsp;&middot;&nbsp; Clients Across the US, UK, Middle East &amp; More</p>
             </div>
             <div class="about-content">
                 <div class="about-item animate-on-scroll">
-                    <h3><i class="fas fa-bullseye"></i> Our Mission</h3>
-                    <p>To empower businesses with cutting-edge AI and ML solutions, delivering secure, scalable software that drives innovation and growth in the digital era.</p>
+                    <h3><i class="fas fa-building"></i> Who We Are</h3>
+                    <p>CIXIO Technologies Private Limited is an AI-first enterprise software company headquartered in India. We design, build, and deploy full-stack digital products — from mobile apps and AI platforms to enterprise browsers and cloud infrastructure — for businesses across industries and geographies, including the US, UK, Middle East, and beyond.</p>
                 </div>
                 <div class="about-item animate-on-scroll">
-                    <h3><i class="fas fa-star"></i> Our Vision</h3>
-                    <p>To be the global leader in enterprise AI software, recognized for our commitment to excellence, innovation, sustainability, and transforming how businesses operate.</p>
+                    <h3><i class="fas fa-bullseye"></i> What We Do</h3>
+                    <p>We deliver technical solutions across every domain — there is no single-stack limitation here. Our engineers are expert across AI &amp; ML, privacy &amp; security, cloud &amp; DevOps, workflow automation, mobile, web, and enterprise software. One partner — end-to-end delivery for any technology challenge.</p>
                 </div>
                 <div class="about-item animate-on-scroll">
-                    <h3><i class="fas fa-heart"></i> Our Values</h3>
-                    <p>Excellence in delivery, Innovation at heart, Security by design, Transparency in communication, and Client success as our priority.</p>
+                    <h3><i class="fas fa-award"></i> Why Choose Us</h3>
+                    <p>Our top areas of expertise: AI &amp; ML, Privacy &amp; Security, Cloud Infrastructure, and Automation. DPIIT recognized startup. Security-first, privacy-by-design architecture with on-premise deployment options. We eat our own cooking — CIXIO AI, CIXIO SSO, CIXIO Browser, and CIXIO Code power our own daily operations.</p>
                 </div>
             </div>
         </div>
@@ -135,7 +149,7 @@
         <div class="container">
             <div class="section-header animate-on-scroll">
                 <h2 class="section-title">Our Software Services</h2>
-                <p class="section-subtitle">Comprehensive solutions tailored to your business needs</p>
+                <p class="section-subtitle">End-to-end solutions across every layer of the technology stack</p>
             </div>
             <div class="services-grid">
                 <div class="service-card">
@@ -143,23 +157,23 @@
                         <i class="fas fa-brain"></i>
                     </div>
                     <h3>AI/ML Development</h3>
-                    <p>Custom artificial intelligence and machine learning solutions designed to automate and optimize your business processes.</p>
+                    <p>Custom AI and machine learning solutions — from LLMs and RAG pipelines to computer vision and predictive analytics. We build intelligent systems that automate, learn, and scale.</p>
                     <ul class="service-features">
-                        <li><i class="fas fa-check"></i> Predictive Analytics</li>
+                        <li><i class="fas fa-check"></i> LLM & RAG-Powered Assistants</li>
                         <li><i class="fas fa-check"></i> Natural Language Processing</li>
-                        <li><i class="fas fa-check"></i> Computer Vision</li>
+                        <li><i class="fas fa-check"></i> Predictive Analytics & Vision</li>
                     </ul>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-cloud"></i>
                     </div>
-                    <h3>Cloud Solutions</h3>
-                    <p>Scalable cloud infrastructure with enterprise-grade security and compliance.</p>
+                    <h3>Cloud & DevOps</h3>
+                    <p>AWS-native cloud architecture with CI/CD pipelines, containerized deployments, and infrastructure-as-code. We handle everything from architecture design to production operations.</p>
                     <ul class="service-features">
-                        <li><i class="fas fa-check"></i> Cloud Migration</li>
-                        <li><i class="fas fa-check"></i> Infrastructure Management</li>
-                        <li><i class="fas fa-check"></i> DevOps Integration</li>
+                        <li><i class="fas fa-check"></i> AWS Architecture & Migration</li>
+                        <li><i class="fas fa-check"></i> Docker, ECS & Kubernetes</li>
+                        <li><i class="fas fa-check"></i> CI/CD & IaC (CDK / Terraform)</li>
                     </ul>
                 </div>
                 <div class="service-card">
@@ -167,11 +181,11 @@
                         <i class="fas fa-mobile-alt"></i>
                     </div>
                     <h3>Mobile Development</h3>
-                    <p>Native and cross-platform mobile applications with seamless user experiences.</p>
+                    <p>Cross-platform and native mobile applications built with Flutter, React Native, iOS, and Android. From marketplace apps to enterprise tools with offline-first and push notification capabilities.</p>
                     <ul class="service-features">
-                        <li><i class="fas fa-check"></i> iOS & Android Apps</li>
-                        <li><i class="fas fa-check"></i> React Native</li>
-                        <li><i class="fas fa-check"></i> Progressive Web Apps</li>
+                        <li><i class="fas fa-check"></i> Flutter (iOS &amp; Android)</li>
+                        <li><i class="fas fa-check"></i> React Native &amp; PWA</li>
+                        <li><i class="fas fa-check"></i> Offline-First Architecture</li>
                     </ul>
                 </div>
                 <div class="service-card">
@@ -179,10 +193,10 @@
                         <i class="fas fa-code"></i>
                     </div>
                     <h3>Custom Software Development</h3>
-                    <p>Tailored software solutions built to meet your specific business requirements.</p>
+                    <p>Full-stack web and backend development using modern frameworks. We build SaaS platforms, admin dashboards, REST/GraphQL APIs, and legacy system modernization.</p>
                     <ul class="service-features">
-                        <li><i class="fas fa-check"></i> Full-Stack Development</li>
-                        <li><i class="fas fa-check"></i> API Integration</li>
+                        <li><i class="fas fa-check"></i> Full-Stack Web (React, Node.js)</li>
+                        <li><i class="fas fa-check"></i> API Design & Integration</li>
                         <li><i class="fas fa-check"></i> Legacy Modernization</li>
                     </ul>
                 </div>
@@ -190,24 +204,24 @@
                     <div class="service-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h3>Cybersecurity</h3>
-                    <p>Advanced security solutions to protect your data and infrastructure.</p>
+                    <h3>Cybersecurity & IAM</h3>
+                    <p>Enterprise security solutions including Single Sign-On (SSO), Multi-Factor Authentication, document vaults, file protection, and zero-trust access control systems.</p>
                     <ul class="service-features">
-                        <li><i class="fas fa-check"></i> Security Audits</li>
-                        <li><i class="fas fa-check"></i> Penetration Testing</li>
-                        <li><i class="fas fa-check"></i> Compliance Management</li>
+                        <li><i class="fas fa-check"></i> SSO & OAuth2 / OIDC</li>
+                        <li><i class="fas fa-check"></i> Document Vault & File Protection</li>
+                        <li><i class="fas fa-check"></i> Security Audits & Compliance</li>
                     </ul>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
-                    <h3>Data Analytics</h3>
-                    <p>Transform your data into actionable insights with advanced analytics.</p>
+                    <h3>Data Analytics &amp; Reporting</h3>
+                    <p>Transform raw business data into actionable intelligence. We build real-time dashboards, BI pipelines, and AI-driven reporting systems that help leadership make faster, smarter decisions.</p>
                     <ul class="service-features">
-                        <li><i class="fas fa-check"></i> Business Intelligence</li>
-                        <li><i class="fas fa-check"></i> Data Visualization</li>
-                        <li><i class="fas fa-check"></i> Real-time Analytics</li>
+                        <li><i class="fas fa-check"></i> Real-Time Dashboards &amp; BI</li>
+                        <li><i class="fas fa-check"></i> Data Pipeline &amp; ETL Design</li>
+                        <li><i class="fas fa-check"></i> AI-Powered Insights</li>
                     </ul>
                 </div>
             </div>
@@ -218,62 +232,199 @@
     <section id="products" class="products section section-alt">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Our Products</h2>
-                <p class="section-subtitle">Industry-specific solutions powered by cutting-edge technology</p>
+                <h2 class="section-title">Products We Have Built</h2>
+                <p class="section-subtitle">Production-grade platforms designed, built, and operated by CIXIO — privacy-first, self-hostable, enterprise-ready</p>
             </div>
             <div class="products-grid">
+
+                <!-- 1. CIXIO AI Platform -->
                 <div class="product-card">
                     <div class="product-image">
-                        <i class="fas fa-heartbeat"></i>
+                        <i class="fas fa-robot"></i>
                     </div>
                     <div class="product-content">
-                        <h3>Healthcare Management System</h3>
-                        <p>Comprehensive healthcare platform with patient management, EHR, telemedicine, and AI-powered diagnostics.</p>
+                        <h3>CIXIO AI &mdash; Enterprise AI Platform</h3>
+                        <p>The flagship CIXIO product &mdash; an integrated enterprise platform orchestrating 32+ microservices: secure browsing, private LLM inference, AI agents, code editing, SSO, RAG, document vault, and automated infrastructure. All enterprise data stays fully within your own infrastructure.</p>
                         <ul class="product-features">
-                            <li><i class="fas fa-check-circle"></i> Electronic Health Records (EHR)</li>
-                            <li><i class="fas fa-check-circle"></i> Telemedicine Integration</li>
-                            <li><i class="fas fa-check-circle"></i> AI-Powered Diagnostics</li>
-                            <li><i class="fas fa-check-circle"></i> HIPAA Compliant</li>
-                            <li><i class="fas fa-check-circle"></i> End-to-End Encryption</li>
+                            <li><i class="fas fa-check-circle"></i> 32+ Integrated Microservices</li>
+                            <li><i class="fas fa-check-circle"></i> RAG Knowledge Base (LanceDB + vector search)</li>
+                            <li><i class="fas fa-check-circle"></i> Multi-Model AI (GPT-4, Claude, Gemini, Ollama)</li>
+                            <li><i class="fas fa-check-circle"></i> FastAPI + PostgreSQL + Redis + MongoDB</li>
+                            <li><i class="fas fa-check-circle"></i> On-Premise &amp; Private Cloud Deployment</li>
                         </ul>
                         <a href="#contact" class="btn btn-primary">Learn More</a>
                     </div>
                 </div>
+
+                <!-- 2. CIXIO LLM Gateway -->
                 <div class="product-card">
-                    <div class="product-image">
-                        <i class="fas fa-shopping-cart"></i>
+                    <div class="product-image" style="background:linear-gradient(135deg,#7c3aed,#4f46e5);">
+                        <i class="fas fa-network-wired"></i>
                     </div>
                     <div class="product-content">
-                        <h3>Buyer-Seller Platform</h3>
-                        <p>Advanced e-commerce marketplace with AI-powered recommendations, secure payments, and real-time analytics.</p>
+                        <h3>CIXIO LLM &mdash; Self-Hosted LLM Gateway</h3>
+                        <p>OpenAI-compatible unified LLM gateway that routes API requests to any backend &mdash; Ollama, vLLM, llama.cpp, or HuggingFace &mdash; with zero data leaving your infrastructure. Single API endpoint for 25+ curated models with streaming, token counting, and rate limiting.</p>
                         <ul class="product-features">
-                            <li><i class="fas fa-check-circle"></i> Multi-Vendor Support</li>
-                            <li><i class="fas fa-check-circle"></i> AI Product Recommendations</li>
-                            <li><i class="fas fa-check-circle"></i> Secure Payment Gateway</li>
-                            <li><i class="fas fa-check-circle"></i> Inventory Management</li>
-                            <li><i class="fas fa-check-circle"></i> Real-time Analytics</li>
+                            <li><i class="fas fa-check-circle"></i> OpenAI-Compatible API (/v1/chat/completions)</li>
+                            <li><i class="fas fa-check-circle"></i> 25+ Models &mdash; Ollama, vLLM, HuggingFace</li>
+                            <li><i class="fas fa-check-circle"></i> Streaming SSE + Token Counting</li>
+                            <li><i class="fas fa-check-circle"></i> Enterprise: RBAC, SSO, PII Redaction, Billing</li>
+                            <li><i class="fas fa-check-circle"></i> Docker CPU &amp; GPU (CUDA 12.4) Deployment</li>
                         </ul>
                         <a href="#contact" class="btn btn-primary">Learn More</a>
                     </div>
                 </div>
+
+                <!-- 3. CIXIO Code -->
                 <div class="product-card">
-                    <div class="product-image">
-                        <i class="fas fa-database"></i>
+                    <div class="product-image" style="background:linear-gradient(135deg,#0f766e,#0e7490);">
+                        <i class="fas fa-laptop-code"></i>
                     </div>
                     <div class="product-content">
-                        <h3>Enterprise Data Platform</h3>
-                        <p>Secure data management and analytics platform with AI/ML capabilities and privacy-first architecture.</p>
+                        <h3>CIXIO Code &mdash; Privacy-First Code Editor</h3>
+                        <p>A production-ready code editor forked from VS Code (Code-OSS) with zero telemetry, zero external API calls, and pre-configured local AI integration via CIXIO LLM. Full extension support via Open VSX. Ships v1.113.0 for macOS, Windows, and Linux with Docker deployment.</p>
                         <ul class="product-features">
-                            <li><i class="fas fa-check-circle"></i> Data Lake & Warehouse</li>
-                            <li><i class="fas fa-check-circle"></i> ML Model Training</li>
-                            <li><i class="fas fa-check-circle"></i> Real-time Processing</li>
-                            <li><i class="fas fa-check-circle"></i> Data Privacy Controls</li>
-                            <li><i class="fas fa-check-circle"></i> Compliance Reporting</li>
+                            <li><i class="fas fa-check-circle"></i> VS Code Fork &mdash; Zero Telemetry &amp; Zero Tracking</li>
+                            <li><i class="fas fa-check-circle"></i> Local AI Coding Assistant (via CIXIO LLM)</li>
+                            <li><i class="fas fa-check-circle"></i> Open VSX Extension Marketplace</li>
+                            <li><i class="fas fa-check-circle"></i> macOS, Windows, Linux + Docker</li>
+                            <li><i class="fas fa-check-circle"></i> Version 1.113.0 &mdash; Production-Ready</li>
                         </ul>
                         <a href="#contact" class="btn btn-primary">Learn More</a>
                     </div>
+                </div>
+
+                <!-- 4. CIXIO Browser -->
+                <div class="product-card">
+                    <div class="product-image" style="background:linear-gradient(135deg,#1d4ed8,#0369a1);">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3>CIXIO Browser &mdash; De-Googled Enterprise Browser</h3>
+                        <p>A privacy-first desktop browser built on Electron/Chromium with 25+ tracking features disabled, zero third-party telemetry, enterprise policy management, activity monitoring, URL blocklists, and full CIXIO SSO integration. Distributed as platform-native installers (DMG, EXE, AppImage).</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check-circle"></i> 25+ Tracking &amp; Telemetry Features Disabled</li>
+                            <li><i class="fas fa-check-circle"></i> Enterprise Policy &amp; URL Blocklists</li>
+                            <li><i class="fas fa-check-circle"></i> Activity Monitoring &amp; Audit Logs</li>
+                            <li><i class="fas fa-check-circle"></i> Built-In SSO &amp; Zero-Trust Auth</li>
+                            <li><i class="fas fa-check-circle"></i> macOS (DMG), Windows (EXE), Linux (AppImage)</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- 5. CIXIO PASS / Document Vault -->
+                <div class="product-card">
+                    <div class="product-image" style="background:linear-gradient(135deg,#b45309,#d97706);">
+                        <i class="fas fa-vault"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3>CIXIO PASS &mdash; Encrypted Document Vault</h3>
+                        <p>Military-grade encrypted document wallet for identity documents (passports, visas, licenses, bank statements) using AES-256-GCM with per-user key derivation. Generates QR codes for offline-ready verification, shareable links with expiry, view limits, and full access logging.</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check-circle"></i> AES-256-GCM + Per-User Key Derivation</li>
+                            <li><i class="fas fa-check-circle"></i> QR Code Generation for Offline Verification</li>
+                            <li><i class="fas fa-check-circle"></i> Share Links with Expiry &amp; View Limits</li>
+                            <li><i class="fas fa-check-circle"></i> Cross-Border Document Verification API</li>
+                            <li><i class="fas fa-check-circle"></i> Full Access Logs &amp; Audit Trail</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- 6. CIXIO File Protection -->
+                <div class="product-card">
+                    <div class="product-image" style="background:linear-gradient(135deg,#be185d,#9d174d);">
+                        <i class="fas fa-file-shield"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3>CIXIO File Protection &mdash; Enterprise Encryption</h3>
+                        <p>End-to-end file encryption suite supporting files up to 2GB+ with hybrid RSA+AES-256-GCM encryption. Features RSA key generation (2048&ndash;4096-bit), bulk folder encryption, password-protected files (PBKDF2), expiring files with grace periods, and secure sharing links via web UI and REST API.</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check-circle"></i> Hybrid RSA (4096-bit) + AES-256-GCM</li>
+                            <li><i class="fas fa-check-circle"></i> Files &amp; Folder Bulk Encryption (2GB+ tested)</li>
+                            <li><i class="fas fa-check-circle"></i> Expiring Files with Grace Periods</li>
+                            <li><i class="fas fa-check-circle"></i> Secure Sharing Links + Web UI &amp; REST API</li>
+                            <li><i class="fas fa-check-circle"></i> v2.0.0 &mdash; 100% Feature Complete</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- 7. CIXIO SSO -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-id-badge"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3>CIXIO SSO &mdash; Identity &amp; Access Management</h3>
+                        <p>A self-hosted enterprise Single Sign-On platform supporting OAuth2, OIDC, and MFA. Centralizes authentication across all your web and mobile apps with a unified user directory, session management, and multi-application SDK. Powers all other CIXIO products natively.</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check-circle"></i> OAuth2 / OIDC / JWT Standard</li>
+                            <li><i class="fas fa-check-circle"></i> Multi-Factor Authentication (MFA)</li>
+                            <li><i class="fas fa-check-circle"></i> Centralized User Directory</li>
+                            <li><i class="fas fa-check-circle"></i> Multi-App Integration SDK</li>
+                            <li><i class="fas fa-check-circle"></i> Session Control &amp; Security Audit</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- 8. CIXIO Mobile -->
+                <div class="product-card">
+                    <div class="product-image" style="background:linear-gradient(135deg,#047857,#065f46);">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3>CIXIO Mobile &mdash; Flutter Enterprise App</h3>
+                        <p>A white-label cross-platform enterprise mobile application built with Flutter. Includes a full in-app marketplace with module system, Firebase push notifications, biometric &amp; SSO authentication, deep linking, contacts access, SMS auto-fill, and native camera integration.</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check-circle"></i> Flutter &mdash; iOS &amp; Android (157MB APK built)</li>
+                            <li><i class="fas fa-check-circle"></i> In-App Marketplace &amp; Module System</li>
+                            <li><i class="fas fa-check-circle"></i> Firebase FCM Push Notifications</li>
+                            <li><i class="fas fa-check-circle"></i> SSO, Biometric Auth &amp; Deep Linking</li>
+                            <li><i class="fas fa-check-circle"></i> White-Label Branding &mdash; v1.0.0</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- 9. CIXIO Scan -->
+                <div class="product-card">
+                    <div class="product-image" style="background:linear-gradient(135deg,#374151,#111827);">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3>CIXIO Scan &mdash; 4096-bit Barcode System</h3>
+                        <p>A scalable barcode generation and scanning system that converts any data &mdash; files, text, images, documents &mdash; into high-density scannable barcodes with multi-layer splitting (4096+ characters), error correction, 2&ndash;3x compression, and blockchain integration for tamper-proof verification.</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check-circle"></i> 4096-bit Multi-Layer Barcode Generation</li>
+                            <li><i class="fas fa-check-circle"></i> 20x Capacity Over Traditional QR Codes</li>
+                            <li><i class="fas fa-check-circle"></i> Color Barcodes (24x capacity increase)</li>
+                            <li><i class="fas fa-check-circle"></i> Blockchain Tamper-Proof Verification</li>
+                            <li><i class="fas fa-check-circle"></i> Python + OpenCV + Flask API &mdash; v2.0.0</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- More Products Strip -->
+            <div style="margin-top:3rem;padding:2rem;background:var(--bg-secondary);border-radius:var(--radius-xl);border:1px solid var(--border-color);">
+                <h3 style="text-align:center;font-size:1.1rem;font-weight:700;color:var(--text-primary);margin-bottom:1.25rem;">Also Built by CIXIO</h3>
+                <div style="display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;">
+                    <span class="tech-chip"><i class="fas fa-comments"></i>&nbsp; CIXIO Chat &mdash; Enterprise Messaging</span>
+                    <span class="tech-chip"><i class="fas fa-suitcase"></i>&nbsp; CIXIO Travel &mdash; Travel Desk</span>
+                    <span class="tech-chip"><i class="fas fa-project-diagram"></i>&nbsp; CIXIO Workflows &mdash; n8n Automation</span>
+                    <span class="tech-chip"><i class="fas fa-tachometer-alt"></i>&nbsp; CIXIO Monitoring &mdash; Prometheus &amp; Grafana Stack</span>
+                    <span class="tech-chip"><i class="fas fa-brain"></i>&nbsp; CIXIO Agent OS &mdash; LangGraph AI Agents PaaS</span>
+                    <span class="tech-chip"><i class="fas fa-bell"></i>&nbsp; CIXIO Notifications &mdash; Multi-Channel Alerts</span>
+                    <span class="tech-chip"><i class="fas fa-ticket-alt"></i>&nbsp; CIXIO Support &mdash; Email Ticketing System</span>
+                    <span class="tech-chip"><i class="fas fa-funnel-dollar"></i>&nbsp; CIXIO B2B &mdash; AI Lead Generation Engine</span>
                 </div>
             </div>
+
         </div>
     </section>
 
@@ -331,8 +482,34 @@
         </div>
     </section>
 
-    <!-- Pricing Section -->
-    <section id="pricing" class="pricing section">
+    <!-- Technology Stack Section -->
+    <section class="section" style="background:var(--bg-secondary);padding:4rem 0;">
+        <div class="container">
+            <div class="section-header animate-on-scroll" style="margin-bottom:2.5rem;">
+                <h2 class="section-title">Our Technology Stack</h2>
+                <p class="section-subtitle">Industry-proven tools and platforms we build with</p>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;max-width:900px;margin:0 auto;">
+                <span class="tech-chip"><i class="fab fa-python"></i> Python</span>
+                <span class="tech-chip"><i class="fab fa-node-js"></i> Node.js</span>
+                <span class="tech-chip"><i class="fab fa-react"></i> React</span>
+                <span class="tech-chip" style="font-size:.85rem;"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="margin-right:4px"><path d="M14.314 0L2.3 12 6 15.7 21.684 0h-7.37zm.159 7.815L7.547 14.74l3.43 3.43L21.684 7.815h-7.211zM0 12l6 6-6 6V12z"/></svg> Flutter</span>
+                <span class="tech-chip"><i class="fab fa-aws"></i> AWS</span>
+                <span class="tech-chip"><i class="fab fa-docker"></i> Docker</span>
+                <span class="tech-chip" style="font-size:.85rem;"><i class="fas fa-database"></i> MongoDB</span>
+                <span class="tech-chip" style="font-size:.85rem;"><i class="fas fa-database"></i> PostgreSQL</span>
+                <span class="tech-chip" style="font-size:.85rem;"><i class="fas fa-bolt"></i> FastAPI</span>
+                <span class="tech-chip" style="font-size:.85rem;"><i class="fas fa-cogs"></i> Kubernetes</span>
+                <span class="tech-chip" style="font-size:.85rem;"><i class="fas fa-robot"></i> LangChain</span>
+                <span class="tech-chip" style="font-size:.85rem;"><i class="fas fa-comments"></i> WebSocket</span>
+                <span class="tech-chip" style="font-size:.85rem;"><i class="fas fa-shield-alt"></i> OAuth2 / OIDC</span>
+                <span class="tech-chip" style="font-size:.85rem;"><i class="fab fa-github"></i> GitHub Actions</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section (hidden — use contact form for pricing enquiries) -->
+    <section id="pricing" class="pricing section" style="display:none">
         <div class="container">
             <div class="section-header animate-on-scroll">
                 <h2 class="section-title">Transparent Pricing</h2>
@@ -541,7 +718,6 @@
                         <li><a href="#products">Healthcare Platform</a></li>
                         <li><a href="#products">E-commerce Solution</a></li>
                         <li><a href="#products">Data Platform</a></li>
-                        <li><a href="#pricing">Pricing</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -591,7 +767,7 @@
                 <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
             </div> -->
             <div class="footer-bottom">
-                <p>&copy; 2025 CIXIO TECHNOLOGIES PRIVATE LIMITED. All rights reserved.</p>
+                <p>&copy; 2026 CIXIO TECHNOLOGIES PRIVATE LIMITED. All rights reserved.</p>
                 <p>CIN: U62099TN2025PTC183439 | GST: 33AANCC0127C1ZA | DPIIT Recognized Startup</p>
                 <p>Secured with 256-bit encryption</p>
             </div>
@@ -621,18 +797,21 @@
                         <input type="checkbox" name="remember">
                         <span>Remember me</span>
                     </label>
-                    <a href="#" class="link">Forgot password?</a>
+                    <a href="#" class="link" id="forgotPasswordLink">Forgot password?</a>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                 <div class="form-divider">
                     <span>OR</span>
                 </div>
                 <div class="social-auth">
-                    <button type="button" class="btn btn-social">
+                    <button type="button" class="btn btn-social" id="googleSignIn">
                         <i class="fab fa-google"></i> Sign in with Google
                     </button>
-                    <button type="button" class="btn btn-social">
+                    <button type="button" class="btn btn-social" id="microsoftSignIn">
                         <i class="fab fa-microsoft"></i> Sign in with Microsoft
+                    </button>
+                    <button type="button" class="btn btn-social btn-sso" id="cixioSSOSignIn">
+                        <i class="fas fa-shield-alt"></i> Sign in with CIXIO SSO
                     </button>
                 </div>
                 <p class="form-footer">
@@ -688,10 +867,10 @@
                     <span>OR</span>
                 </div>
                 <div class="social-auth">
-                    <button type="button" class="btn btn-social">
+                    <button type="button" class="btn btn-social" id="googleSignUp">
                         <i class="fab fa-google"></i> Sign up with Google
                     </button>
-                    <button type="button" class="btn btn-social">
+                    <button type="button" class="btn btn-social" id="microsoftSignUp">
                         <i class="fab fa-microsoft"></i> Sign up with Microsoft
                     </button>
                 </div>
@@ -703,6 +882,68 @@
     </div>
 
     <!-- Success Message -->
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-header">
+                <h2>Reset Password</h2>
+                <p>Enter your email address and we'll send you a reset link</p>
+            </div>
+            <form id="forgotPasswordForm" class="auth-form">
+                <div class="form-group">
+                    <label for="forgotEmail">Email Address</label>
+                    <input type="email" id="forgotEmail" name="email" placeholder="Enter your registered email" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Send Reset Link</button>
+                <p class="form-footer">
+                    Remember your password? <a href="#" data-modal="loginModal" class="link">Sign in</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Reset Password Modal -->
+    <div id="resetPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-header">
+                <h2>Set New Password</h2>
+                <p>Choose a strong new password for your account</p>
+            </div>
+            <form id="resetPasswordForm" class="auth-form">
+                <input type="hidden" id="resetToken" name="token">
+                <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <input type="password" id="newPassword" name="newPassword" placeholder="At least 8 characters" required minlength="8">
+                </div>
+                <div class="form-group">
+                    <label for="confirmNewPassword">Confirm New Password</label>
+                    <input type="password" id="confirmNewPassword" name="confirmNewPassword" placeholder="Confirm your new password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Update Password</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SSO Login Modal -->
+    <div id="ssoLoginModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-header">
+                <h2>CIXIO SSO Login</h2>
+                <p>Sign in using your CIXIO platform account</p>
+            </div>
+            <div class="sso-login-content">
+                <p>You will be redirected to the CIXIO SSO portal to authenticate.</p>
+                <button type="button" class="btn btn-primary btn-block" id="ssoRedirectBtn">
+                    <i class="fas fa-shield-alt"></i> Continue to CIXIO SSO
+                </button>
+                <p class="form-footer">SSO URL: <strong>sso.cixio.ai</strong></p>
+            </div>
+        </div>
+    </div>
+
     <div id="successMessage" class="success-message">
         <i class="fas fa-check-circle"></i>
         <span id="successText"></span>

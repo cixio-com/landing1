@@ -188,6 +188,7 @@ body {
     animation: slideInUp 1s ease-out 0.2s both;
     text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     position: relative;
+    color: #ffffff;
 }
 
 /* Enhanced gradient text with glow */
@@ -206,6 +207,7 @@ body {
     animation: slideInUp 1s ease-out 0.4s both;
     font-size: 1.3rem;
     line-height: 1.8;
+    color: rgba(255, 255, 255, 0.82);
 }
 
 .hero-cta {
@@ -238,6 +240,22 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+}
+
+.hero-stats .stat-item p {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+/* Outline button is white on dark hero background */
+.hero .btn-outline {
+    color: rgba(255, 255, 255, 0.9);
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+.hero .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.6);
+    color: #ffffff;
 }
 
 /* ===== Enhanced Buttons ===== */

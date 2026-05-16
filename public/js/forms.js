@@ -225,47 +225,42 @@ document.querySelectorAll('.plan-cta').forEach(button => {
 
 // ===== Update UI based on authentication state =====
 function updateAuthUI(isLoggedIn, user = null) {
-    const loginBtn = document.querySelector('.btn-login');
-    const registerBtn = document.querySelector('.btn-register');
-    
+    const loginItem  = document.getElementById('navLoginItem');
+    const userItem   = document.getElementById('navUserItem');
+    const userEmailEl = document.getElementById('navUserEmail');
+
     if (isLoggedIn && user) {
-        // Hide login/register buttons
-        loginBtn.style.display = 'none';
-        registerBtn.style.display = 'none';
-        
-        // Show user menu (you can create a user dropdown menu)
-        const userMenu = document.createElement('li');
-        userMenu.innerHTML = `
-            <a href="#" class="user-profile">
-                <i class="fas fa-user-circle"></i>
-                ${user.firstName}
-            </a>
-        `;
-        document.querySelector('.nav-menu').appendChild(userMenu);
-        
-        // Add logout functionality
-        const logoutBtn = document.createElement('li');
-        logoutBtn.innerHTML = '<a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>';
-        document.querySelector('.nav-menu').appendChild(logoutBtn);
-        
-        document.getElementById('logoutBtn').addEventListener('click', async (e) => {
-            e.preventDefault();
-            
-            try {
-                await apiRequest('/auth/logout', { method: 'POST' });
-            } catch (error) {
-                console.error('Logout error:', error);
-            }
-            
-            // Clear local storage
-            removeAuthToken();
-            localStorage.removeItem('user');
-            
-            showNotification('Logged out successfully', 'success');
-            
-            // Reload page to reset UI
-            window.location.reload();
-        });
+        const email = user.email || '';
+
+        // Swap nav: hide sign-in, show user badge
+        if (loginItem)  loginItem.style.display  = 'none';
+        if (userItem)   userItem.style.display   = 'flex';
+        if (userEmailEl) userEmailEl.textContent = email;
+
+        // Prefill contact form email
+        const contactEmail = document.getElementById('contactEmail');
+        if (contactEmail && !contactEmail.value) contactEmail.value = email;
+
+        // Prefill subscribe input
+        const subscribeInput = document.getElementById('subscribeInput');
+        if (subscribeInput && !subscribeInput.value) subscribeInput.value = email;
+
+        // Logout handler (attach once via data flag)
+        const logoutBtn = document.getElementById('navLogoutBtn');
+        if (logoutBtn && !logoutBtn.dataset.bound) {
+            logoutBtn.dataset.bound = '1';
+            logoutBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                try { await apiRequest('/auth/logout', { method: 'POST' }); } catch (_) {}
+                removeAuthToken();
+                localStorage.removeItem('user');
+                showNotification('Logged out successfully', 'success');
+                window.location.reload();
+            });
+        }
+    } else {
+        if (loginItem) loginItem.style.display = '';
+        if (userItem)  userItem.style.display  = 'none';
     }
 }
 
@@ -331,4 +326,168 @@ document.querySelectorAll('input[type="email"]').forEach(input => {
             e.target.setCustomValidity('');
         }
     });
+});
+
+// ===== Forgot Password Link =====
+document.getElementById('forgotPasswordLink')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    // Close login modal
+    const loginModal = document.getElementById('loginModal');
+    if (loginModal) {
+        loginModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    // Open forgot password modal
+    const forgotModal = document.getElementById('forgotPasswordModal');
+    if (forgotModal) {
+        forgotModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+});
+
+// ===== Forgot Password Form Handler =====
+document.getElementById('forgotPasswordForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const email = e.target.email.value;
+
+    try {
+        setLoading(submitBtn, true);
+        await apiRequest('/auth/forgot-password', {
+            method: 'POST',
+            body: JSON.stringify({ email })
+        });
+        showNotification('Password reset link sent! Please check your inbox.', 'success');
+        const forgotModal = document.getElementById('forgotPasswordModal');
+        if (forgotModal) {
+            forgotModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        e.target.reset();
+    } catch (error) {
+        showNotification(error.message || 'Failed to send reset link. Please try again.', 'error');
+    } finally {
+        setLoading(submitBtn, false);
+    }
+});
+
+// ===== Reset Password Form Handler (token from URL) =====
+document.getElementById('resetPasswordForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const newPassword = e.target.newPassword.value;
+    const confirmNewPassword = e.target.confirmNewPassword.value;
+    const token = e.target.token.value || new URLSearchParams(window.location.search).get('token');
+
+    if (newPassword !== confirmNewPassword) {
+        showNotification('Passwords do not match', 'error');
+        return;
+    }
+    if (!token) {
+        showNotification('Reset token is missing. Please use the link from your email.', 'error');
+        return;
+    }
+
+    try {
+        setLoading(submitBtn, true);
+        await apiRequest('/auth/reset-password', {
+            method: 'POST',
+            body: JSON.stringify({ token, newPassword })
+        });
+        showNotification('Password updated successfully! You can now log in.', 'success');
+        e.target.reset();
+        // Open login modal
+        setTimeout(() => {
+            const loginModal = document.getElementById('loginModal');
+            if (loginModal) {
+                loginModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            const resetModal = document.getElementById('resetPasswordModal');
+            if (resetModal) resetModal.classList.remove('active');
+        }, 1500);
+    } catch (error) {
+        showNotification(error.message || 'Password reset failed. Please try again.', 'error');
+    } finally {
+        setLoading(submitBtn, false);
+    }
+});
+
+// ===== Open Reset Password modal if ?token= in URL =====
+// ===== Handle SSO callback tokens from URL =====
+document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const resetToken = params.get('token');
+    const ssoToken = params.get('sso_token');
+    const ssoError = params.get('sso_error');
+    const page = params.get('page');
+
+    // Handle SSO callback with local token
+    if (ssoToken) {
+        setAuthToken(ssoToken);
+        let ssoUser = null;
+        try {
+            const payload = JSON.parse(atob(ssoToken.split('.')[1]));
+            ssoUser = { id: payload.userId, email: payload.email, role: payload.role || 'user' };
+            localStorage.setItem('user', JSON.stringify(ssoUser));
+        } catch (_) {}
+        showNotification('Signed in with CIXIO SSO successfully!', 'success');
+        window.history.replaceState({}, '', window.location.pathname);
+        if (ssoUser) updateAuthUI(true, ssoUser);
+        return;
+    }
+
+    // Handle SSO errors
+    if (ssoError) {
+        const msgs = {
+            missing_token: 'SSO login failed: no token received.',
+            sso_not_configured: 'SSO is not configured on this server.',
+            invalid_token: 'SSO token is invalid or expired. Please try again.',
+            invalid_payload: 'SSO token payload is invalid.',
+            account_deactivated: 'Your account has been deactivated. Contact support.',
+            server_error: 'SSO login failed due to a server error. Please try again.'
+        };
+        showNotification(msgs[ssoError] || 'SSO login failed.', 'error');
+        window.history.replaceState({}, '', window.location.pathname);
+        return;
+    }
+
+    // Open Reset Password modal if ?token= in URL
+    if (resetToken && (page === 'reset-password' || window.location.pathname === '/reset-password')) {
+        const tokenInput = document.getElementById('resetToken');
+        if (tokenInput) tokenInput.value = resetToken;
+        const resetModal = document.getElementById('resetPasswordModal');
+        if (resetModal) {
+            resetModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+});
+
+// ===== Google / Microsoft — Coming Soon handlers =====
+['googleSignIn', 'microsoftSignIn', 'googleSignUp', 'microsoftSignUp'].forEach(id => {
+    document.getElementById(id)?.addEventListener('click', () => {
+        const provider = id.toLowerCase().includes('google') ? 'Google' : 'Microsoft';
+        showNotification(`${provider} sign-in is coming soon. Please use email/password or CIXIO SSO.`, 'info');
+    });
+});
+
+// ===== CIXIO SSO sign-in =====
+document.getElementById('cixioSSOSignIn')?.addEventListener('click', () => {
+    const ssoModal = document.getElementById('ssoLoginModal');
+    if (ssoModal) {
+        ssoModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+});
+
+document.getElementById('ssoRedirectBtn')?.addEventListener('click', () => {
+    // SSO OAuth flow: redirect to SSO portal, which redirects back with a token
+    // Use dev SSO for dev.cixio.com, prod SSO for cixio.com, local for localhost
+    const host = window.location.hostname;
+    const ssoBase = host.includes('dev.') ? 'https://sso.dev.cixio.ai'
+        : host === 'localhost' ? 'http://localhost:4000'
+        : 'https://sso.cixio.ai';
+    const returnUrl = encodeURIComponent(window.location.origin + '/api/auth/sso-callback');
+    window.location.href = `${ssoBase}/login?client_id=cixio-com&redirect_uri=${returnUrl}`;
 });
