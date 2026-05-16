@@ -1,0 +1,232 @@
+/* ==========================================================================
+   CIXIO — Legal Pages Stylesheet
+   Applies to: terms-of-service, privacy-policy, dmca, eula,
+               acceptable-use, cookie-policy, code-of-conduct HTML pages
+   ========================================================================== */
+
+/* ── Page layout ─────────────────────────────────────────────────────────── */
+.legal-page {
+    background: var(--bg-secondary);
+    min-height: calc(100vh - 80px);
+    padding: 3rem 0 5rem;
+}
+
+.legal-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* ── Breadcrumb ──────────────────────────────────────────────────────────── */
+.legal-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+.legal-breadcrumb a {
+    color: var(--primary-color);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+.legal-breadcrumb a:hover { text-decoration: underline; }
+.legal-breadcrumb span { color: var(--text-muted, #94a3b8); }
+
+/* ── Header block ────────────────────────────────────────────────────────── */
+.legal-header {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.legal-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.9rem;
+    background: rgba(99, 102, 241, 0.08);
+    border: 1px solid rgba(99, 102, 241, 0.25);
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    letter-spacing: 0.03em;
+}
+
+.legal-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 1rem;
+    line-height: 1.2;
+}
+
+.legal-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    font-size: 0.82rem;
+    color: var(--text-secondary, #64748b);
+}
+
+.legal-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.legal-meta i { color: var(--primary-color); font-size: 0.8rem; }
+
+/* ── Content card ────────────────────────────────────────────────────────── */
+.legal-content {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: 2.5rem;
+    box-shadow: var(--shadow-sm);
+    font-size: 0.975rem;
+    line-height: 1.75;
+    color: var(--text-primary);
+}
+
+/* ── Typography inside legal content ─────────────────────────────────────── */
+.legal-content h1 { display: none; }   /* title already in header block */
+
+.legal-content h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 2.25rem 0 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+.legal-content h2:first-of-type { margin-top: 0; }
+
+.legal-content h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 1.5rem 0 0.5rem;
+}
+
+.legal-content h4 {
+    font-size: 0.975rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 1.25rem 0 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.82rem;
+}
+
+.legal-content p {
+    margin: 0 0 1rem;
+    color: #374151;
+}
+
+.legal-content ul,
+.legal-content ol {
+    margin: 0.5rem 0 1rem 1.5rem;
+    padding: 0;
+}
+
+.legal-content li {
+    margin-bottom: 0.4rem;
+    color: #374151;
+}
+
+.legal-content strong { color: var(--text-primary); }
+
+.legal-content code {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 0.15em 0.4em;
+    font-size: 0.88em;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    color: var(--primary-color);
+}
+
+.legal-content hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 2rem 0;
+}
+
+.legal-content a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+.legal-content a:hover { text-decoration: underline; }
+
+.legal-content .list-item {
+    margin-bottom: 0.5rem;
+    color: #374151;
+}
+
+/* ── Tables ──────────────────────────────────────────────────────────────── */
+.table-wrap {
+    overflow-x: auto;
+    margin: 1rem 0 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+.legal-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+}
+
+.legal-table th {
+    background: #f8fafc;
+    color: var(--text-primary);
+    font-weight: 700;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.legal-table td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    color: #374151;
+    vertical-align: top;
+}
+
+.legal-table tr:last-child td { border-bottom: none; }
+
+.legal-table tr:nth-child(even) td { background: #fafafa; }
+
+/* ── Footer note ─────────────────────────────────────────────────────────── */
+.legal-footer-note {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.5rem;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary, #64748b);
+}
+.legal-footer-note a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+.legal-footer-note a:hover { text-decoration: underline; }
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+    .legal-header, .legal-content { padding: 1.5rem; }
+    .legal-header h1 { font-size: 1.5rem; }
+    .legal-meta { flex-direction: column; gap: 0.5rem; }
+}
