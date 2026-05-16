@@ -225,47 +225,42 @@ document.querySelectorAll('.plan-cta').forEach(button => {
 
 // ===== Update UI based on authentication state =====
 function updateAuthUI(isLoggedIn, user = null) {
-    const loginBtn = document.querySelector('.btn-login');
-    const registerBtn = document.querySelector('.btn-register');
-    
+    const loginItem  = document.getElementById('navLoginItem');
+    const userItem   = document.getElementById('navUserItem');
+    const userEmailEl = document.getElementById('navUserEmail');
+
     if (isLoggedIn && user) {
-        // Hide login/register buttons
-        loginBtn.style.display = 'none';
-        registerBtn.style.display = 'none';
-        
-        // Show user menu (you can create a user dropdown menu)
-        const userMenu = document.createElement('li');
-        userMenu.innerHTML = `
-            <a href="#" class="user-profile">
-                <i class="fas fa-user-circle"></i>
-                ${user.firstName}
-            </a>
-        `;
-        document.querySelector('.nav-menu').appendChild(userMenu);
-        
-        // Add logout functionality
-        const logoutBtn = document.createElement('li');
-        logoutBtn.innerHTML = '<a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>';
-        document.querySelector('.nav-menu').appendChild(logoutBtn);
-        
-        document.getElementById('logoutBtn').addEventListener('click', async (e) => {
-            e.preventDefault();
-            
-            try {
-                await apiRequest('/auth/logout', { method: 'POST' });
-            } catch (error) {
-                console.error('Logout error:', error);
-            }
-            
-            // Clear local storage
-            removeAuthToken();
-            localStorage.removeItem('user');
-            
-            showNotification('Logged out successfully', 'success');
-            
-            // Reload page to reset UI
-            window.location.reload();
-        });
+        const email = user.email || '';
+
+        // Swap nav: hide sign-in, show user badge
+        if (loginItem)  loginItem.style.display  = 'none';
+        if (userItem)   userItem.style.display   = 'flex';
+        if (userEmailEl) userEmailEl.textContent = email;
+
+        // Prefill contact form email
+        const contactEmail = document.getElementById('contactEmail');
+        if (contactEmail && !contactEmail.value) contactEmail.value = email;
+
+        // Prefill subscribe input
+        const subscribeInput = document.getElementById('subscribeInput');
+        if (subscribeInput && !subscribeInput.value) subscribeInput.value = email;
+
+        // Logout handler (attach once via data flag)
+        const logoutBtn = document.getElementById('navLogoutBtn');
+        if (logoutBtn && !logoutBtn.dataset.bound) {
+            logoutBtn.dataset.bound = '1';
+            logoutBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                try { await apiRequest('/auth/logout', { method: 'POST' }); } catch (_) {}
+                removeAuthToken();
+                localStorage.removeItem('user');
+                showNotification('Logged out successfully', 'success');
+                window.location.reload();
+            });
+        }
+    } else {
+        if (loginItem) loginItem.style.display = '';
+        if (userItem)  userItem.style.display  = 'none';
     }
 }
 
@@ -430,17 +425,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle SSO callback with local token
     if (ssoToken) {
         setAuthToken(ssoToken);
+        let ssoUser = null;
         try {
             const payload = JSON.parse(atob(ssoToken.split('.')[1]));
-            localStorage.setItem('user', JSON.stringify({
-                id: payload.userId,
-                email: payload.email,
-                role: payload.role || 'user'
-            }));
+            ssoUser = { id: payload.userId, email: payload.email, role: payload.role || 'user' };
+            localStorage.setItem('user', JSON.stringify(ssoUser));
         } catch (_) {}
         showNotification('Signed in with CIXIO SSO successfully!', 'success');
-        // Clean URL
         window.history.replaceState({}, '', window.location.pathname);
+        if (ssoUser) updateAuthUI(true, ssoUser);
         return;
     }
 

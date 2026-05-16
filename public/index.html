@@ -53,10 +53,12 @@
                     <li><a href="#services">Services</a></li>
                     <li><a href="#products">Products</a></li>
                     <li><a href="#features">Features</a></li>
-                    <li><a href="#pricing">Pricing</a></li>
                     <li><a href="#contact">Contact</a></li>
-                    <li><a href="#" class="btn-login" data-modal="loginModal">Login</a></li>
-                    <li><a href="#" class="btn-register" data-modal="registerModal">Get Started</a></li>
+                    <li id="navLoginItem"><a href="#" class="btn-login" data-modal="loginModal">Sign In / Sign Up</a></li>
+                    <li id="navUserItem" style="display:none" class="nav-user-item">
+                        <span id="navUserEmail" class="nav-user-email"></span>
+                        <a href="#" id="navLogoutBtn" class="btn-logout">Logout</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -331,8 +333,8 @@
         </div>
     </section>
 
-    <!-- Pricing Section -->
-    <section id="pricing" class="pricing section">
+    <!-- Pricing Section (hidden — use contact form for pricing enquiries) -->
+    <section id="pricing" class="pricing section" style="display:none">
         <div class="container">
             <div class="section-header animate-on-scroll">
                 <h2 class="section-title">Transparent Pricing</h2>
@@ -541,7 +543,6 @@
                         <li><a href="#products">Healthcare Platform</a></li>
                         <li><a href="#products">E-commerce Solution</a></li>
                         <li><a href="#products">Data Platform</a></li>
-                        <li><a href="#pricing">Pricing</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">

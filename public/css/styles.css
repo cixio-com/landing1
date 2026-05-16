@@ -252,6 +252,42 @@ ul {
     box-shadow: 0 8px 20px -4px rgba(99, 102, 241, 0.4);
 }
 
+/* Logged-in user nav indicator */
+.nav-user-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.nav-user-email {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0.3rem 0.6rem;
+    background: rgba(99, 102, 241, 0.08);
+    border-radius: var(--radius-md);
+}
+
+.btn-logout {
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-secondary) !important;
+    border: 1.5px solid var(--border-color);
+    background: transparent;
+    transition: all 0.25s ease;
+}
+
+.btn-logout:hover {
+    border-color: #ef4444;
+    color: #ef4444 !important;
+}
+
 .nav-toggle {
     display: none;
     flex-direction: column;
