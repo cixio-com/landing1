@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technology Stack | CIXIO</title>
+    <meta name="description" content="The technology stack powering CIXIO — cloud, AI/ML, data, security, mobile, and edge computing tools chosen for reliability and long-term fit.">
+    <link rel="icon" type="image/svg+xml" href="assets/00 Primary Logo.svg">
+    <link rel="stylesheet" href="fonts/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="fonts/inter/inter.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/modern-enhancements.css">
+    <link rel="stylesheet" href="css/legal.css">
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+    <div class="container">
+        <div class="nav-wrapper">
+            <div class="logo">
+                <img src="assets/01 Primary Logo_Transparent.svg" alt="CIXIO" class="logo-img">
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="index.html#products">Products</a></li>
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li id="navLoginItem"><a href="#" class="btn-login" data-modal="loginModal">Sign In / Sign Up</a></li>
+                <li id="navUserItem" style="display:none" class="nav-user-item">
+                    <span id="navUserEmail" class="nav-user-email"></span>
+                    <a href="#" id="navLogoutBtn" class="btn-logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="legal-page">
+    <div class="legal-container">
+        <nav class="legal-breadcrumb" aria-label="breadcrumb">
+            <a href="index.html">Home</a>
+            <span>/</span>
+            <span>Technology Stack</span>
+        </nav>
+
+        <div class="legal-header">
+            <p class="legal-section-label">Engineering</p>
+            <h1>Technology Stack</h1>
+            <p class="legal-updated">Every tool is chosen for reliability, performance, and long-term fit.</p>
+        </div>
+
+        <div class="legal-content">
+
+            <h2>Cloud &amp; Infrastructure</h2>
+            <p>We architect on all three major clouds and manage infrastructure as code end-to-end.</p>
+            <ul>
+                <li><strong>AWS</strong> — Primary cloud: ECS, Lambda, RDS, S3, CloudFront, SSM, ECR, IAM, Route 53, VPC, SES, Secrets Manager</li>
+                <li><strong>Google Cloud Platform</strong> — GKE, BigQuery, Cloud Run, Firebase, Vertex AI</li>
+                <li><strong>Microsoft Azure</strong> — Azure AD (Entra ID), Azure DevOps, Azure Blob, Azure Functions</li>
+                <li><strong>Terraform</strong> — Infrastructure as Code across all three clouds</li>
+                <li><strong>AWS CDK</strong> — Programmatic infrastructure in TypeScript and Python</li>
+                <li><strong>Docker</strong> — Containerised workloads with CPU and CUDA GPU images</li>
+                <li><strong>Kubernetes / ECS</strong> — Container orchestration for production-grade microservices</li>
+                <li><strong>GitHub Actions</strong> — CI/CD with OIDC authentication and self-hosted runners</li>
+            </ul>
+
+            <h2>AI &amp; Machine Learning</h2>
+            <p>We build AI systems from raw model inference all the way to production RAG pipelines and multi-agent orchestration.</p>
+            <ul>
+                <li><strong>LangChain &amp; LangGraph</strong> — LLM orchestration, RAG pipelines, multi-agent workflows</li>
+                <li><strong>Ollama</strong> — Local and on-premise LLM serving</li>
+                <li><strong>vLLM</strong> — High-throughput GPU inference with OpenAI-compatible API</li>
+                <li><strong>OpenAI GPT-4o / GPT-4 Turbo</strong> — Cloud LLM inference</li>
+                <li><strong>Anthropic Claude</strong> — Long-context and code generation tasks</li>
+                <li><strong>Google Gemini</strong> — Multimodal AI integration</li>
+                <li><strong>HuggingFace Transformers</strong> — Open-weight model fine-tuning and deployment</li>
+                <li><strong>LanceDB</strong> — Embedded vector database for RAG and semantic search</li>
+                <li><strong>n8n</strong> — Low-code AI workflow automation and agent integration</li>
+            </ul>
+
+            <h2>Data &amp; Analytics</h2>
+            <p>From real-time pipelines to large-scale analytical workloads, we cover the full data engineering stack.</p>
+            <ul>
+                <li><strong>Databricks</strong> — Unified data and AI platform for large-scale ETL and ML pipelines</li>
+                <li><strong>Snowflake</strong> — Cloud data warehouse for analytical workloads</li>
+                <li><strong>PostgreSQL</strong> — Primary relational database across most products</li>
+                <li><strong>MongoDB</strong> — Document store for flexible and hierarchical data</li>
+                <li><strong>Redis</strong> — Caching, pub/sub messaging, and rate limiting</li>
+                <li><strong>Apache Kafka</strong> — Event streaming and real-time data pipelines</li>
+                <li><strong>LanceDB</strong> — Vector storage for AI-native workloads</li>
+            </ul>
+
+            <h2>Languages &amp; Frameworks</h2>
+            <p>Our engineering teams are fluent across the full software stack, from embedded systems to cloud-native web APIs.</p>
+            <ul>
+                <li><strong>Python</strong> — AI/ML, backend APIs, data pipelines, automation</li>
+                <li><strong>TypeScript / Node.js</strong> — Backend services, REST and GraphQL APIs, server-side logic</li>
+                <li><strong>Flutter / Dart</strong> — Cross-platform mobile apps (iOS and Android) with offline-first capability</li>
+                <li><strong>React / Next.js</strong> — Web frontends and server-side rendered applications</li>
+                <li><strong>FastAPI</strong> — High-performance Python APIs with async support</li>
+                <li><strong>Express.js</strong> — Node.js web and API services</li>
+                <li><strong>C / C++</strong> — Embedded firmware and BLE hardware integration</li>
+            </ul>
+
+            <h2>Security &amp; Identity</h2>
+            <p>Enterprise-grade security is built into our products from day one, not bolted on later.</p>
+            <ul>
+                <li><strong>OAuth 2.0 / OIDC</strong> — Standard-compliant Single Sign-On and federated identity</li>
+                <li><strong>JWT &amp; PKCE</strong> — Secure token flows for web, mobile, and API authentication</li>
+                <li><strong>RSA-4096 &amp; AES-256-GCM</strong> — Hybrid encryption for file protection and document vaults</li>
+                <li><strong>PBKDF2</strong> — Password-based key derivation for encrypted archives</li>
+                <li><strong>Zero-Trust Architecture</strong> — Principle of least privilege applied to all microservices</li>
+                <li><strong>AWS IAM &amp; SSM</strong> — Secrets management and secure instance access without SSH</li>
+            </ul>
+
+            <h2>Edge &amp; Emerging Technology</h2>
+            <p>We work at the hardware-software boundary across BLE, IoT, and decentralised systems.</p>
+            <ul>
+                <li><strong>BLE Mesh</strong> — Bluetooth Low Energy mesh networking for device-to-device communication without internet</li>
+                <li><strong>Web Bluetooth API</strong> — Browser-based BLE device control and data exchange</li>
+                <li><strong>IoT (MQTT / AWS IoT Core)</strong> — Sensor data ingestion, real-time telemetry, and edge processing</li>
+                <li><strong>Blockchain</strong> — Tamper-proof verification for barcodes, documents, and audit trails</li>
+                <li><strong>WebRTC</strong> — Real-time peer-to-peer communication for audio, video, and data channels</li>
+                <li><strong>WebSocket</strong> — Persistent full-duplex connections for live dashboards and messaging</li>
+            </ul>
+
+            <h2>Observability &amp; DevOps</h2>
+            <p>Every production system is monitored, traced, and observable from day one.</p>
+            <ul>
+                <li><strong>GitHub Actions</strong> — CI/CD pipelines with OIDC, matrix builds, and self-hosted Linux runners</li>
+                <li><strong>AWS CloudWatch</strong> — Logs, metrics, and alarms for cloud-native workloads</li>
+                <li><strong>Prometheus &amp; Grafana</strong> — Metrics collection and dashboards for self-hosted services</li>
+                <li><strong>Sentry</strong> — Application error tracking and performance monitoring</li>
+                <li><strong>AWS SSM Run Command</strong> — Secure remote execution without SSH or exposed ports</li>
+                <li><strong>ECR (Elastic Container Registry)</strong> — Private Docker image registry with lifecycle policies</li>
+            </ul>
+
+            <h2>Mobile &amp; Cross-Platform</h2>
+            <p>We deliver native-quality apps on every platform from a single codebase where it makes sense, and go native where performance demands it.</p>
+            <ul>
+                <li><strong>Flutter</strong> — Production iOS and Android apps with offline-first architecture and push notifications</li>
+                <li><strong>React Native / Expo</strong> — Cross-platform JavaScript mobile development</li>
+                <li><strong>Progressive Web Apps (PWA)</strong> — Installable web apps with offline capability</li>
+                <li><strong>Firebase Cloud Messaging (FCM)</strong> — Push notification delivery at scale</li>
+            </ul>
+
+        </div>
+
+        <div class="legal-footer">
+            <p>Questions about our technology choices? Reach out to our engineering team at <a href="mailto:dev@cixio.com">dev@cixio.com</a></p>
+        </div>
+    </div>
+</main>
+
+<footer class="footer" style="margin-top:0;">
+    <div class="container">
+        <div class="footer-bottom">
+            <p>&copy; 2026 CIXIO Technologies Private Limited. All rights reserved.</p>
+            <p><a href="index.html" style="color:inherit;text-decoration:none;">Back to Home</a> &nbsp;|&nbsp; <a href="index.html#contact" style="color:inherit;text-decoration:none;">Contact Us</a></p>
+        </div>
+    </div>
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
