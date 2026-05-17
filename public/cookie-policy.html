@@ -4,59 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cookie Policy | CIXIO</title>
-    <meta name="description" content="CIXIO Technologies — Cookie Policy">
+    <meta name="description" content="Cookie Policy — CIXIO Technologies">
     <link rel="icon" type="image/svg+xml" href="assets/00 Primary Logo.svg">
+    <link rel="stylesheet" href="fonts/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="fonts/inter/inter.css">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/modern-enhancements.css">
     <link rel="stylesheet" href="css/legal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous">
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="container navbar-container">
-            <a href="index.html" class="navbar-brand">
-                <img src="assets/00 Primary Logo.svg" alt="CIXIO" class="logo-img" style="height:36px;">
-            </a>
-            <div class="navbar-nav" style="display:flex;align-items:center;gap:1.5rem;">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="index.html#products" class="nav-link">Products</a>
-                <a href="index.html#services" class="nav-link">Services</a>
-                <a href="index.html#contact" class="btn btn-primary" style="padding:0.45rem 1.1rem;font-size:0.9rem;">Contact Us</a>
+
+<nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <img src="assets/01 Primary Logo_Transparent.svg" alt="CIXIO" class="logo-img">
+                </div>
+                <div class="nav-toggle" id="navToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="index.html#products">Products</a></li>
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                    <li id="navLoginItem"><a href="#" class="btn-login" data-modal="loginModal">Sign In / Sign Up</a></li>
+                    <li id="navUserItem" style="display:none" class="nav-user-item">
+                        <span id="navUserEmail" class="nav-user-email"></span>
+                        <a href="#" id="navLogoutBtn" class="btn-logout">Logout</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Legal Page -->
-    <main class="legal-page">
-        <div class="legal-container">
-            <div class="legal-breadcrumb">
-                <a href="index.html"><i class="fas fa-home"></i> Home</a>
-                <span>/</span>
-                <span>Cookie Policy</span>
-            </div>
-            <div class="legal-header">
-                <div class="legal-badge"><i class="fas fa-cookie-bite"></i> Legal Document</div>
-                <h1>Cookie Policy</h1>
-                <div class="legal-meta">
-                    <span><i class="fas fa-building"></i> CIXIO Technologies Private Limited</span>
-                    <span><i class="fas fa-map-marker-alt"></i> India</span>
-                    <span><i class="fas fa-hashtag"></i> CIN: U62099TN2025PTC183439</span>
-                </div>
-            </div>
-            <div class="legal-content">
-<p><strong>CIXIO TECHNOLOGIES PRIVATE LIMITED</strong> <strong>CIN: U62099TN2025PTC183439</strong></p>
+<main class="legal-page">
+    <div class="legal-container">
+        <nav class="legal-breadcrumb" aria-label="breadcrumb">
+            <a href="index.html">Home</a>
+            <span>/</span>
+            <span>Cookie Policy</span>
+        </nav>
+
+        <div class="legal-header">
+            <p class="legal-section-label">Legal</p>
+            <h1>Cookie Policy</h1>
+            <p class="legal-updated">Last updated: March 8, 2026</p>
+        </div>
+
+        <div class="legal-content">
+<p><strong>CIXIO TECHNOLOGIES PRIVATE LIMITED</strong> </p>
 <p><strong>Document Reference:</strong> CIXIO-CP-001 <strong>Version:</strong> 1.0 <strong>Effective Date:</strong> March 8, 2026 <strong>Last Updated:</strong> March 8, 2026 <strong>Classification:</strong> Public</p>
 <hr>
 <h2><strong>1. INTRODUCTION</strong></h2>
-<p>1.1. This Cookie Policy explains how <strong>Cixio Technologies Private Limited</strong> (CIN: U62099TN2025PTC183439) ("Company", "we", "us", or "our") uses cookies and similar tracking technologies on our websites, web applications, and online services (collectively, the "Website").</p>
+<p>1.1. This Cookie Policy explains how <strong>Cixio Technologies Private Limited</strong> () ("Company", "we", "us", or "our") uses cookies and similar tracking technologies on our websites, web applications, and online services (collectively, the "Website").</p>
 <p>1.2. This Policy should be read alongside our:</p>
 <ul>
 <li>Privacy Policy (Document Reference: CIXIO-PP-001)</li>
-</ul>
-<ul>
 <li>Terms of Use (Document Reference: CIXIO-TOU-001)</li>
-</ul>
-<ul>
 <li>Consent to Use of Data (Document Reference: CIXIO-CUD-001)</li>
 </ul>
 <p>1.3. By continuing to use our Website after being presented with the cookie consent banner, you consent to the use of cookies as described in this Policy, except for strictly necessary cookies which do not require consent.</p>
@@ -66,11 +74,7 @@
 <p>2.2. <strong>Similar Technologies:</strong> This Policy also covers:</p>
 <ul>
 <li><strong>Web beacons / pixel tags:</strong> Tiny images embedded in web pages or emails to track activity.</li>
-</ul>
-<ul>
 <li><strong>Local storage:</strong> Data stored in your browser (e.g., HTML5 localStorage, sessionStorage).</li>
-</ul>
-<ul>
 <li><strong>Fingerprinting:</strong> Techniques that identify your device based on its configuration.</li>
 </ul>
 <hr>
@@ -88,7 +92,7 @@
 <div class="table-wrap"><table class="legal-table"><thead>
 <tr><th>Cookie Name</th><th>Provider</th><th>Purpose</th><th>Duration</th></tr>
 </thead><tbody>
-<tr><td><code>cixio_token</code></td><td>CIXIO Technologies (cixio.com)</td><td>JWT session token — session management &amp; authentication</td><td>Session (httpOnly)</td></tr>
+<tr><td><code>cixio_token</code></td><td>CIXIO Technologies (cixio.com)</td><td>JWT session token: session management &amp; authentication</td><td>Session (httpOnly)</td></tr>
 <tr><td><code>cixio_auth</code></td><td>CIXIO Technologies (cixio.com)</td><td>Authentication state indicator</td><td>Session</td></tr>
 <tr><td><code>cixio_user</code></td><td>CIXIO Technologies (cixio.com)</td><td>Encoded user identity (non-sensitive)</td><td>Session</td></tr>
 <tr><td><code>cookie_consent</code></td><td>CIXIO Technologies (cixio.com)</td><td>Stores your cookie consent preferences</td><td>1 year</td></tr>
@@ -121,8 +125,8 @@
 <div class="table-wrap"><table class="legal-table"><thead>
 <tr><th>Service</th><th>Provider</th><th>Purpose</th><th>Privacy Policy</th></tr>
 </thead><tbody>
-<tr><td>Google OAuth (Sign-in)</td><td>Google LLC</td><td>Authentication only — no tracking cookies set by CIXIO</td><td>https://policies.google.com/privacy</td></tr>
-<tr><td>Microsoft OAuth (Sign-in)</td><td>Microsoft Corp.</td><td>Authentication only — no tracking cookies set by CIXIO</td><td>https://privacy.microsoft.com</td></tr>
+<tr><td>Google OAuth (Sign-in)</td><td>Google LLC</td><td>Authentication only: no tracking cookies set by CIXIO</td><td>https://policies.google.com/privacy</td></tr>
+<tr><td>Microsoft OAuth (Sign-in)</td><td>Microsoft Corp.</td><td>Authentication only: no tracking cookies set by CIXIO</td><td>https://privacy.microsoft.com</td></tr>
 </tbody></table></div>
 <p>We do not use Google Analytics, HubSpot, LinkedIn Insight, Meta Pixel, or any other third-party advertising or analytics platform.</p>
 <p>4.3. We encourage you to review the privacy policies of these third-party providers to understand their data practices.</p>
@@ -130,19 +134,13 @@
 <h2><strong>5. CONSENT MECHANISM</strong></h2>
 <p>5.1. When you first visit our Website, a <strong>cookie consent banner</strong> will be displayed, allowing you to:</p>
 <ul>
-<li>(a) <strong>Accept All Cookies</strong> — enable all categories of cookies.</li>
-</ul>
-<ul>
-<li>(b) <strong>Reject Non-Essential Cookies</strong> — only strictly necessary cookies will be used.</li>
-</ul>
-<ul>
-<li>(c) <strong>Customize Preferences</strong> — choose which categories of optional cookies to enable or disable.</li>
+<li>(a) <strong>Accept All Cookies</strong>: enable all categories of cookies.</li>
+<li>(b) <strong>Reject Non-Essential Cookies</strong>: only strictly necessary cookies will be used.</li>
+<li>(c) <strong>Customize Preferences</strong>: choose which categories of optional cookies to enable or disable.</li>
 </ul>
 <p>5.2. You can change your cookie preferences at any time by:</p>
 <ul>
 <li>(a) Clicking the <strong>"Cookie Settings"</strong> link in the Website footer.</li>
-</ul>
-<ul>
 <li>(b) Clearing your browser cookies and revisiting the Website (the consent banner will reappear).</li>
 </ul>
 <p>5.3. <strong>Consent is not required</strong> for strictly necessary cookies, as they are essential for the Website to function.</p>
@@ -164,8 +162,6 @@
 <p>6.2. <strong>Browser Add-Ons:</strong></p>
 <ul>
 <li>Google Analytics Opt-Out Browser Add-on: available from Google.</li>
-</ul>
-<ul>
 <li>Privacy-focused browser extensions (e.g., uBlock Origin, Privacy Badger).</li>
 </ul>
 <p>6.3. <strong>Do Not Track (DNT):</strong> Our Website currently does not respond to DNT signals. We rely on cookie consent preferences instead.</p>
@@ -175,26 +171,12 @@
 <p>7.1. Information collected through cookies may include:</p>
 <ul>
 <li>(a) IP address (anonymized where possible).</li>
-</ul>
-<ul>
 <li>(b) Browser type and version.</li>
-</ul>
-<ul>
 <li>(c) Operating system.</li>
-</ul>
-<ul>
 <li>(d) Referring URL.</li>
-</ul>
-<ul>
 <li>(e) Pages visited and time spent.</li>
-</ul>
-<ul>
 <li>(f) Click-stream data.</li>
-</ul>
-<ul>
 <li>(g) Screen resolution and device type.</li>
-</ul>
-<ul>
 <li>(h) Language and locale preferences.</li>
 </ul>
 <p>7.2. This data is processed in accordance with our Privacy Policy (CIXIO-PP-001). Where data constitutes Personal Data under Applicable Data Protection Laws, it is protected accordingly.</p>
@@ -204,8 +186,6 @@
 <p>8.2. Material changes shall be communicated via:</p>
 <ul>
 <li>(a) Updated "Last Updated" date at the top of this Policy.</li>
-</ul>
-<ul>
 <li>(b) A notice on our Website or a refreshed cookie consent banner.</li>
 </ul>
 <p>8.3. We encourage you to review this Policy periodically.</p>
@@ -217,7 +197,7 @@
 </thead><tbody>
 <tr><td><strong>Company</strong></td><td>Cixio Technologies Private Limited</td></tr>
 <tr><td><strong>Email</strong></td><td><a href="mailto:privacy@cixio.com">privacy@cixio.com</a></td></tr>
-<tr><td><strong>Postal Address</strong></td><td>WeWork, Block 10, DLF Cybercity, 124, Mount Poonamallee Rd, Manapakkam, Chennai, Tamil Nadu - 600089</td></tr>
+<tr><td><strong>Postal Address</strong></td><td></td></tr>
 <tr><td><strong>Website</strong></td><td>www.cixio.com</td></tr>
 <tr><td><strong>Data Protection Officer</strong></td><td>[DPO NAME, EMAIL]</td></tr>
 </tbody></table></div>
@@ -227,60 +207,64 @@
 <tr><th></th><th></th></tr>
 </thead><tbody>
 <tr><td><strong>Legal Name</strong></td><td>CIXIO TECHNOLOGIES PRIVATE LIMITED</td></tr>
-<tr><td><strong>CIN</strong></td><td>U62099TN2025PTC183439</td></tr>
-<tr><td><strong>PAN</strong></td><td>AANCC0127C</td></tr>
-<tr><td><strong>GST</strong></td><td>33AANCC0127C1ZA</td></tr>
-<tr><td><strong>Corporate Office</strong></td><td>WeWork, Block 10, DLF Cybercity, 124, Mount Poonamallee Rd, Manapakkam, Chennai, Tamil Nadu - 600089</td></tr>
+<tr><td><strong>CIN</strong></td><td></td></tr>
+<tr><td><strong>PAN</strong></td><td></td></tr>
+<tr><td><strong>GST</strong></td><td></td></tr>
+<tr><td><strong>Corporate Office</strong></td><td></td></tr>
 <tr><td><strong>Registered Office</strong></td><td>No.13, Narayanasamy Nagar, Poonamallee, Chennai, Tamil Nadu - 600056</td></tr>
 <tr><td><strong>Website</strong></td><td>www.cixio.com</td></tr>
 <tr><td><strong>Email</strong></td><td><a href="mailto:privacy@cixio.com">privacy@cixio.com</a></td></tr>
-<tr><td><strong>Phone</strong></td><td>+91 (960) 011-1749</td></tr>
+<tr><td><strong>Phone</strong></td><td></td></tr>
 <tr><td><strong>Jurisdiction</strong></td><td>Chennai, Tamil Nadu, India</td></tr>
 </tbody></table></div>
 <hr>
-<p><strong>CIXIO TECHNOLOGIES PRIVATE LIMITED</strong> CIN: U62099TN2025PTC183439 | PAN: AANCC0127C | GST: 33AANCC0127C1ZA Corporate Office: WeWork, Block 10, DLF Cybercity, 124, Mount Poonamallee Rd, Manapakkam, Chennai, Tamil Nadu - 600089 Registered Office: No.13, Narayanasamy Nagar, Poonamallee, Chennai, Tamil Nadu - 600056 Website: www.cixio.com | Email: <a href="mailto:support@cixio.com">support@cixio.com</a> | Phone: +91 (960) 011-1749</p>
-            </div>
-            <div class="legal-footer-note">
-                <p><i class="fas fa-envelope" style="color:var(--primary-color);margin-right:0.4rem;"></i>
-                Questions? Contact us at <a href="mailto:privacy@cixio.com">privacy@cixio.com</a></p>
-            </div>
+<p><strong>CIXIO TECHNOLOGIES PRIVATE LIMITED</strong>  |  |  Corporate Office: <a href="mailto:support@cixio.com">support@cixio.com</a> | Phone: </p>
         </div>
-    </main>
 
-    <!-- Footer -->
+        <div class="legal-contact-note">
+            Questions about this document? Email us at
+            <a href="mailto:privacy@cixio.com">privacy@cixio.com</a>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-header">
                 <div class="footer-branding">
                     <img src="assets/08 White transparent logo.svg" alt="CIXIO Logo" class="footer-logo">
-                    <p>Innovating Tomorrow&#39;s Enterprise, Driven by AI &mdash; DPIIT Recognized Startup in AI/ML and Enterprise Software</p>
+                    <p>Enterprise software built in India. DPIIT recognized startup in AI/ML and Enterprise Software.</p>
                 </div>
             </div>
+            <!-- Spacer between footer header and content -->
             <div class="footer-separator" style="height: 24px; width: 100%;"></div>
             <div class="footer-content">
                 <div class="footer-section">
                     <h4>Products</h4>
                     <ul>
-                        <li><a href="index.html#products">CIXIO AI</a></li>
-                        <li><a href="index.html#products">CIXIO Code</a></li>
-                        <li><a href="index.html#products">CIXIO SSO</a></li>
-                        <li><a href="index.html#products">CIXIO Browser</a></li>
+                        <li><a href="#products">CIXIO AI</a></li>
+                        <li><a href="#products">CIXIO LLM</a></li>
+                        <li><a href="#products">CIXIO Code</a></li>
+                        <li><a href="#products">CIXIO SSO</a></li>
+                        <li><a href="#products">CIXIO Browser</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4>Services</h4>
                     <ul>
-                        <li><a href="index.html#services">AI/ML Development</a></li>
-                        <li><a href="index.html#services">Cloud Solutions</a></li>
-                        <li><a href="index.html#services">Mobile Development</a></li>
-                        <li><a href="index.html#services">Cybersecurity</a></li>
+                        <li><a href="#services">AI / ML Engineering</a></li>
+                        <li><a href="#services">Cloud Architecture</a></li>
+                        <li><a href="#services">Mobile Development</a></li>
+                        <li><a href="#services">Cybersecurity</a></li>
+                        <li><a href="#services">Enterprise Automation</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4>Company</h4>
                     <ul>
-                        <li><a href="index.html#home">About Us</a></li>
-                        <li><a href="index.html#contact">Contact</a></li>
+                        <li><a href="#home">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
                         <li><a href="mailto:jobs@cixio.com">Careers</a></li>
                         <li><a href="mailto:hello@cixio.com">General Inquiries</a></li>
                     </ul>
@@ -288,10 +272,11 @@
                 <div class="footer-section">
                     <h4>Contact</h4>
                     <ul>
-                        <li><a href="mailto:sales@cixio.com">Sales Team</a></li>
-                        <li><a href="mailto:support@cixio.com">Support Team</a></li>
-                        <li><a href="mailto:dev@cixio.com">Engineering Team</a></li>
-                        <li><a href="mailto:billing@cixio.com">Finance Team</a></li>
+                        <li><a href="mailto:sales@cixio.com">Sales</a></li>
+                        <li><a href="mailto:support@cixio.com">Support</a></li>
+                        <li><a href="mailto:dev@cixio.com">Engineering</a></li>
+                        <li><a href="mailto:legal@cixio.com">Legal</a></li>
+                        <li><a href="mailto:billing@cixio.com">Finance</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -299,21 +284,215 @@
                     <ul>
                         <li><a href="terms-of-service.html">Terms of Service</a></li>
                         <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                        <li><a href="code-of-conduct.html">Code of Conduct</a></li>
-                        <li><a href="dmca.html">DMCA / Copyright</a></li>
                         <li><a href="eula.html">EULA</a></li>
-                        <li><a href="acceptable-use.html">Acceptable Use</a></li>
                         <li><a href="cookie-policy.html">Cookie Policy</a></li>
                     </ul>
                 </div>
+                <div class="footer-section">
+                    <h4>Compliance</h4>
+                    <ul>
+                        <li><a href="code-of-conduct.html">Code of Conduct</a></li>
+                        <li><a href="dmca.html">DMCA</a></li>
+                        <li><a href="acceptable-use.html">Acceptable Use</a></li>
+                    </ul>
+                </div>
             </div>
+            <!-- <div class="footer-social">
+                <a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.naukri.com" target="_blank"><i class="fas fa-briefcase"></i></a>
+                <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+            </div> -->
             <div class="footer-bottom">
-                <p>&copy; 2026 CIXIO TECHNOLOGIES PRIVATE LIMITED. All rights reserved.</p>
-                <p>CIN: U62099TN2025PTC183439 | GST: 33AANCC0127C1ZA | DPIIT Recognized Startup</p>
-                <p>Secured with 256-bit encryption</p>
+                <p>&copy; 2026 CIXIO Technologies Private Limited. All rights reserved.</p>
+                <p>DPIIT Recognized Startup &nbsp;|&nbsp; Made in India</p>
             </div>
+            
         </div>
     </footer>
+
+<!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-header">
+                <h2>Welcome Back</h2>
+                <p>Sign in to your account</p>
+            </div>
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label for="loginEmail">Email or Mobile</label>
+                    <input type="text" id="loginEmail" name="email" placeholder="Enter your email or mobile number" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" name="password" placeholder="Enter your password" required>
+                </div>
+                <div class="form-options">
+                    <label class="checkbox">
+                        <input type="checkbox" name="remember">
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" class="link" id="forgotPasswordLink">Forgot password?</a>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                <div class="form-divider">
+                    <span>OR</span>
+                </div>
+                <div class="social-auth">
+                    <button type="button" class="btn btn-social" id="googleSignIn">
+                        <i class="fab fa-google"></i> Sign in with Google
+                    </button>
+                    <button type="button" class="btn btn-social" id="microsoftSignIn">
+                        <i class="fab fa-microsoft"></i> Sign in with Microsoft
+                    </button>
+                    <button type="button" class="btn btn-social btn-sso" id="cixioSSOSignIn">
+                        <i class="fas fa-shield-alt"></i> Sign in with CIXIO SSO
+                    </button>
+                </div>
+                <p class="form-footer">
+                    Don't have an account? <a href="#" data-modal="registerModal" class="link">Sign up</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-header">
+                <h2>Create Account</h2>
+                <p>Start your journey with CIXIO</p>
+            </div>
+            <form id="registerForm" class="auth-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="registerFirstName">First Name</label>
+                        <input type="text" id="registerFirstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerLastName">Last Name</label>
+                        <input type="text" id="registerLastName" name="lastName" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerMobile">Mobile Number (Optional)</label>
+                    <input type="tel" id="registerMobile" name="mobile" placeholder="+1 (555) 123-4567">
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirmPassword">Confirm Password</label>
+                    <input type="password" id="registerConfirmPassword" name="confirmPassword" required>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox">
+                        <input type="checkbox" name="terms" required>
+                        <span>I agree to the <a href="terms-of-service.html" class="link" target="_blank">Terms of Service</a> and <a href="privacy-policy.html" class="link" target="_blank">Privacy Policy</a></span>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                <div class="form-divider">
+                    <span>OR</span>
+                </div>
+                <div class="social-auth">
+                    <button type="button" class="btn btn-social" id="googleSignUp">
+                        <i class="fab fa-google"></i> Sign up with Google
+                    </button>
+                    <button type="button" class="btn btn-social" id="microsoftSignUp">
+                        <i class="fab fa-microsoft"></i> Sign up with Microsoft
+                    </button>
+                </div>
+                <p class="form-footer">
+                    Already have an account? <a href="#" data-modal="loginModal" class="link">Sign in</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-header">
+                <h2>Reset Password</h2>
+                <p>Enter your email address and we'll send you a reset link</p>
+            </div>
+            <form id="forgotPasswordForm" class="auth-form">
+                <div class="form-group">
+                    <label for="forgotEmail">Email Address</label>
+                    <input type="email" id="forgotEmail" name="email" placeholder="Enter your registered email" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Send Reset Link</button>
+                <p class="form-footer">
+                    Remember your password? <a href="#" data-modal="loginModal" class="link">Sign in</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Reset Password Modal -->
+    <div id="resetPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-header">
+                <h2>Set New Password</h2>
+                <p>Choose a strong new password for your account</p>
+            </div>
+            <form id="resetPasswordForm" class="auth-form">
+                <input type="hidden" id="resetToken" name="token">
+                <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <input type="password" id="newPassword" name="newPassword" placeholder="At least 8 characters" required minlength="8">
+                </div>
+                <div class="form-group">
+                    <label for="confirmNewPassword">Confirm New Password</label>
+                    <input type="password" id="confirmNewPassword" name="confirmNewPassword" placeholder="Confirm your new password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Update Password</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SSO Login Modal -->
+    <div id="ssoLoginModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-header">
+                <h2>CIXIO SSO Login</h2>
+                <p>Sign in using your CIXIO platform account</p>
+            </div>
+            <div class="sso-login-content">
+                <p>You will be redirected to the CIXIO SSO portal to authenticate.</p>
+                <button type="button" class="btn btn-primary btn-block" id="ssoRedirectBtn">
+                    <i class="fas fa-shield-alt"></i> Continue to CIXIO SSO
+                </button>
+                <p class="form-footer">SSO URL: <strong>sso.cixio.ai</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="successMessage" class="success-message">
+        <i class="fas fa-check-circle"></i>
+        <span id="successText"></span>
+    </div>
+
+    <!-- Load API configuration first -->
+
+<script src="js/api.js"></script>
+<script src="js/forms.js"></script>
+<script src="js/main.js"></script>
 
 </body>
 </html>
