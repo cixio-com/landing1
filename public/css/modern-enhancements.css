@@ -1173,7 +1173,7 @@ textarea:focus-visible {
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #6366f1;
+    color: #1259FB;
     padding-top: 0.3rem;
     display: block;
 }
@@ -1200,8 +1200,8 @@ textarea:focus-visible {
 }
 
 .tech-tags span:hover {
-    border-color: #6366f1;
-    color: #6366f1;
+    border-color: #1259FB;
+    color: #1259FB;
     background: rgba(99, 102, 241, 0.06);
 }
 
@@ -1213,4 +1213,31 @@ textarea:focus-visible {
     .tech-cat-label {
         min-width: auto;
     }
+}
+
+/* ==========================================================================
+   PRODUCT GRID — responsive 3-col → 2-col → 1-col
+   ========================================================================== */
+@media (max-width: 1100px) {
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Services grid equal height */
+.services-grid {
+    align-items: stretch;
+}
+
+a.service-card.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
 }
