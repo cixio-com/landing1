@@ -335,3 +335,17 @@ console.log('CIXIO Landing Page initialized successfully');
         window.history.replaceState({}, '', '/');
     }
 })();
+
+// ===== Cookie Consent =====
+const cookieBanner = document.getElementById('cookieBanner');
+if (cookieBanner && !localStorage.getItem('cookie_consent')) {
+    setTimeout(() => cookieBanner.classList.add('visible'), 1800);
+}
+document.getElementById('cookieAccept')?.addEventListener('click', () => {
+    localStorage.setItem('cookie_consent', 'accepted');
+    cookieBanner?.classList.remove('visible');
+});
+document.getElementById('cookieDismiss')?.addEventListener('click', () => {
+    localStorage.setItem('cookie_consent', 'declined');
+    cookieBanner?.classList.remove('visible');
+});

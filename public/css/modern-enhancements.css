@@ -1134,3 +1134,83 @@ textarea:focus-visible {
         border: 2px solid var(--primary-color);
     }
 }
+
+/* ==========================================================================
+   TECHNOLOGY STACK — override block (ensure styles apply regardless of
+   cascade order with styles.css)
+   ========================================================================== */
+.tech-stack {
+    background: #f8fafc;
+}
+
+.tech-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.tech-category {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1rem 1.25rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    transition: border-color 0.2s;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+.tech-category:hover {
+    border-color: #c7d2fe;
+}
+
+.tech-cat-label {
+    flex-shrink: 0;
+    min-width: 140px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6366f1;
+    padding-top: 0.3rem;
+    display: block;
+}
+
+.tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.tech-tags span {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.28rem 0.8rem;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #475569;
+    transition: all 0.2s;
+    white-space: nowrap;
+    cursor: default;
+}
+
+.tech-tags span:hover {
+    border-color: #6366f1;
+    color: #6366f1;
+    background: rgba(99, 102, 241, 0.06);
+}
+
+@media (max-width: 640px) {
+    .tech-category {
+        flex-direction: column;
+        gap: 0.65rem;
+    }
+    .tech-cat-label {
+        min-width: auto;
+    }
+}
