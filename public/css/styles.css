@@ -240,6 +240,25 @@ ul {
     color: var(--primary-color);
 }
 
+.btn-portal {
+    padding: 0.6rem 1.25rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-block;
+    background: linear-gradient(135deg, #1259FB, #1236AE);
+    color: #ffffff !important;
+    border: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.btn-portal:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -4px rgba(18, 89, 251, 0.45);
+    color: #ffffff !important;
+}
+
 .btn-register {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: var(--white) !important;
