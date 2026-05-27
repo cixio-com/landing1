@@ -167,6 +167,9 @@ const sendVerificationEmail = async (email, firstName, verificationToken) => {
  * @param {String} resetToken - Password reset token
  */
 const sendPasswordResetEmail = async (email, firstName, resetToken) => {
+    if (!isEmailConfigured()) {
+        throw new Error('Email service is not configured. Please contact your administrator.');
+    }
     const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
     
     const html = await loadTemplate('password-reset', {
