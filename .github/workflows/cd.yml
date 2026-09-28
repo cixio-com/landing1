@@ -23,7 +23,7 @@ permissions:
 
 jobs:
   deploy:
-    uses: cixio-infrastructure/cixio-enterprise-iac/.github/workflows/reusable-cd.yml@keyword
+    uses: cixio-infrastructure/cixio-enterprise-iac/.github/workflows/reusable-cd.yml@main
     with:
       app-name: landing1
       image-name: cixio-com/landing1
