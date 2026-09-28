@@ -35,7 +35,10 @@ async function apiRequest(endpoint, options = {}) {
         const data = await response.json();
         
         if (!response.ok) {
-            throw new Error(data.message || 'Request failed');
+            const errorMsg = (data.errors && data.errors.length)
+                ? data.errors.join('. ')
+                : (data.message || 'Request failed');
+            throw new Error(errorMsg);
         }
         
         return data;

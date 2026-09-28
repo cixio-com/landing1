@@ -139,48 +139,8 @@ function isEmailOrPhone(input) {
 }
 
 // ===== Contact Form =====
-const contactForm = document.getElementById('contactForm');
-
-contactForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const formData = {
-        name: document.getElementById('contactName').value,
-        email: document.getElementById('contactEmail').value,
-        phone: document.getElementById('contactPhone').value,
-        company: document.getElementById('contactCompany').value,
-        subject: document.getElementById('contactSubject').value,
-        message: document.getElementById('contactMessage').value,
-        timestamp: new Date().toISOString()
-    };
-    
-    // Validate email
-    if (!validateEmail(formData.email)) {
-        alert('Please enter a valid email address');
-        return;
-    }
-    
-    // Simulate sending email (in production, this would call a backend API)
-    console.log('Contact Form Submission:', formData);
-    
-    // Simulate API call
-    try {
-        // In production, replace with actual API call:
-        // await fetch('/api/contact', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(formData)
-        // });
-        
-        await simulateApiCall(1000);
-        
-        showSuccessMessage('Thank you! Your message has been sent successfully.');
-        contactForm.reset();
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Sorry, there was an error sending your message. Please try again.');
-    }
-});
+// Contact form is handled by forms.js (real API integration)
+// Handler removed from main.js to avoid duplicate submission and simulateApiCall conflicts
 
 // ===== Subscribe Form =====
 const subscribeForm = document.getElementById('subscribeForm');
